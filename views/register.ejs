@@ -1,0 +1,33 @@
+<% include ./partials/header %>
+<div class="row">
+    <h1 style="text-align: center">Sign Up</h1>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/register" id="addaccount" method="post">
+            <div class="form-group">
+                <input class="form-control" type="text" name="user_name" placeholder="Username" required maxlength="30">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="user_email" placeholder="Email" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="user_address" placeholder="Address" required maxlength="25">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="text" name="phone_number" placeholder="Phone Number" required maxlength="7">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="user_pw" placeholder="Password" required maxlength="50">
+            </div>
+            <div class="form-group">
+                <select class="form-control" name="acc_type" required>
+                    <option value="pet_owner">Pet Owner</option>
+                    <option value="host">Host</option>
+                </select><br>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+            </div>
+        </form>
+    </div>
+</div>
+<% include ./partials/footer %>

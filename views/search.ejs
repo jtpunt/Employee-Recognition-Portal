@@ -1,0 +1,47 @@
+<% include ./partials/header %>
+<div class="row">
+	<h1 style="text-align: center">Search</h1>
+    <div style="width: 30%; margin: 25px auto;">
+		<form id="searchListing" action="/listings" method="">	
+    		<div class="form-group">
+				<label for="zipcode">What zipcode are you searching?</label>
+				<input class="form-control" type="text" pattern="[0-9]{5}" placeholder="Zipcode">
+			</div>
+  			<div class="form-group">
+  				<label for="drop_off">Drop Off Date</label>
+    				<input class="form-control" type="date" id="start-date" name="start" value="2018-12-01" min="2018-01-01" max="2019-12-31">
+  			</div>
+  			<div class="form-group">
+				<label for="pick_up">Pick Up Date</label>
+    				<input class="form-control" type="date" id="end-date" name="end" value="2018-12-01" min="2018-01-01" max="2019-12-31">
+			</div>
+    		<div class="form-group">
+				<label for="pet_type">Pet Type</label>
+				<select class="form-control">
+					<option value="dog" id="dog-type">Dog</option>
+					<option value="cat" id="cat-type"+>Cat</option>
+					<option value="bird" id="bird-type">Bird</option>
+					<option value="other" id="other-type">Other</option>
+				</select> 
+    		</div>
+    		<div class="form-group">
+    			<label for="num_pets">Number of Pets</label>
+    				<select class="form-control">
+						<option value="1" id="">1</option>
+						<option value="2" id="">2</option>
+						<option value="3" id="">3</option>
+						<option value="4" id="">4</option>
+					</select> 
+    		</div>
+    		<div class="form-group">
+    			<button class="btn btn-lg btn-primary btn-block">Search</button>
+    		</div>
+		</form>
+		<a href="/login">Login</a>
+		<a href="/register">Register</a>
+	</div>
+</div>
+{{!-- <div class="row">
+	<h1 style="text-align: center">Search Results will appear here</h1>
+</div> --}}
+<% include ./partials/footer %>
