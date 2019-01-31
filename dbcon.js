@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 var pool = mysql.createPool({
   connectionLimit : 10,
-  host            : process.env.DATABASEURL,
-  user            : process.env.DATABASEUSER,
-  password        : process.env.DATABASEPASS,
-  database        : process.env.DATABASENAME
+  host            : "oniddb.cws.oregonstate.edu",
+  user            : "nelsorya-db",
+  password        : "2bElFsS8El1JciQI",
+  database        : "nelsorya-db"
 });
 
 module.exports.pool = pool;
