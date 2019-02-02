@@ -2,7 +2,7 @@ var express    = require("express"),
     router     = express.Router();
 /* QUERYING AWARDS ROUTES */
 // middleware.isLoggedIn - Assures us that an admin has navigated to this page
-// SHOW ADMIN PAGE
+// SHOW ADMIN PAGE - shows which users created awards
 router.get("/", middleware.isLoggedIn, function(req, res){
 	var context = {};
 	var mysql = req.app.get('mysql');
@@ -20,7 +20,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
         }
 	});
 });
-// SHOW ALL Employees who have received 'Employee of the Week' or 'Employee of the Month'
+// Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'
 router.get("/:id", middleware.isLoggedIn, function(req, res){
 	var context = {};
 	var mysql = req.app.get('mysql'); 
@@ -55,7 +55,7 @@ router.get("/departments", middleware.isLoggedIn, function(req, res){
         }
 	});
 });
-// Show Award Information by Department
+// Show Award Information by a specified Department
 router.get("/departments/:id", middleware.isLoggedIn, function(req, res){
 	var context = {};
 	var mysql = req.app.get('mysql');
@@ -115,6 +115,7 @@ router.get("/locations/:id", middleware.isLoggedIn, function(req, res){
 	});
 
 });
+// Will allow the admin to navigate to ADD/EDIT/DELETE users routes
 router.get("/users", middleware.isLoggedIn, function(req, res){
 
 });
