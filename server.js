@@ -11,7 +11,8 @@ var PORT = 5004;
 
 // requiring routes
 var indexRoutes   = require("./routes/index"),
-    awardRoutes   = require("./routes/awardRoutes");
+    awardRoutes   = require("./routes/award"),
+    adminRoutes   = require("./routes/admin");
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
