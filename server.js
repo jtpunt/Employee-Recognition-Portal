@@ -11,7 +11,7 @@ var PORT = 5004;
 
 // requiring routes
 var indexRoutes   = require("./routes/index"),
-    awardRoutes   = require("./routes/award"),
+    awardRoutes   = require("./routes/awards"),
     adminRoutes   = require("./routes/admin");
 
 app.set('view engine', 'ejs');
@@ -45,7 +45,8 @@ app.use(function(req, res, next){
 });
 // Shortens the route declarations
 app.use("/", indexRoutes); // landing page, login page, register page, search page, accounts page.
-
+app.use("/admin", adminRoutes);
+app.use("/award", awardRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });

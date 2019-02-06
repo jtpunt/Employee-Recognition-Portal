@@ -1,10 +1,11 @@
 var middleware = {
 	isLoggedIn(req, res, next){
-	    if(req.isAuthenticated()){
-	        return next();
-	    }
-	    req.flash("error", "You need to be logged in to do that");
-	    res.redirect("/login");
+	    // if(req.isAuthenticated()){
+	    //     return next();
+	    // }
+	    // req.flash("error", "You need to be logged in to do that");
+	    // res.redirect("/login");
+	    return next();
 	}
 }
-module.exports = middlewareObj
+module.exports = middleware

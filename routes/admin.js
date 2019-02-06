@@ -1,4 +1,5 @@
 var express    = require("express"),
+    middleware = require("../middleware"),
     router     = express.Router();
 /* QUERYING AWARDS ROUTES */
 // middleware.isLoggedIn - Assures us that an admin has navigated to this page
@@ -6,17 +7,21 @@ var express    = require("express"),
 router.get("/", middleware.isLoggedIn, function(req, res){
 	var context = {};
 	var mysql = req.app.get('mysql');
-	var sql = "SELECT u.username AS 'Granted By', a.title, CONCAT(e.fname, ' ', e.lname) AS 'Award Recipient', g.grant_date "
-		sql += "FROM Granted g INNER JOIN User u ON g.user_id = u.id ";
-		sql += "INNER JOIN Award a ON g.award_id = a.id ";
-		sql += "INNER JOIN Employee e ON g.employee_id = e.id;";
+    console.log("in root route");
+	// var sql = "SELECT u.username AS 'Granted By', a.title, CONCAT(e.fname, ' ', e.lname) AS 'Award Recipient', g.grant_date "
+	// 	sql += "FROM Granted g INNER JOIN User u ON g.user_id = u.id ";
+	// 	sql += "INNER JOIN Award a ON g.award_id = a.id ";
+	// 	sql += "INNER JOIN Employee e ON g.employee_id = e.id;";
+    var sql = "SELECT * FROM Granted";
     mysql.pool.query(sql, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.allAwards = results[0];
-			res.render('admin/employee/show', context);
+            console.log(context);
+			// res.render('admin/employee/show', context);
         }
 	});
 });
@@ -28,11 +33,13 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
 	var sql = "SELECT * FROM Awards WHERE id = ?";
     mysql.pool.query(sql, req.params.id, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.deptAwards = results[0];
-			res.render('admin/employee/show', context);
+            console.log(context);
+			// res.render('admin/employee/show', context);
         }
 	});
 });
@@ -47,11 +54,13 @@ router.get("/departments", middleware.isLoggedIn, function(req, res){
         sql +=  "GROUP BY d.id;"
     mysql.pool.query(sql, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.deptAwards = results[0];
-			res.render('admin/department/show', context);
+            console.log(context);
+			// res.render('admin/department/show', context);
         }
 	});
 });
@@ -68,11 +77,13 @@ router.get("/departments/:id", middleware.isLoggedIn, function(req, res){
 	// validate the :id parameter sent in, can only be 'Human Resource Management', 'IT', 'Marketing', 'Purchasing', 'Research and Development', 'Finance', 'Production', 'Accounting'
 	mysql.pool.query(sql, req.params.id, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.deptAwards = results[0];
-			res.render('admin/department/show', context);
+            console.log(context);
+			// res.render('admin/department/show', context);
         }
 	});
 });
@@ -88,11 +99,13 @@ router.get("/locations", middleware.isLoggedIn, function(req, res){
 		sql += "GROUP BY l.city;"
 	mysql.pool.query(sql, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.locationAwards = results[0];
-			res.render('admin/location/show', context);
+            console.log(context);
+			// res.render('admin/location/show', context);
         }
 	});
 });
@@ -106,11 +119,13 @@ router.get("/locations/:id", middleware.isLoggedIn, function(req, res){
 		sql += "GROUP BY l.city;"
 	mysql.pool.query(sql, req.params.id, function(error, results, fields){
 		if(error){
-            req.flash("error", JSON.stringify(error));
+            // req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
             context.locationAwards = results[0];
-			res.render('admin/location/show', context);
+            console.log(context);
+			// res.render('admin/location/show', context);
         }
 	});
 
