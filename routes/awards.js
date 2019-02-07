@@ -3,7 +3,7 @@ var express    = require("express"),
 
 /* QUERYING AWARDS ROUTES */
 // SHOW ALL AWARDS
-router.get("/", function(req, res){
+router.get("/", (req, res) => {
 	var context = {};
 	var mysql = req.app.get('mysql');
 	getAwards(res, mysql, context, complete);
@@ -13,12 +13,12 @@ router.get("/", function(req, res){
 });
 
 // AWARDS NEW - shows form to create award
-router.get("/new", function(req, res){
+router.get("/new", (req, res) => {
 	// ERROR CHECK 1 - user must be logged in to get to this page
 	// ERROR CHECK 2 - user who is logged  in MUST NOT be an admin
 });
 // CREATE AWARDS ROUTE
-router.post("/", function(req, res){
+router.post("/", (req, res) => {
     var mysql = req.app.get('mysql');
     var sql = "INSERT INTO Granted(user_id, award_id, employee_id, grant_date) VALUES (?, ?, ?, ?)";
     var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, req.body.grant_date];

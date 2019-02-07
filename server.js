@@ -10,9 +10,12 @@ var express        = require("express"),
 var PORT = 5004;
 
 // requiring routes
-var indexRoutes   = require("./routes/index"),
-    awardRoutes   = require("./routes/awards"),
-    adminRoutes   = require("./routes/admin");
+var indexRoutes    = require("./routes/index"),
+    awardRoutes    = require("./routes/awards"),
+    adminRoutes    = require("./routes/admin/admin"),
+    deptRoutes     = require("./routes/admin/department"),
+    locationRoutes = require("./routes/admin/location"),
+    userRoutes     = require("./routes/admin/user");
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
@@ -45,6 +48,9 @@ app.use(function(req, res, next){
 });
 // Shortens the route declarations
 app.use("/", indexRoutes); // landing page, login page, register page, search page, accounts page.
+app.use("/admin/departments", deptRoutes);
+app.use("/admin/locations", locationRoutes);
+app.use("/admin/users", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/award", awardRoutes);
 app.listen(PORT, process.env.IP, function(){

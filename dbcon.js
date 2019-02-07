@@ -3,7 +3,7 @@ var pool = mysql.createPool({
   connectionLimit : 10,
   host            : "localhost",
   user            : "jonathan",
-  password        : "password",
+  password        : "1ch33s31",
   database        : "Capstone"
 });
 
