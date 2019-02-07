@@ -1,4 +1,4 @@
-$dbhost = 'oniddb.cws.oregonstate.edu';
-$dbname = 'nelsorya-db';
-$dbuser = 'nelsorya-db';
-$dbpass = '2bElFsS8El1JciQI';
+$dbhost = 'www.datacrunchonline.com';
+$dbname = 'datacrun_ERA';
+$dbuser = 'datacrun_ERA';
+$dbpass = 'TXZT11=kcDUA';
