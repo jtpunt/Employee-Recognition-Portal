@@ -1,6 +1,28 @@
 var express    = require("express"),
     middleware = require("../middleware"),
     router     = express.Router();
+
+// Pie chart that shows how awards differ by departments across all locations
+router.get("/departments", middleware.isLoggedIn, function(req, res){
+    var context = {};
+    var mysql = req.app.get('mysql');
+    // This sql statement counts how many awards there are in each department
+    var sql = "SELECT COUNT(d.id) AS Award_Count, d.name AS Department FROM Department d ";
+        sql += "INNER JOIN Employee e on d.id = e.department_id ";
+        sql += "INNER JOIN Granted g ON e.id = g.employee_id "
+        sql +=  "GROUP BY d.id;"
+    mysql.pool.query(sql, function(error, results, fields){
+        if(error){
+            req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
+            res.redirect("/admin");
+        }else{
+            context.deptAwards = results;
+            // console.log(context);
+            res.render('admin/department/show', {deptAwards: results, scripts: ["/static/js/drawPieChart.js"]});
+        }
+    });
+});
 /* QUERYING AWARDS ROUTES */
 // middleware.isLoggedIn - Assures us that an admin has navigated to this page
 // SHOW ADMIN PAGE - shows which users created awards
@@ -8,20 +30,21 @@ router.get("/", middleware.isLoggedIn, function(req, res){
 	var context = {};
 	var mysql = req.app.get('mysql');
     console.log("in root route");
-	// var sql = "SELECT u.username AS 'Granted By', a.title, CONCAT(e.fname, ' ', e.lname) AS 'Award Recipient', g.grant_date "
-	// 	sql += "FROM Granted g INNER JOIN User u ON g.user_id = u.id ";
-	// 	sql += "INNER JOIN Award a ON g.award_id = a.id ";
-	// 	sql += "INNER JOIN Employee e ON g.employee_id = e.id;";
-    var sql = "SELECT * FROM Granted";
+	var sql = "SELECT u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, g.grant_date "
+		sql += "FROM Granted g INNER JOIN User u ON g.user_id = u.id ";
+		sql += "INNER JOIN Award a ON g.award_id = a.id ";
+		sql += "INNER JOIN Employee e ON g.employee_id = e.id;";
+    // var sql = "SELECT * FROM Granted";
     mysql.pool.query(sql, function(error, results, fields){
 		if(error){
-            // req.flash("error", JSON.stringify(error));
+            req.flash("error", JSON.stringify(error));
             console.log(JSON.stringify(error));
             res.redirect("/admin");
         }else{
-            context.allAwards = results[0];
+            context.allAwards = results;
             console.log(context);
-			// res.render('admin/employee/show', context);
+            req.flash("success", "Flash works!");
+			res.render('admin/employee/show', {allAwards: results, stylesheets: ["/static/css/admin-employee.css"]});
         }
 	});
 });
@@ -40,27 +63,6 @@ router.get("/:id", middleware.isLoggedIn, function(req, res){
             context.deptAwards = results[0];
             console.log(context);
 			// res.render('admin/employee/show', context);
-        }
-	});
-});
-// Pie chart that shows how awards differ by departments across all locations
-router.get("/departments", middleware.isLoggedIn, function(req, res){
-	var context = {};
-	var mysql = req.app.get('mysql');
-	// This sql statement counts how many awards there are in each department
-	var sql = "SELECT COUNT(d.id) AS 'Award Count', d.name AS 'Department' FROM Department d ";
-        sql += "INNER JOIN Employee e on d.id = e.department_id ";
-        sql += "INNER JOIN Granted g ON e.id = g.employee_id "
-        sql +=  "GROUP BY d.id;"
-    mysql.pool.query(sql, function(error, results, fields){
-		if(error){
-            // req.flash("error", JSON.stringify(error));
-            console.log(JSON.stringify(error));
-            res.redirect("/admin");
-        }else{
-            context.deptAwards = results[0];
-            console.log(context);
-			// res.render('admin/department/show', context);
         }
 	});
 });

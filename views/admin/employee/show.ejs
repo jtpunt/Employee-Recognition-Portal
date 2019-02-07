@@ -1,0 +1,30 @@
+<% include ../../partials/header %>
+<table>
+	<caption>Who wins? Cell content indicates the status of the row entry</caption>
+	<thead>
+		<tr>
+			<th>Granted By</th>
+			<th>Award Title</th>
+			<th>Award Recipient</th>
+			<th>Grant Date</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="2">Footer 1</td>
+			<td colspan="4">Footer 2</td>
+		</tr>
+	</tfoot>
+	<tbody>
+		<% allAwards.forEach(function(award){ %>
+		<tr>
+			<th><%=award.granted_by%></th>
+			<td><%=award.title%></td>
+			<td><%=award.award_recipient%></td>
+			<td><%=award.grant_date %></td>
+		</tr>
+		<% }); %>
+	</tbody>
+</table>
+
+<% include ../../partials/footer %>
