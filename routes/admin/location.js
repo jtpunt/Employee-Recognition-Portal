@@ -1,17 +1,13 @@
 var express    = require("express"),
     middleware = require("../../middleware"),
+    sql        = require("../../sql"),
     router     = express.Router();
 // Pie Chart That Shows how awards differ by Location
 router.get("/", middleware.isLoggedIn, (req, res) => {
 	var context = {};
 	var mysql = req.app.get('mysql');
 	// This sql statement counts how many awards there are at each location
-	var sql = "SELECT COUNT(d.id) AS Award_Count, l.city AS Category FROM Department d ";
-		sql += "INNER JOIN Employee e on d.id = e.department_id ";
-		sql += "INNER JOIN Granted g ON e.id = g.employee_id "
-		sql += "INNER JOIN Location l on d.location_id = l.id "
-		sql += "GROUP BY l.city;"
-	mysql.pool.query(sql, (error, results, fields) => {
+	mysql.pool.query(sql.getLocAwards, (error, results, fields) => {
 		if(error){
             // req.flash("error", JSON.stringify(error));
             console.log(JSON.stringify(error));
@@ -27,13 +23,7 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 router.get("/:id", middleware.isLoggedIn, (req, res) => {
 	var context = {};
 	var mysql = req.app.get('mysql');
-	var sql = "SELECT COUNT(d.id) AS 'Award Count', l.city FROM Department d ";
-		sql += "INNER JOIN Employee e on d.id = e.department_id ";
-		sql += "INNER JOIN Granted g ON e.id = g.employee_id "
-		sql += "INNER JOIN Location l on d.location_id = l.id "
-		sql += "WHERE l.id = ?";
-		sql += "GROUP BY l.city;"
-	mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+	mysql.pool.query(sql.getLocAwardsById, req.params.id, (error, results, fields) => {
 		if(error){
             // req.flash("error", JSON.stringify(error));
             console.log(JSON.stringify(error));
