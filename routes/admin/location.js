@@ -5,7 +5,6 @@ var express    = require("express"),
 // Pie Chart That Shows how awards differ by Location
 router.get("/", middleware.isLoggedIn, (req, res) => {
 	var context = {};
-	var mysql = req.app.get('mysql');
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
@@ -16,17 +15,10 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 // Pie Chart that shows how awards differ by department at a specific location
 router.get("/:id", middleware.isLoggedIn, (req, res) => {
 	var context = {};
-	var mysql = req.app.get('mysql');
-	mysql.pool.query(sql.getLocAwardsById, req.params.id, (error, results, fields) => {
-		if(error){
-            // req.flash("error", JSON.stringify(error));
-            console.log(JSON.stringify(error));
-            res.redirect("/admin");
-        }else{
-            context.locationAwards = results[0];
-            console.log(context);
-			// res.render('admin/location/show', context);
-        }
-	});
+	var redirect = "/admin";
+    var render = "admin/location/show";
+    var stylesheets = null;
+    var scripts = "/static/js/drawPieChart.js";
+	sql.findById(req, res, sql.getLocAwardsById, redirect, render, stylesheets, scripts);
 });
 module.exports = router;

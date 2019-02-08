@@ -11,7 +11,7 @@ var sql = {
 	INNER JOIN Granted g ON e.id = g.employee_id \
 	GROUP BY d.id;",
 
-	getDeptAwardsById: "SELECT CONCAT(e.fname, ' ', e.lname) AS 'Employee Name', COUNT(e.id) AS 'Awards Received', d.name AS 'Department' \
+	getDeptAwardsById: "SELECT CONCAT(e.fname, ' ', e.lname) AS Category, COUNT(e.id) AS Award_Count  \
 	FROM Department d \
 	INNER JOIN Employee e on d.id = e.department_id \
 	INNER JOIN Granted g on e.id = g.employee_id \
@@ -42,17 +42,22 @@ var sql = {
 	        }
 		});
 	},
-	findById: (req, res, sql, redirect, render, stylesheets) => {
+	findById: (req, res, sql, redirect, render, stylesheets, scripts) => {
+		var mysql = req.app.get('mysql');
 		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
 			if(error){
 	            req.flash("error", JSON.stringify(error));
 	            console.log(JSON.stringify(error));
 	            res.redirect(redirect);
 	        }else{
+	        	console.log(results)
 	        	req.flash("success", "Flash works!");
-				res.render(render, {awards: results[0], stylesheets: [stylesheets], scripts: [scripts]});
+				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
 	        }
 		});
+	},
+	create: (req, res, sql, redirect, render, stylesheets, scripts) => {
+		var mysql = req.app.get('mysql');
 	}
 }
 

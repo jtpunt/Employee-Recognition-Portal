@@ -12,6 +12,9 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 	// Takes you to the form to add a user
 	res.render("admin/user/new");
 });
+router.post("/:id", middleware.isLoggedIn, (req, res) => {
+
+});
 // EDIT User
 router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
 	var context = {};
