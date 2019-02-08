@@ -6,18 +6,12 @@ var express    = require("express"),
 router.get("/", middleware.isLoggedIn, (req, res) => {
 	var context = {};
 	var mysql = req.app.get('mysql');
+	var redirect = "/admin";
+    var render = "admin/location/show";
+    var stylesheets = null;
+    var scripts = "/static/js/drawPieChart.js";
+    sql.find(req, res, sql.getLocAwards, redirect, render, stylesheets, scripts);
 	// This sql statement counts how many awards there are at each location
-	mysql.pool.query(sql.getLocAwards, (error, results, fields) => {
-		if(error){
-            // req.flash("error", JSON.stringify(error));
-            console.log(JSON.stringify(error));
-            res.redirect("/admin");
-        }else{
-            context.locationAwards = results;
-            console.log(context);
-			res.render('admin/location/show', {locationAwards: results, scripts: ["/static/js/drawPieChart.js"]});
-        }
-	});
 });
 // Pie Chart that shows how awards differ by department at a specific location
 router.get("/:id", middleware.isLoggedIn, (req, res) => {

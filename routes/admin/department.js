@@ -7,18 +7,11 @@ var express    = require("express"),
 router.get("/", middleware.isLoggedIn, (req, res) =>{
     var context = {};
     var mysql = req.app.get('mysql');
-
-    mysql.pool.query(sql.getDeptAwards, function(error, results, fields){
-        if(error){
-            req.flash("error", JSON.stringify(error));
-            console.log(JSON.stringify(error));
-            res.redirect("/admin");
-        }else{
-            context.deptAwards = results;
-            // console.log(context);
-            res.render('admin/department/show', {deptAwards: results, scripts: ["/static/js/drawPieChart.js"]});
-        }
-    });
+    var redirect = "/admin";
+    var render = "admin/department/show";
+    var stylesheets = null;
+    var scripts = "/static/js/drawPieChart.js";
+    sql.find(req, res, sql.getDeptAwards, redirect, render, stylesheets, scripts);
 });
 // Show Award Information by a specified Department
 router.get("/:id", middleware.isLoggedIn, (req, res) => { 

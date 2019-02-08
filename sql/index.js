@@ -28,7 +28,32 @@ var sql = {
 	INNER JOIN Granted g ON e.id = g.employee_id \
 	INNER JOIN Location l on d.location_id = l.id \
 	WHERE l.id = ? \
-	GROUP BY l.city; "
+	GROUP BY l.city; ",
+	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
+		var mysql = req.app.get('mysql');
+		mysql.pool.query(sql, (error, results, fields) => {
+			if(error){
+	            req.flash("error", JSON.stringify(error));
+	            console.log(JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else{
+	            req.flash("success", "Flash works!");
+				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
+	        }
+		});
+	},
+	findById: (req, res, sql, redirect, render, stylesheets) => {
+		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+			if(error){
+	            req.flash("error", JSON.stringify(error));
+	            console.log(JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else{
+	        	req.flash("success", "Flash works!");
+				res.render(render, {awards: results[0], stylesheets: [stylesheets], scripts: [scripts]});
+	        }
+		});
+	}
 }
 
 module.exports = sql
