@@ -29,6 +29,8 @@ var sql = {
 	INNER JOIN Location l on d.location_id = l.id \
 	WHERE l.id = ? \
 	GROUP BY l.city; ",
+	setNewUser: "INSERT INTO User (id, username, password, date_created, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?, ?, ?);", 
+	updateUser: "UPDATE user SET username=?, password=?, date_created=?, signature=?, permission=?, employee_id=? WHERE id=?",
 	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
 		mysql.pool.query(sql, (error, results, fields) => {
@@ -56,8 +58,22 @@ var sql = {
 	        }
 		});
 	},
-	create: (req, res, sql, redirect, render, stylesheets, scripts) => {
+	setUser: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
+		var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id];
+		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+			if(error){
+	            req.flash("error", JSON.stringify(error));
+	            console.log(JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else if(results.affectedRows == 0){
+            	req.flash("error", "User not added!");
+            	res.redirect(redirect);
+			}else{
+	        	req.flash("success", "Flash works!");
+				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
+	        }
+		});
 	}
 }
 
