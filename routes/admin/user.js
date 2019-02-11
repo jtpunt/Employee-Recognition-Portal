@@ -1,5 +1,6 @@
 var express    = require("express"),
     middleware = require("../../middleware"),
+    sql        = require("../../sql"),
     router     = express.Router();
 /* ADD/EDIT/DELETE users routes*/
 // Will allow the admin to navigate to ADD/EDIT/DELETE users routes
@@ -11,6 +12,13 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 router.get("/new", middleware.isLoggedIn, (req, res) => {
 	// Takes you to the form to add a user
 	res.render("admin/user/new");
+});
+router.post("/:id", middleware.isLoggedIn, (req, res) => {
+    var redirect = "/users";
+    var render = "admin/location/show";
+    var stylesheets = null;
+    var scripts = "/static/js/drawPieChart.js";
+    sql.setUser(req, res, sql.setNewUser, redirect, render, stylesheets, scripts);
 });
 // EDIT User
 router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
