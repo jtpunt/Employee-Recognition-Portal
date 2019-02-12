@@ -5,9 +5,21 @@ var express    = require("express"),
 /* ADD/EDIT/DELETE users routes*/
 // Will allow the admin to navigate to ADD/EDIT/DELETE users routes
 router.get("/", middleware.isLoggedIn, (req, res) => {
-
+    var redirect = "/user";
+    var render = "admin/user/show";
+    var stylesheets = null;
+    var scripts = "/static/js/showHint.js";
+    sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
-
+// :id - name of a user
+router.get("/:id", middleware.isLoggedIn, (req, res) => {
+    console.log("fetch request received!");
+    var redirect = "/user";
+    var render = "admin/user/show";
+    var stylesheets = null;
+    var scripts = "/static/js/showHint.js";
+    sql.findById(req, res, sql.getUserId, redirect, render, stylesheets, scripts);
+});
 // Add normal/admin user
 router.get("/new", middleware.isLoggedIn, (req, res) => {
 	// Takes you to the form to add a user

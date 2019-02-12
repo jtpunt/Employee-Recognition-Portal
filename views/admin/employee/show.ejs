@@ -16,12 +16,12 @@
 		</tr>
 	</tfoot>
 	<tbody>
-		<% awards.forEach(function(award){ %>
+		<% results.forEach(function(result){ %>
 		<tr>
-			<th><%=award.granted_by%></th>
-			<td><%=award.title%></td>
-			<td><%=award.award_recipient%></td>
-			<td><%=award.grant_date %></td>
+			<th><%=result.granted_by%></th>
+			<td><%=result.title%></td>
+			<td><%=result.award_recipient%></td>
+			<td><%=result.grant_date %></td>
 		</tr>
 		<% }); %>
 	</tbody>

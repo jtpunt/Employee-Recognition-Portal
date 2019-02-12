@@ -31,6 +31,8 @@ var sql = {
 	GROUP BY l.city; ",
 	setNewUser: "INSERT INTO User (id, username, password, date_created, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?, ?, ?);", 
 	updateUser: "UPDATE user SET username=?, password=?, date_created=?, signature=?, permission=?, employee_id=? WHERE id=?",
+	getAllUsers: "SELECT id, fname, lname FROM Employee ORDER BY fname, lname ASC;",
+	getUserId: "SELECT id, fname, lname FROM Employee WHERE CONCAT(fname, ' ', lname) LIKE CONCAT('%', ?, '%');",
 	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
 		mysql.pool.query(sql, (error, results, fields) => {
@@ -40,21 +42,22 @@ var sql = {
 	            res.redirect(redirect);
 	        }else{
 	            req.flash("success", "Flash works!");
-				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
+	            console.log(results);
+				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
 	        }
 		});
 	},
 	findById: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
+		console.log(req.params.id);
 		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
 			if(error){
 	            req.flash("error", JSON.stringify(error));
 	            console.log(JSON.stringify(error));
 	            res.redirect(redirect);
 	        }else{
-	        	console.log(results)
 	        	req.flash("success", "Flash works!");
-				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
+				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
 	        }
 		});
 	},
@@ -71,7 +74,7 @@ var sql = {
             	res.redirect(redirect);
 			}else{
 	        	req.flash("success", "Flash works!");
-				res.render(render, {awards: results, stylesheets: [stylesheets], scripts: [scripts]});
+				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
 	        }
 		});
 	}

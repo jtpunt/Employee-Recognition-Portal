@@ -1,0 +1,8 @@
+<% include ../../partials/header %>
+<script type="text/javascript">obj.setData(<%- JSON.stringify(results) %>)</script>
+<form>
+    First Name: <input type="text" onkeyup="obj.showHint(this.value)"/>
+    <input type="submit" value="Search" />
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>
+<% include ../../partials/footer %>
