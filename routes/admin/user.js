@@ -11,20 +11,20 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
     var scripts = "/static/js/showHint.js";
     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
-// :id - name of a user
+// :id - name of a user - to be used with the search feature
 router.get("/:id", middleware.isLoggedIn, (req, res) => {
     console.log("fetch request received!");
     var redirect = "/user";
     var render = "admin/user/show";
     var stylesheets = null;
     var scripts = "/static/js/showHint.js";
-    sql.findById(req, res, sql.getUserId, redirect, render, stylesheets, scripts);
+    sql.findById(req, res, sql.getUserIdBySearch, redirect, render, stylesheets, scripts);
 });
-// Add normal/admin user
+// Takes you to the form to add a user
 router.get("/new", middleware.isLoggedIn, (req, res) => {
-	// Takes you to the form to add a user
 	res.render("admin/user/new");
 });
+// Add normal/admin user
 router.post("/:id", middleware.isLoggedIn, (req, res) => {
     var redirect = "/users";
     var render = "admin/location/show";
@@ -32,64 +32,30 @@ router.post("/:id", middleware.isLoggedIn, (req, res) => {
     var scripts = "/static/js/drawPieChart.js";
     sql.setUser(req, res, sql.setNewUser, redirect, render, stylesheets, scripts);
 });
-// EDIT User
+// EDIT User - Takes you to the form to edit a user
 router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
-	var context = {};
-	var mysql = req.app.get('mysql');
-	var sql = "SELECT * FROM User WHERE id = ?;";
-	// Takes you to the form to add a user
-	mysql.pool.query(sql, req.params.id, (error, results, fields) => {
-		if(error){
-            req.flash("error", JSON.stringify(error));
-            res.redirect("/admin");
-        }else if(results[0] == undefined){
-        	req.flash("error", "User not found!");
-            res.redirect('/users/new');
-        }else{
-        	context.user = results[0];
-        	res.render('admin/user/edit', context);
-        }
-	});
+    var redirect = "/users/new";
+    var render = "admin/user/edit";
+    var stylesheets = null;
+    var scripts = null;
+    // Takes you to the form to add a user
+    sql.findById(req, res, sql.getUserId, redirect, render, stylesheets, scripts);
 });
 // UPDATE normal/admin user
 router.put("/:id", middleware.isLoggedIn, (req, res) => {
-	var mysql = req.app.get('mysql');
+    var redirect = "/users";
+    var render = "admin/user/edit";
+    var stylesheets = null;
+    var scripts = null;
+    sql.updateUser(req, res, sql.editUser, redirect, stylesheets, scripts);
 	// ERROR CHECK 1 - Assure that an admin has navigated to this page
-	var sql = "UPDATE user SET username=?, password=?, date_created=?, signature=?, permission=?, employee_id=? WHERE id=?";
-	var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id];
-	    sql = mysql.pool.query(sql,inserts,(error, results, fields) => {
-        if(error){
-            req.flash("error", JSON.stringify(error));
-            res.redirect("/users");
-        }else if(results.affectedRows == 0){
-            req.flash("error", "User not found!");
-            res.redirect("/users");
-        }else{
-            req.flash("success", "User successfully updated!");
-            res.redirect('/users');
-        }
-	});
 });
 // DELETE normal/admin user
 router.delete("/:id", middleware.isLoggedIn, (req, res) => {
-	var mysql = req.app.get('mysql');
-    var sql = "DELETE FROM User WHERE id = ?";
-        // remember that these inserts are URL encoded
-    var inserts = [req.params.id];
-    sql = mysql.pool.query(sql,inserts, (error, results, fields) => {
-        console.log(results);
-        if(error){
-            req.flash("error", JSON.stringify(error));
-            res.redirect("/users");
-        }else if(results.affectedRows == 0){
-            req.flash("error", "User not found!");
-            res.redirect("/users");
-        }
-        else{
-            res.status(200);
-            req.flash("success", "User successfully deleted!");
-            res.redirect('/Users');
-        }
-    });
+    var redirect = "/users";
+    var render = "admin/user/edit";
+    var stylesheets = null;
+    var scripts = null;
+    sql.removeUser(req, res, sql.deleteUser, redirect, stylesheets, scripts);
 });
 module.exports = router;
