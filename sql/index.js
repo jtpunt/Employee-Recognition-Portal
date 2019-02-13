@@ -33,7 +33,7 @@ var sql = {
 	WHERE l.id = ? \
 	GROUP BY l.city; ",
 
-	setNewUser: "INSERT INTO User(username, password, permission, employee_id) VALUES (?, ?, ?, ?)", 
+	setNewUser: "INSERT INTO User(username, password, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?)", 
 
 	editUser: "UPDATE user SET username=?, password=?, signature=?, permission=? WHERE id=?;",
 
@@ -77,7 +77,7 @@ var sql = {
 	},
 	setUser: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
-		var inserts = [String(req.body.username), String(req.body.password), Number(req.body.permission), Number(req.body.employee_id)];
+		var inserts = [String(req.body.username), String(req.body.password), req.body.signature, Number(req.body.permission), Number(req.body.employee_id)];
 		inserts.forEach((insert) => {
 			console.log(typeof insert);
 		});
