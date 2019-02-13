@@ -14,7 +14,6 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 });
 // Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'
 router.get("/:id", middleware.isLoggedIn, (req, res) => {
-	var mysql = req.app.get('mysql'); 
     var redirect = "/admin";
     var render = "admin/employee/show";
     var stylesheets = "/static/css/admin-employee.css";

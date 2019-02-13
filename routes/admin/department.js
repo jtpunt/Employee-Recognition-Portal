@@ -4,8 +4,7 @@ var express    = require("express"),
     router     = express.Router();
 
 // Pie chart that shows how awards differ by departments across all locations
-router.get("/", middleware.isLoggedIn, (req, res) =>{
-    var context = {};
+router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin";
     var render = "admin/department/show";
     var stylesheets = null;
@@ -14,7 +13,6 @@ router.get("/", middleware.isLoggedIn, (req, res) =>{
 });
 // Show Award Information by a specified Department
 router.get("/:id", middleware.isLoggedIn, (req, res) => { 
-	var context = {};
     var redirect = "/admin";
     var render = "admin/department/show";
     var stylesheets = null;

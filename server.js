@@ -11,7 +11,7 @@ var PORT = 5004;
 
 // requiring routes
 var indexRoutes    = require("./routes/index"),
-    awardRoutes    = require("./routes/awards"),
+    awardRoutes    = require("./routes/award"),
     adminRoutes    = require("./routes/admin/admin"),
     deptRoutes     = require("./routes/admin/department"),
     locationRoutes = require("./routes/admin/location"),

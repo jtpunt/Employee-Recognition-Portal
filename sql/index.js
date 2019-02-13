@@ -33,9 +33,9 @@ var sql = {
 	WHERE l.id = ? \
 	GROUP BY l.city; ",
 
-	setNewUser: "INSERT INTO User (id, username, password, date_created, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?, ?, ?);", 
+	setNewUser: "INSERT INTO User(username, password, permission, employee_id) VALUES (?, ?, ?, ?)", 
 
-	editUser: "UPDATE user SET username=?, password=?, date_created=?, signature=?, permission=?, employee_id=? WHERE id=?",
+	editUser: "UPDATE user SET username=?, password=?, signature=?, permission=? WHERE id=?;",
 
 	getAllUsers: "SELECT id, fname, lname FROM Employee ORDER BY fname, lname ASC;",
 
@@ -43,8 +43,9 @@ var sql = {
 
 	getUserIdBySearch: "SELECT id, fname, lname FROM Employee WHERE CONCAT(fname, ' ', lname) LIKE CONCAT('%', ?, '%');",
 
-	deleteUser: "DELETE FROM User WHERE id = ?",
+	deleteUser: "DELETE FROM User WHERE id = ?;",
 
+	setNewAward: "INSERT INTO Granted(user_id, award_id, employee_id, grant_date) VALUES (?, ?, ?, ?);",
 	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
 		mysql.pool.query(sql, (error, results, fields) => {
@@ -76,8 +77,11 @@ var sql = {
 	},
 	setUser: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
-		var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id];
-		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+		var inserts = [String(req.body.username), String(req.body.password), Number(req.body.permission), Number(req.body.employee_id)];
+		inserts.forEach((insert) => {
+			console.log(typeof insert);
+		});
+		mysql.pool.query(sql, inserts, (error, results, fields) => {
 			if(error){
 	            req.flash("error", JSON.stringify(error));
 	            res.redirect(redirect);
@@ -106,7 +110,7 @@ var sql = {
 	        }
 		});
 	},
-	removeUser: (req, res, sql, redirect, stylesheets, scripts) => {
+	removeUser: (req, res, sql, redirect) => {
 		var mysql = req.app.get('mysql');
 		var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id]; 
 		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
@@ -121,6 +125,22 @@ var sql = {
             	res.redirect(redirect);
 	        }
 		});
+	},
+	createAward: (req, res, sql, redirect) => {
+		var mysql = req.app.get('mysql');
+		var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, req.body.grant_date];
+		mysql.pool.query(sql, inserts,function(error, results, fields){
+	        if(error){
+	            req.flash("error", JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else if(results.affectedRows == 0){
+	            req.flash("error", "Award not added!");
+	            res.redirect(redirect);
+	        }else{
+	            req.flash("success", "Award successfully added!");
+	            res.redirect(redirect);
+	        }
+	    });
 	}
 }
 

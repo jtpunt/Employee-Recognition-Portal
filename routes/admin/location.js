@@ -4,7 +4,6 @@ var express    = require("express"),
     router     = express.Router();
 // Pie Chart That Shows how awards differ by Location
 router.get("/", middleware.isLoggedIn, (req, res) => {
-	var context = {};
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
@@ -14,7 +13,6 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 });
 // Pie Chart that shows how awards differ by department at a specific location
 router.get("/:id", middleware.isLoggedIn, (req, res) => {
-	var context = {};
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
