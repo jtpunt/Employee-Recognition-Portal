@@ -1,20 +1,28 @@
 // SRC: https://www.w3schools.com/php/php_ajax_php.asp
 var url = 'http://localhost:5004/users/';
 var arr = [];
+var boxArr = [];
 var obj = {
 	showHint: function(str){
+		console.log("in show hint");
+		var flex_container = document.getElementById("flex-container");
 		if (str.length == 0) {
-	        document.getElementById("txtHint").innerHTML = "";
+	        console.log("RETURNING");
+	        while(flex_container.firstChild){
+	        	flex_container.removeChild(flex_container.firstChild);
+	        }
 	        return;
 	    } else {
 	    	var hint = "";
 	    	if (str !== "") {
+		        while(flex_container.firstChild){
+		        	flex_container.removeChild(flex_container.firstChild);
+		        }
 			    var len=str.length;
 			    arr.forEach((name) => {
 			    	// console.log(name.substr(0, len).toUpperCase(), ' : ', str.toUpperCase());
-			    	if(name.substr(0, len).toUpperCase() == str.toUpperCase()){
-			    		console.log(name);
-			    		document.getElementById("txtHint").innerHTML = name;
+			    	if(name[1].substr(0, len).toUpperCase() == str.toUpperCase()){
+			    		flex_container.appendChild(createBox(name));
 			    	}
 			    });
 			}
@@ -22,13 +30,39 @@ var obj = {
 	},
 	setData: function(data){
 		console.log("in set Data");
-		console.log(data);
-		arr = data.map(val => (val.fname + ' ' + val.lname));
+		arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
 		console.log(arr);
 	}
 
 }
+function createBox(name){
+	console.log("in createBox");
+	var box = document.createElement("div");
+	var span = document.createElement("span");
+	var editBtn = document.createElement("a");
+	var delForm = document.createElement("FORM");
+	var delBtn = document.createElement("button");
+	// Set box and span attributes
+	box.className ="box";
+	span.innerHTML = name[1];
+	box.appendChild(span);
+	// Set edit button attributes
+	editBtn.className = "btn btn-warning";
+	editBtn.innerText = "Edit";
+	editBtn.href = "/admin/users/" + name[0] + "/edit";
+	box.appendChild(editBtn);
+	// Set delete form attributes
+	delForm.action = "/admin/users/" + name[0] + "?_method=DELETE";
+	delForm.method = "POST";
+	delForm.className = "delete-form";
 
+	// Set delete button attributes
+	delBtn.className="btn btn-danger";
+	delBtn.innerText="Delete";
+	delForm.appendChild(delBtn);
+	box.appendChild(delForm);
+	return box;
+}
 function checkNames(name){
 
 }

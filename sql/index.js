@@ -42,7 +42,7 @@ var sql = {
 
 	getUserIdBySearch: "SELECT id, fname, lname FROM Employee WHERE CONCAT(fname, ' ', lname) LIKE CONCAT('%', ?, '%');",
 
-	deleteUser: "DELETE FROM User WHERE id = ?;",
+	deleteUser: "DELETE FROM Employee WHERE id = ?;",
 
 	setNewAward: "INSERT INTO Granted(user_id, award_id, employee_id, grant_date) VALUES (?, ?, ?, ?);",
 	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
@@ -60,6 +60,7 @@ var sql = {
 	findById: (req, res, sql, redirect, render, stylesheets, scripts) => {
 		var mysql = req.app.get('mysql');
 		console.log(req.params.id);
+		console.log(sql);
 		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
 			if(error){
 	            req.flash("error", JSON.stringify(error));
@@ -70,6 +71,7 @@ var sql = {
             	res.redirect(redirect);
         	}else{
 	        	req.flash("success", "Flash works!");
+	        	console.log(results);
 				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
 	        }
 		});

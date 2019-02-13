@@ -12,7 +12,7 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin/user";
     var render = "admin/user/show";
-    var stylesheets = null;
+    var stylesheets = "/static/css/userSearch.css";
     var scripts = "/static/js/showHint.js";
     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
@@ -35,12 +35,13 @@ router.get("/:id", middleware.isLoggedIn, (req, res) => {
 });
 // EDIT User - Takes you to the form to edit a user
 router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
+    console.log("in edit route..");
     var redirect = "/admin/users/new";
     var render = "admin/user/edit";
     var stylesheets = null;
     var scripts = null;
     // Takes you to the form to add a user
-    sql.findById(req, res, sql.getUserId, redirect, render, stylesheets, scripts);
+    sql.findById(req, res, sql.getUserById, redirect, render, stylesheets, scripts);
 });
 // UPDATE normal/admin user
 router.put("/:id", middleware.isLoggedIn, (req, res) => {
