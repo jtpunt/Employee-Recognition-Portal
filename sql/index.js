@@ -26,12 +26,11 @@ var sql = {
 	INNER JOIN Location l on d.location_id = l.id \
 	GROUP BY l.city;",
 
-	getLocAwardsById: "SELECT COUNT(d.id) AS Award_Count, l.city AS Category FROM Department d \
+	getLocAwardsById: "SELECT CONCAT(e.fname, ' ', e.lname) AS Category, COUNT(e.id) AS Award_Count FROM Department d \
 	INNER JOIN Employee e on d.id = e.department_id \
 	INNER JOIN Granted g ON e.id = g.employee_id \
-	INNER JOIN Location l on d.location_id = l.id \
-	WHERE l.id = ? \
-	GROUP BY l.city; ",
+	WHERE d.location_id = ? \
+	GROUP BY e.id; ",
 
 	setNewUser: "INSERT INTO User(username, password, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?)", 
 
