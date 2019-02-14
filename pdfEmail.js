@@ -24,6 +24,7 @@ function genLatex(userId, awardId, employeeId, grantDate)
       if(err){
          return console.error('error: ' + err.message);
       }
+      console.log(result);
       award = result[0].title;
       description = result[0].description;
       email = result[0].recip_email;
