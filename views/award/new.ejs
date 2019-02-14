@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center;">Add New Award</h1>
+        <div style="width: 30%; margin:25px auto;">
+            <form action="/awards" method="post">
+                <div class="form-group">
+                    <label for="username">User ID</label>
+                    <input class="form-control" type="text" name="user_id" required>
+                </div>
+                <div class="form-group">
+                    <label for="award_id">Award</label>
+                    <select name="award_id">
+                        <option value="1">Employee of the Week</option>
+                        <option value="2">Employee of the Month</option>
+                    </select
+                </div>
+                <div class="form-group">
+                    <label for="employee_id">Employee ID</label>
+                    <input class="form-control" type="number" name="employee_id" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                </div>
+            </form>
+            <a href="/admin/users">Go Back</a>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer %>

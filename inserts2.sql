@@ -226,8 +226,11 @@ INSERT INTO `User` (`id`, `username`, `password`, `date_created`, `signature`, `
 INSERT INTO `User` (`id`, `username`, `password`, `date_created`, `signature`, `permission`, `employee_id`) VALUES (98, 'ulind', '3c9149c58eb730cc2056a6817ae2de', '1991-07-12 14:56:14', NULL, 1, 98);
 INSERT INTO `User` (`id`, `username`, `password`, `date_created`, `signature`, `permission`, `employee_id`) VALUES (99, 'laurel36', '265a69f6d61e3cced11c428c8013ea', '2018-06-24 12:54:29', NULL, 1, 99);
 INSERT INTO `User` (`id`, `username`, `password`, `date_created`, `signature`, `permission`, `employee_id`) VALUES (100, 'pgoodwin', '98d572d78be0dc20633935fbbd1eae', '1997-06-23 11:53:34', NULL, 1, 100);
-
-INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (1, 1, 100, '2013-04-10 11:42:39');
+-- User grants employee an award
+INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (1, 1, 100, '2013-04-10 11:42:39'); 
+INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (1, 1, 100, '2013-04-10 11:42:40');
+INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (1, 1, 100, '2013-04-10 11:42:41');
+INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (1, 1, 100, '2013-04-10 11:42:42');
 INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (2, 2, 99, '2018-05-18 00:32:57');
 INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (3, 1, 98, '1987-11-24 01:50:36');
 INSERT INTO `Granted` (`user_id`, `award_id`, `employee_id`, `grant_date`) VALUES (4, 2, 97, '2008-04-04 13:55:06');

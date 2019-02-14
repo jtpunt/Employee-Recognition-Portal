@@ -52,7 +52,7 @@ app.use("/admin/departments", deptRoutes);
 app.use("/admin/locations", locationRoutes);
 app.use("/admin/users", userRoutes);
 app.use("/admin", adminRoutes);
-app.use("/award", awardRoutes);
+app.use("/awards", awardRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });
