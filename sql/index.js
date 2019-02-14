@@ -168,6 +168,7 @@ function genLatex(userId, awardId, employeeId, grantDate)
       if(err){
          return console.error('error: ' + err.message);
       }
+      console.log(result);
       award = result[0].title;
       description = result[0].description;
       email = result[0].recip_email;
@@ -181,7 +182,7 @@ function genLatex(userId, awardId, employeeId, grantDate)
                   \\usepackage[utf8]{inputenc}
                   \\usepackage{float}
                   \\usepackage{graphicx}
-                  \\graphicspath{ {/nfs/stak/users/nelsorya/cs467/images/} }
+                  \\graphicspath{ {/nfs/stak/users/perryjon/capstone/Employee-Recognition-Portal/images/} }
                   \\title{Employee Recognition Program}
                   \\author{${fname} ${lname}} 
                   \\date{${datestamp}}
@@ -211,20 +212,21 @@ function genLatex(userId, awardId, employeeId, grantDate)
 //generate pdf file from latex file
 //see github.com/saadq/node-latex
 function pdfGen(inputFile, outputFile, email) {
-   
+   console.log(inputFile);
    const latex = require('node-latex')
+   console.log(latex);
    const fs = require('fs')
    const input = fs.createReadStream(inputFile)
    const output = fs.createWriteStream(outputFile)
    const pdf = latex(input)
 
-   // pdf.pipe(output)
-   // pdf.on('error', err => console.error(err))
-   // //once pdf is done generating call pdfEmail function
-   // pdf.on('finish', function () {
-   //    console.log('PDF Generated!');
-   //    pdfEmail(outputFile, email);
-   // });
+   pdf.pipe(output)
+   pdf.on('error', err => console.error(err))
+   //once pdf is done generating call pdfEmail function
+   pdf.on('finish', function () {
+      console.log('PDF Generated!');
+      pdfEmail(outputFile, email);
+   });
 
 }
 
