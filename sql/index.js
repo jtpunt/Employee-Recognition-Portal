@@ -35,7 +35,7 @@ var sql = {
 
 	setNewUser: "INSERT INTO User(username, password, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?)", 
 
-	editUser: "UPDATE user SET username=?, password=?, signature=?, permission=? WHERE id=?;",
+	editUser: "UPDATE User SET username=?, password=?, signature=?, permission=? WHERE id=?;",
 
 	getAllUsers: "SELECT id, fname, lname FROM Employee ORDER BY fname, lname ASC;",
 
@@ -98,8 +98,8 @@ var sql = {
 	},
 	updateUser: (req, res, sql, redirect) => { 
 		var mysql = req.app.get('mysql');
-		var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id];
-		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+		var inserts = [req.body.username, req.body.password, null, req.body.permission, req.params.id];
+		mysql.pool.query(sql, inserts, (error, results, fields) => {
 			if(error){
             	req.flash("error", JSON.stringify(error));
             	res.redirect(redirect);
