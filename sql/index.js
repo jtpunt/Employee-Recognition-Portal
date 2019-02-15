@@ -130,7 +130,7 @@ var sql = {
 	},
 	createAward: (req, res, sql, redirect) => {
 		var mysql = req.app.get('mysql');
-		var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, new Date().toLocaleString()];
+		var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, require('moment')().format('YYYY-MM-DD hh:mm:ss')];
 		mysql.pool.query(sql, inserts,function(error, results, fields){
 	        if(error){
 	            req.flash("error", JSON.stringify(error));
