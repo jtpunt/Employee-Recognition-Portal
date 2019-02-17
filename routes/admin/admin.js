@@ -7,8 +7,8 @@ var express    = require("express"),
 // SHOW ADMIN PAGE - shows which users created awards
 router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin";
-    var render = "admin/employee/show";
-    var stylesheets = "/static/css/admin-employee.css";
+    var render = "admin/dashboard";
+    var stylesheets = "/static/css/dashboard.css";
     var scripts = null;
     sql.find(req, res, sql.getAllAwards, redirect, render, stylesheets, scripts);
 });
