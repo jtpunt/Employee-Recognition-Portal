@@ -53,8 +53,8 @@ var sql = {
 	            req.flash("error", JSON.stringify(error));
 	            res.redirect(redirect);
 	        }else{
-	            req.flash("success", "Flash works!");
-				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
+	            // req.flash("success", "Flash works!");
+				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
 	        }
 		});
 	},
@@ -71,9 +71,9 @@ var sql = {
         		req.flash("error", req.params.id + ": not found!");
             	res.redirect(redirect);
         	}else{
-	        	req.flash("success", "Flash works!");
+	        	// req.flash("success", "Flash works!");
 	        	console.log(results);
-				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
+				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
 	        }
 		});
 	},
@@ -91,8 +91,8 @@ var sql = {
        			req.flash("error", req.params.id + ": not found!");
             	res.redirect(redirect);
 			}else{
-	        	req.flash("success", "Flash works!");
-				res.render(render, {results: results, stylesheets: [stylesheets], scripts: [scripts]});
+	        	// req.flash("success", "Flash works!");
+				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
 	        }
 		});
 	},
@@ -146,6 +146,20 @@ var sql = {
 	            res.redirect(redirect);
 	        }
 	    });
+	},
+	findAndRet: (req, res, sql, redirect) => {
+		var mysql = req.app.get('mysql');
+		mysql.pool.query(sql, (error, results, fields) => {
+			if(error){
+	            req.flash("error", JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else{
+	            // req.flash("success", "Flash works!");
+	            console.log(results);
+				res.write(JSON.stringify(results));
+				res.end();
+	        }
+		});
 	}
 }
 module.exports = sql

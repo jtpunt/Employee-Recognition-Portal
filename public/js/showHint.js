@@ -4,25 +4,25 @@ var arr = [];
 var boxArr = [];
 var obj = {
 	showHint: function(str){
-		console.log("in show hint");
-		var flex_container = document.getElementById("flex-container");
+		console.log("in show hint", str);
+		var search_res = document.getElementById("search_res");
 		if (str.length == 0) {
 	        console.log("RETURNING");
-	        while(flex_container.firstChild){
-	        	flex_container.removeChild(flex_container.firstChild);
+	        while(search_res.firstChild){
+	        	search_res.removeChild(search_res.firstChild);
 	        }
 	        return;
 	    } else {
 	    	var hint = "";
 	    	if (str !== "") {
-		        while(flex_container.firstChild){
-		        	flex_container.removeChild(flex_container.firstChild);
+		        while(search_res.firstChild){
+		        	search_res.removeChild(search_res.firstChild);
 		        }
 			    var len=str.length;
 			    arr.forEach((name) => {
 			    	// console.log(name.substr(0, len).toUpperCase(), ' : ', str.toUpperCase());
 			    	if(name[1].substr(0, len).toUpperCase() == str.toUpperCase()){
-			    		flex_container.appendChild(createBox(name));
+			    		search_res.appendChild(createBox(name));
 			    	}
 			    });
 			}

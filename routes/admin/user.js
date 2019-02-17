@@ -12,8 +12,8 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin/user";
     var render = "admin/user/show";
-    var stylesheets = "/static/css/userSearch.css";
-    var scripts = "/static/js/showHint.js";
+    var stylesheets = ["/static/css/userSearch.css"];
+    var scripts = ["/static/js/showHint.js"];
     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
 // Add normal/admin user
@@ -21,7 +21,7 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin/users";
     var render = "admin/user/show";
     var stylesheets = null;
-    var scripts = "/static/js/drawPieChart.js";
+    var scripts = ["/static/js/drawPieChart.js"];
     sql.setUser(req, res, sql.setNewUser, redirect, render, stylesheets, scripts);
 });
 // :id - name of a user - to be used with the search feature
@@ -30,7 +30,7 @@ router.get("/:id", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin/users";
     var render = "admin/user/show";
     var stylesheets = null;
-    var scripts = "/static/js/showHint.js";
+    var scripts = ["/static/js/showHint.js"];
     sql.findById(req, res, sql.getUserIdBySearch, redirect, render, stylesheets, scripts);
 });
 // EDIT User - Takes you to the form to edit a user
@@ -38,8 +38,8 @@ router.get("/:id/edit", middleware.isLoggedIn, (req, res) => {
     console.log("in edit route..");
     var redirect = "/admin/users/new";
     var render = "admin/user/edit";
-    var stylesheets = null;
-    var scripts = null;
+    var stylesheets = [];
+    var scripts = [];
     // Takes you to the form to add a user
     sql.findById(req, res, sql.getUserById, redirect, render, stylesheets, scripts);
 });

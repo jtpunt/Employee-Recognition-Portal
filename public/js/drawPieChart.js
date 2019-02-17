@@ -14,6 +14,6 @@ function drawPieChart(chartData, category, title) {
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
         chart.draw(data, options);
-
+        console.log("DONE DRAWING CHART");
     }});
 }

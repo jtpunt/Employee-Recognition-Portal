@@ -1,7 +1,22 @@
 <% include ../partials/header %>
-<main>
-  <article>MAIN CONTENT</article>
-  <nav id="testnav">SIDE NAV</nav>
-  <aside>ASIDE</aside>
-</main>
+<script type="text/javascript">obj.setData(<%- JSON.stringify(results) %>)</script>
+<div class="container1">
+	<div class="box box-1">
+		<ul>
+			<li><i class="fas fa-chart-pie"></i><a id="a_charts" onclick="updatePage(event)"> Show Charts</a><li>
+	      	<li><i class="fas fa-user"></i><a id="a_users"onclick="updatePage(event)"> Add User</a></li>
+	      	<li><i class="fas fa-search"></i><a id="a_search" onclick="updatePage(event)"> Search Users</a></li>
+    	</ul>
+	</div>
+	<div class="box box-2">
+		<div id="piechart" style="width: 900px; height: 500px;" hidden>HELLO</div>
+		<form id="search"  hidden>First Name: 
+			<input type="text" onkeyup="obj.showHint(this.value)"/>
+    	<input type="submit" value="Search" />
+	</form>
+	<div class="flex-container" id="search_res" hidden>
+
+	</div>
+	</div>
+</div>
 <% include ../partials/footer %>
