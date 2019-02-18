@@ -3,13 +3,15 @@
 <div class="container1">
 	<div class="box box-1">
 		<ul>
-			<li><i class="fas fa-chart-pie"></i><a id="a_charts" onclick="updatePage(event)"> Show Charts</a><li>
+			<li><i class="fas fa-chart-pie"></i><a id="a_dept_chart" onclick="updatePage(event)"> Show Dept Pie Chart</a><li>
+            <li><i class="fas fa-chart-pie"></i><a id="a_loc_chart" onclick="updatePage(event)"> Show Location Pie Chart</a><li>
 	      	<li><i class="fas fa-user"></i><a id="a_users"onclick="updatePage(event)"> Add User</a></li>
 	      	<li><i class="fas fa-search"></i><a id="a_search" onclick="updatePage(event)"> Search Users</a></li>
     	</ul>
 	</div>
 	<div class="box box-2">
-		<div id="piechart" style="width: 900px; height: 500px;" hidden>HELLO</div>
+		<div class="piecharts" id="deptpiechart" hidden></div>
+        <div class="piecharts" id="locpiechart" hidden></div>
 		<form id="search"  hidden>First Name: 
 			<input type="text" onkeyup="obj.showHint(this.value)"/>
     	<input type="submit" value="Search" />

@@ -1,33 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
-	var a_charts = document.getElementById("a_charts");
+	var a_charts = document.getElementById("a_dept_chart");
     $.ajax({
         url: "/admin/departments",
         type: 'GET',
-        success: function(data){
-	    	var myData = JSON.parse(data);
-	    	console.log(myData);
-	    	drawPieChart(myData, "departments", "departments");
-	    }
+        success: (data) => { handleData(data, "departments", "Departments", "deptpiechart"); }
+    }); 
+    $.ajax({
+        url: "/admin/locations",
+        type: 'GET',
+        success: (data) => { handleData(data, "locations", "Locations", "locpiechart"); }
     }); 
 }, false);
-
+function handleData(data, category, title, ele){
+	var myData = JSON.parse(data);
+    drawPieChart(myData, category, title, ele);
+	$(window).resize(() => { drawPieChart(myData, category, title, ele); });
+}
 function updatePage(event){
 	var ele_id = event.target.id;
-	var piechart = document.getElementById("piechart");
+	var deptpiechart = document.getElementById("deptpiechart");
+	var locpiechart = document.getElementById("locpiechart");
 	var search = document.getElementById("search");
 	var search_res = document.getElementById("search_res");
 	console.log(event);
-	if(ele_id === "a_charts"){
+	if(ele_id === "a_dept_chart"){
 		console.log(ele_id);
-		piechart.hidden = false;
+		deptpiechart.hidden = false;
+		locpiechart.hidden = true;
 		search.hidden = true;
 		search_res.hidden = true;
-	}else if(ele_id === "a_users"){
+	}else if(ele_id === "a_loc_chart"){
+		console.log(ele_id);
+		locpiechart.hidden = false;
+		deptpiechart.hidden = true;
+		search.hidden = true;
+		search_res.hidden = true;
+	}
+	else if(ele_id === "a_users"){
 		console.log(ele_id);
 	}else if(ele_id === "a_search"){
 		console.log(ele_id);
 		search.hidden = false;
-		piechart.hidden = true;
+		locpiechart.hidden = true;
+		deptpiechart.hidden = true;
 		search_res.hidden = false;
 	}
 }

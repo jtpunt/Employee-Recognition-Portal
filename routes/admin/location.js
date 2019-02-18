@@ -8,7 +8,8 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
     var render = "admin/location/show";
     var stylesheets = null;
     var scripts = ["/static/js/drawPieChart.js"];
-    sql.find(req, res, sql.getLocAwards, redirect, render, stylesheets, scripts);
+    sql.findAndRet(req, res, sql.getLocAwards, redirect);
+    // sql.find(req, res, sql.getLocAwards, redirect, render, stylesheets, scripts);
 	// This sql statement counts how many awards there are at each location
 });
 // Pie Chart that shows how awards differ by department at a specific location
