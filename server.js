@@ -41,7 +41,7 @@ app.locals.moment = require('moment');
 // w/e function we provide to it will be called on every route
 app.use(function(req, res, next){
     // w/e we put in res.locals is what's available inside of our template
-    res.locals.currentUser = req.user;
+    res.locals.currentUser = req.session.username;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();

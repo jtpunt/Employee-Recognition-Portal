@@ -1,4 +1,5 @@
 var express    = require("express"),
+    middleware = require("../middleware"),
     router     = express.Router();
 
 
@@ -38,13 +39,16 @@ router.post('/login', function(req, res){
                     req.session.normal_user = true;
                     req.session.admin = false;
                 }
+                req.session.username = results[0].username;
                 req.flash("success", "Successfully logged in as " + results[0].username + ".");
                 res.redirect('/admin');
             }
         }
     });
 });
+router.get("/logout", middleware.logout, function(req, res){
 
+})
 // show register form
 router.get("/register", function(req, res){
    res.render("register"); 

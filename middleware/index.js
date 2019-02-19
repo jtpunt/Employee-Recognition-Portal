@@ -1,11 +1,10 @@
 var middleware = {
 	isLoggedIn(req, res, next){
-	    // if(req.isAuthenticated()){
-	    //     return next();
-	    // }
-	    // req.flash("error", "You need to be logged in to do that");
-	    // res.redirect("/login");
-	    return next();
+	    if(req.session.normal_user){
+	        return next();
+	    }
+	    req.flash("error", "You need to be logged in to do that");
+	    res.redirect("/login");
 	},
 	isAdmin(req, res, next){
 		if(req.session.admin){
@@ -13,6 +12,12 @@ var middleware = {
 	    }
 	    req.flash("error", "You need to be loggeded in to do that");
 	    res.redirect("/login");
+	},
+	logout(req, res, next){
+		req.session.destroy((err) => {
+			if(err) return next(err);
+			else return res.redirect("/");
+		});
 	}
 }
 module.exports = middleware
