@@ -5,7 +5,7 @@ var express    = require("express"),
 /* QUERYING AWARDS ROUTES */
 // middleware.isLoggedIn - Assures us that an admin has navigated to this page
 // SHOW ADMIN PAGE - shows which users created awards
-router.get("/", middleware.isLoggedIn, (req, res) => {
+router.get("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/dashboard";
     var stylesheets = ["/static/css/dashboard.css", "/static/css/userSearch.css"];
@@ -13,7 +13,7 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
 // Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'
-router.get("/:id", middleware.isLoggedIn, (req, res) => {
+router.get("/:id", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/employee/show";
     var stylesheets = ["/static/css/admin-employee.css"];

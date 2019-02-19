@@ -3,7 +3,7 @@ var express    = require("express"),
     sql        = require("../../sql"),
     router     = express.Router();
 // Pie Chart That Shows how awards differ by Location
-router.get("/", middleware.isLoggedIn, (req, res) => {
+router.get("/", middleware.isAdmin, (req, res) => {
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
@@ -13,7 +13,7 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 	// This sql statement counts how many awards there are at each location
 });
 // Pie Chart that shows how awards differ by department at a specific location
-router.get("/:id", middleware.isLoggedIn, (req, res) => {
+router.get("/:id", middleware.isAdmin, (req, res) => {
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
