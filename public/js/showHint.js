@@ -50,7 +50,7 @@ function createBox(name){
 	editBtn.className = "btn btn-warning";
 	editBtn.innerText = "Edit";
 	editBtn.href = "/admin/users/" + name[0] + "/edit";
-	box.appendChild(editBtn);
+	delForm.appendChild(editBtn);
 	// Set delete form attributes
 	delForm.action = "/admin/users/" + name[0] + "?_method=DELETE";
 	delForm.method = "POST";
