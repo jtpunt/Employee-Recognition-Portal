@@ -10,12 +10,13 @@ var express        = require("express"),
 var PORT = 5004;
 
 // requiring routes
-var indexRoutes    = require("./routes/index"),
-    awardRoutes    = require("./routes/award"),
-    adminRoutes    = require("./routes/admin/admin"),
-    deptRoutes     = require("./routes/admin/department"),
-    locationRoutes = require("./routes/admin/location"),
-    userRoutes     = require("./routes/admin/user");
+var indexRoutes     = require("./routes/index"),
+    adminRoutes     = require("./routes/admin/admin"),
+    adminDeptRoutes = require("./routes/admin/department"),
+    adminLocRoutes  = require("./routes/admin/location"),
+    adminUserRoutes = require("./routes/admin/user"), 
+    userRoutes      = require("./routes/user/account"),
+    awardRoutes     = require("./routes/user/award");
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
@@ -47,12 +48,13 @@ app.use(function(req, res, next){
     next();
 });
 // Shortens the route declarations
-app.use("/", indexRoutes); // landing page, login page, register page, search page, accounts page.
-app.use("/admin/departments", deptRoutes);
-app.use("/admin/locations", locationRoutes);
-app.use("/admin/users", userRoutes);
-app.use("/admin", adminRoutes);
-app.use("/awards", awardRoutes);
+app.use("/", indexRoutes); // landing, login, register, search, accounts pages
+app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. dept data
+app.use("/admin/locations", adminLocRoutes); // returns all loc and indiv. loc data
+app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user search feature
+app.use("/admin", adminRoutes); // admin dashboard
+app.use("/user/awards", awardRoutes); // shows all awards, create awards
+app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });

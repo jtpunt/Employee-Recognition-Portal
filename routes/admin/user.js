@@ -24,15 +24,15 @@ router.post("/", middleware.isAdmin, (req, res) => {
     var scripts = ["/static/js/drawPieChart.js"];
     sql.setUser(req, res, sql.setNewUser, redirect, render, stylesheets, scripts);
 });
-// :id - name of a user - to be used with the search feature
-router.get("/:id", middleware.isAdmin, (req, res) => {
-    console.log("fetch request received!");
-    var redirect = "/admin/users";
-    var render = "admin/user/show";
-    var stylesheets = null;
-    var scripts = ["/static/js/showHint.js"];
-    sql.findById(req, res, sql.getUserIdBySearch, redirect, render, stylesheets, scripts);
-});
+// // :id - name of a user - to be used with the search feature
+// router.get("/:id", middleware.isAdmin, (req, res) => {
+//     console.log("fetch request received!");
+//     var redirect = "/admin/users";
+//     var render = "admin/user/show";
+//     var stylesheets = null;
+//     var scripts = ["/static/js/showHint.js"];
+//     sql.findById(req, res, sql.getUserIdBySearch, redirect, render, stylesheets, scripts);
+// });
 // EDIT User - Takes you to the form to edit a user
 router.get("/:id/edit", middleware.isAdmin, (req, res) => {
     console.log("in edit route..");

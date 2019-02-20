@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+<div class="container1">
+	<div class="box box-1">
+		<ul>
+			<li><i class="fas fa-chart-pie"></i><a id="a_dept_chart" onclick="updateUserPage(event)"> Show Dept Pie Chart</a><li>
+            <li><i class="fas fa-chart-pie"></i><a id="a_loc_chart" onclick="updateUserPage(event)"> Show Location Pie Chart</a><li>
+	      	<li><i class="fas fa-user"></i><a id="a_users"onclick="updateUserPage(event)"> Add User</a></li>
+	      	<li><i class="fas fa-search"></i><a id="a_search" onclick="updateUserPage(event)"> Search Users</a></li>W
+    	</ul>
+	</div>
+	<div class="box box-2">
+
+	<div class="flex-container" id="search_res" hidden>
+
+	</div>
+	</div>
+</div>
+<% include ../partials/footer %>

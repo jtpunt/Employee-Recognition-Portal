@@ -1,11 +1,11 @@
 var express    = require("express"),
-    middleware = require("../middleware"),
-    sql        = require("../sql"),
+    middleware = require("../../middleware"),
+    sql        = require("../../sql"),
     router     = express.Router();
 
 /* QUERYING AWARDS ROUTES */
 // SHOW ALL AWARDS
-router.get("/", (req, res) => {
+router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/admin";
     var render = "admin/employee/show";
     var stylesheets = ["/static/css/admin-employee.css"];
@@ -14,13 +14,13 @@ router.get("/", (req, res) => {
 });
 
 // AWARDS NEW - shows form to create award
-router.get("/new", (req, res) => {
+router.get("/new", middleware.isLoggedIn, (req, res) => {
 	// ERROR CHECK 1 - user must be logged in to get to this page
 	// ERROR CHECK 2 - user who is logged  in MUST NOT be an admin
-    res.render("award/new");
+    res.render("user/new");
 });
 // CREATE AWARDS ROUTE
-router.post("/", (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/awards";
     sql.createAward(req, res, sql.setNewAward, redirect);
     // ERROR CHECK 1 - assure that the data sent in the requests body is not null

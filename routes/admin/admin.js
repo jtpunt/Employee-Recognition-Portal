@@ -3,8 +3,7 @@ var express    = require("express"),
     sql        = require("../../sql"),
     router     = express.Router();
 /* QUERYING AWARDS ROUTES */
-// middleware.isLoggedIn - Assures us that an admin has navigated to this page
-// SHOW ADMIN PAGE - shows which users created awards
+// SHOW ADMIN PAGE - Show admin dashboard
 router.get("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/dashboard";
