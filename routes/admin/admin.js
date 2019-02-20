@@ -8,7 +8,7 @@ router.get("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/dashboard";
     var stylesheets = ["/static/css/dashboard.css", "/static/css/userSearch.css"];
-    var scripts = ["/static/js/drawPieChart.js", "/static/js/showHint.js", "static/js/updatePage.js"];
+    var scripts = ["/static/js/drawPieChart.js", "/static/js/showHint.js", "static/js/updateAdminPage.js"];
     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
 });
 // Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'

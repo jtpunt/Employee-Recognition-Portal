@@ -97,19 +97,38 @@ var sql = {
 		});
 	},
 	updateUser: (req, res, sql, redirect) => { 
+		var formidable = require('formidable');
+		var fs = require('fs');
 		var mysql = req.app.get('mysql');
-		var inserts = [req.body.username, req.body.password, null, req.body.permission, req.params.id];
-		mysql.pool.query(sql, inserts, (error, results, fields) => {
-			if(error){
-            	req.flash("error", JSON.stringify(error));
-            	res.redirect(redirect);
-	        }else if(results.affectedRows == 0){
-       			req.flash("error", req.params.id + ": not found!");
-            	res.redirect(redirect);
-			}else{
-            	req.flash("success", req.params.id + " successfully updated!");
-            	res.redirect(redirect);
-	        }
+		var form = new formidable.IncomingForm();
+		form.parse(req, function (err, fields, files) {
+			var oldpath = files.signature.path;
+			var newpath = '/nfs/stak/users/perryjon/testCapstone/public/images/' + files.signature.name;
+			// Read the file
+	        fs.readFile(oldpath, function (err, data) {
+	            if (err) throw err;
+	            // Write the file
+	            fs.writeFile(newpath, data, function (err) {
+	                if (err) throw err;
+	            });
+	            // Delete the old file
+	            fs.unlink(oldpath, function (err) {
+	                if (err) throw err;
+	            });
+	        });
+			var inserts = [fields.username, fields.password, files.signature.name, fields.permission, req.params.id];
+			mysql.pool.query(sql, inserts, (error, results, fields) => {
+				if(error){
+	            	req.flash("error", JSON.stringify(error));
+	            	res.redirect(redirect);
+		        }else if(results.affectedRows == 0){
+	       			req.flash("error", req.params.id + ": not found!");
+	            	res.redirect(redirect);
+				}else{
+	            	req.flash("success", req.params.id + " successfully updated!");
+	            	res.redirect(redirect);
+		        }
+			});
 		});
 	},
 	removeUser: (req, res, sql, redirect) => {

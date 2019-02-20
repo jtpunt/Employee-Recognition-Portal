@@ -3,7 +3,7 @@
     <div class="row">
         <h1 style="text-align: center;">Edit <%=results[0].username%></h1>
         <div style="width: 30%; margin:25px auto;">
-            <form action="/admin/users/<%=results[0].id%>/?_method=PUT" method="post">
+            <form action="/admin/users/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input class="form-control" type="text" name="username" value="<%=results[0].username%>" required>

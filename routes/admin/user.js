@@ -10,7 +10,7 @@ router.get("/new", middleware.isAdmin, (req, res) => {
 /* ADD/EDIT/DELETE users routes*/
 // Will allow the admin to navigate to ADD/EDIT/DELETE users routes
 router.get("/", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin/user";
+    var redirect = "/admin";
     var render = "admin/user/show";
     var stylesheets = ["/static/css/userSearch.css"];
     var scripts = ["/static/js/showHint.js"];
@@ -18,7 +18,7 @@ router.get("/", middleware.isAdmin, (req, res) => {
 });
 // Add normal/admin user
 router.post("/", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin/users";
+    var redirect = "/admin";
     var render = "admin/user/show";
     var stylesheets = null;
     var scripts = ["/static/js/drawPieChart.js"];
@@ -45,13 +45,13 @@ router.get("/:id/edit", middleware.isAdmin, (req, res) => {
 });
 // UPDATE normal/admin user
 router.put("/:id", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin/users";
+    var redirect = "/admin";
     sql.updateUser(req, res, sql.editUser, redirect);
 	// ERROR CHECK 1 - Assure that an admin has navigated to this page
 });
 // DELETE normal/admin user
 router.delete("/:id", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin/users";
+    var redirect = "/admin";
     sql.removeUser(req, res, sql.deleteUser, redirect);
 });
 module.exports = router;
