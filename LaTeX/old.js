@@ -6,16 +6,14 @@ var latex = {
       var fs = require('fs');
       var timeStamp = Date.now(); //get number of milliseconds since midnight, 1/1/1970
       var filename = './texFiles/' + timeStamp.toString() + '.tex';
-      var outputFile = './pdfFiles/' + timeStamp.toString() + '.pdf' ;
-      var sigFile = timeStamp.toString() + '.jpg'; //signature image file name
-      var sigFilePath = './images/' + timeStamp.toString() + '.jpg'; //signature image file path
-      var award, description, email, fname, lname, grantorFname, grantorLname, dte, signature;
+      var outputFile = './pdfFiles/' + timeStamp.toString() + '.pdf';
+      var award, description, email, fname, lname, grantorFname, grantorLname, dte;
     
       var d = new Date();
       var datestamp = d.toDateString(); 
 
       var mysql = require('../dbcon.js');
-      var sql = "SELECT Award.title, Award.description, Employee.email as recip_email, Employee.fname as recip_fname, Employee.lname as recip_lname, empl.fname as grantor_fname, empl.lname as grantor_lname, User.signature FROM " + 
+      var sql = "SELECT Award.title, Award.description, Employee.email as recip_email, Employee.fname as recip_fname, Employee.lname as recip_lname, empl.fname as grantor_fname, empl.lname as grantor_lname FROM " + 
          "Granted INNER JOIN Award ON Award.id = Granted.award_id INNER JOIN Employee ON Employee.id = Granted.employee_id " +
          "INNER JOIN User ON User.id = Granted.user_id INNER JOIN Employee empl ON empl.id = User.employee_id " +
          "WHERE  Granted.user_id = ? && Granted.award_id = ? && Granted.employee_id = ? && Granted.grant_date = ?;";
@@ -33,17 +31,9 @@ var latex = {
          lname = result[0].recip_lname;
          grantorFname = result[0].grantor_fname;
          grantorLname = result[0].grantor_lname;
-         signature = result[0].signature;
-      
-         var bufferBase64 = Buffer.from(result[0].signature, 'binary').toString();
 
-        fs.writeFile(sigFilePath, bufferBase64, 'base64', function (err) {
-          if (err)
-            console.log(err);
-          console.log("signature file created");
-
-          //create latex file with variable above
-          var contents = `\\documentclass[12pt, letterpaper]{article} 
+         //create latex file with variable above
+         var contents = `\\documentclass[12pt, letterpaper]{article} 
                      \\usepackage[utf8]{inputenc}
                      \\usepackage{float}
                      \\usepackage{graphicx}
@@ -58,19 +48,17 @@ var latex = {
                      \\section*{You Won The ${award} Award!}
                      ${description}
                      \\section*{This award was granted from}
-                     \\subsection*{${grantorFname} ${grantorLname}}
-                     \\includegraphics[width=0.3\\linewidth]{${sigFile}}
+                     ${grantorFname} ${grantorLname}
                      \\end{center}
-                     \\end{document}`
+                     \\end{document}` 
 
-          //Write latex file
-          fs.writeFile(filename, contents, function (err) {
+         //Write latex file
+         fs.writeFile(filename, contents, function (err) {
             if (err)
-              throw err;
+               throw err;
             //generate pdf file
-            latex.pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
-          });
-        });
+            latex.pdfGen(filename, outputFile, email, latex.pdfEmail); 
+         });
          
       });
 
@@ -78,7 +66,7 @@ var latex = {
 
    //generate pdf file from latex file
    //see github.com/saadq/node-latex
-   pdfGen: function(inputFile, outputFile, email, sigFilePath, func) {
+   pdfGen: function(inputFile, outputFile, email, func) {
       const latex = require('node-latex')
       const fs = require('fs')
       const input = fs.createReadStream(inputFile)
@@ -89,10 +77,8 @@ var latex = {
       pdf.on('error', err => console.error(err))
       //once pdf is done generating call pdfEmail function
       pdf.on('finish', function () {
-        console.log('PDF Generated!');
-        func(outputFile, email);
-        latex.deleteFile(inputFile);
-        latex.deleteFile(sigFilePath);
+         console.log('PDF Generated!');
+         func(outputFile, email);
       });
 
    },
@@ -140,19 +126,9 @@ var latex = {
             console.log(error);
          }
          else {
-           console.log('Email sent: ' + info.response);
-           latex.deleteFile(outputFile);
+            console.log('Email sent: ' + info.response);
          }
       });
-  },
-
-  deleteFile: function (filePathName) {
-    var fs = require('fs');
-    fs.unlink(filePathName, function (err) {
-      if (err) throw err;
-      console.log(filePathName + " was deleted successfully");
-    });
-
-  }
+   }
 }
 module.exports = latex;
