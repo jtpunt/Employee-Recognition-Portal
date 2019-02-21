@@ -73,10 +73,7 @@ var sql = {
         		req.flash("error", req.params.id + ": not found!");
             	res.redirect(redirect);
         	}else{
-	        	// req.flash("success", "Flash works!");
 	        	console.log(results);
-	        	// results[0].signature = JSON.stringify(results[0].signature);
-	        	// fs.writeFile(newpath, results[0].signature, (err) => {if (err) throw err});
 				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
 	        }
 		});
