@@ -43,7 +43,7 @@ function createBox(name){
 	var delForm = document.createElement("FORM");
 	var delBtn = document.createElement("button");
 	// Set box and span attributes
-	box.className ="box";
+	box.className ="mybox";
 	span.innerHTML = name[1];
 	box.appendChild(span);
 	// Set edit button attributes

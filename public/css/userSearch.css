@@ -4,6 +4,22 @@
 	border: 20px solid black;
 	flex-direction: column;
 }
-.box:nth-child(even){
+
+.mybox:nth-child(even){
 	background: #CCC;
+}
+.delete-form{
+	float: right;
+	margin: 2.5% 2.5% 2.5% 0%;
+	justify-content: space-between;
+}
+.btn-danger{
+	margin-left: 5%;
+}
+span{
+	position: relative;
+	top: 25%;
+/*	display:inline-block;
+   
+    margin: 0 auto;*/
 }
