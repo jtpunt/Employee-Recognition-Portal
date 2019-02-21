@@ -62,6 +62,8 @@ var sql = {
 		var mysql = req.app.get('mysql');
 		console.log(req.params.id);
 		console.log(sql);
+		var fs = require('fs');
+		var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/test.img'
 		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
 			if(error){
 	            req.flash("error", JSON.stringify(error));
@@ -73,6 +75,8 @@ var sql = {
         	}else{
 	        	// req.flash("success", "Flash works!");
 	        	console.log(results);
+	        	// results[0].signature = JSON.stringify(results[0].signature);
+	        	// fs.writeFile(newpath, results[0].signature, (err) => {if (err) throw err});
 				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
 	        }
 		});
@@ -101,34 +105,36 @@ var sql = {
 		var fs = require('fs');
 		var mysql = req.app.get('mysql');
 		var form = new formidable.IncomingForm();
-		form.parse(req, function (err, fields, files) {
+		form.parse(req, (err, fields, files) => {
+			var fileData = undefined;
 			var oldpath = files.signature.path;
-			var newpath = '/nfs/stak/users/perryjon/testCapstone/public/images/' + files.signature.name;
+			// '/nfs/stak/users/perryjon/testCapstone
+			var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
 			// Read the file
-	        fs.readFile(oldpath, function (err, data) {
+	        fs.readFile(oldpath, 'base64', (err, data) => {
 	            if (err) throw err;
 	            // Write the file
-	            fs.writeFile(newpath, data, function (err) {
+	            fs.writeFile(newpath, data, 'base64', (err) => {
 	                if (err) throw err;
+	                console.log(typeof data);
+	                // Delete the old file
+		            fs.unlink(oldpath, (err) => { if (err) throw err; });
+	                // console.log("fileData: " +  data);
+	                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
+					mysql.pool.query(sql, inserts, (error, results, fields) => {
+						if(error){
+			            	req.flash("error", JSON.stringify(error));
+			            	res.redirect(redirect);
+				        }else if(results.affectedRows == 0){
+			       			req.flash("error", req.params.id + ": not found!");
+			            	res.redirect(redirect);
+						}else{
+			            	req.flash("success", req.params.id + " successfully updated!");
+			            	res.redirect(redirect);
+				        }
+					});
 	            });
-	            // Delete the old file
-	            fs.unlink(oldpath, function (err) {
-	                if (err) throw err;
-	            });
-	        });
-			var inserts = [fields.username, fields.password, files.signature.name, fields.permission, req.params.id];
-			mysql.pool.query(sql, inserts, (error, results, fields) => {
-				if(error){
-	            	req.flash("error", JSON.stringify(error));
-	            	res.redirect(redirect);
-		        }else if(results.affectedRows == 0){
-	       			req.flash("error", req.params.id + ": not found!");
-	            	res.redirect(redirect);
-				}else{
-	            	req.flash("success", req.params.id + " successfully updated!");
-	            	res.redirect(redirect);
-		        }
-			});
+	        }); 
 		});
 	},
 	removeUser: (req, res, sql, redirect) => {
