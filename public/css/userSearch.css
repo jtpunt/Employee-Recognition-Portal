@@ -1,7 +1,6 @@
 
 .flex-container{
 	display: flex;
-	border: 20px solid black;
 	flex-direction: column;
 }
 

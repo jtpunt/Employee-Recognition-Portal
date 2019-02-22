@@ -20,29 +20,34 @@ function updatePage(event){
 	var ele_id = event.target.id;
 	var deptpiechart = document.getElementById("deptpiechart");
 	var locpiechart = document.getElementById("locpiechart");
+	var addUser = document.getElementById("addUser");
 	var search = document.getElementById("search");
 	var search_res = document.getElementById("search_res");
 	console.log(event);
 	if(ele_id === "a_dept_chart"){
-		console.log(ele_id);
 		deptpiechart.hidden = false;
 		locpiechart.hidden = true;
 		search.hidden = true;
 		search_res.hidden = true;
+		addUser.hidden = true;
 	}else if(ele_id === "a_loc_chart"){
-		console.log(ele_id);
 		locpiechart.hidden = false;
 		deptpiechart.hidden = true;
 		search.hidden = true;
 		search_res.hidden = true;
+		addUser.hidden = true;
 	}
 	else if(ele_id === "a_users"){
-		console.log(ele_id);
-	}else if(ele_id === "a_search"){
-		console.log(ele_id);
-		search.hidden = false;
+		addUser.hidden = false;
 		locpiechart.hidden = true;
 		deptpiechart.hidden = true;
+		search.hidden = true;
+		search_res.hidden = true;
+	}else if(ele_id === "a_search"){
+		search.hidden = false;
 		search_res.hidden = false;
+		locpiechart.hidden = true;
+		deptpiechart.hidden = true;
+		addUser.hidden = true;
 	}
 }
