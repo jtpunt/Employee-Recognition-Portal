@@ -17,7 +17,8 @@ router.post('/login', function(req, res){
     console.log("IN LOGIN - POST");
     var mysql = req.app.get('mysql');
     var sql = "SELECT * FROM User WHERE username = ? AND password = ?;";
-    var inserts = [req.body.user_name, req.body.user_pw];    
+    var inserts = [req.body.user_name, req.body.user_pw]; 
+    var redirect = "/admin";   
     console.log(inserts);     
     sql = mysql.pool.query(sql,inserts,function(error, results, fields){
         console.log(results);
@@ -38,10 +39,11 @@ router.post('/login', function(req, res){
                 }else{ // normal user
                     req.session.normal_user = true;
                     req.session.admin = false;
+                    redirect = "/";
                 }
                 req.session.username = results[0].username;
                 req.flash("success", "Successfully logged in as " + results[0].username + ".");
-                res.redirect('/admin');
+                res.redirect(redirect);
             }
         }
     });

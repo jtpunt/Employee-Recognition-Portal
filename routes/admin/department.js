@@ -8,8 +8,6 @@ router.get("/", middleware.isAdmin, (req, res) => {
     console.log("in dept route..");
     var redirect = "/admin";
     var render = "admin/department/show";
-    // var stylesheets = [];
-    // var scripts = ["/static/js/drawPieChart.js"];
     sql.findAndRet(req, res, sql.getDeptAwards, redirect);
 });
 // Show Award Information by a specified Department

@@ -76,11 +76,10 @@ var sql = {
 	        }
 		});
 	},
-	setUser: (req, res, sql, redirect, render, stylesheets, scripts) => {
+	setUser: (req, res, sql, redirect) => {
 		var formidable = require('formidable');
 		var fs = require('fs');
 		var mysql = req.app.get('mysql');
-		var form = new formidable.IncomingForm();
 
 		var form = new formidable.IncomingForm();
 		form.parse(req, (err, fields, files) => {
@@ -90,22 +89,22 @@ var sql = {
 			// Read the file
 	        fs.readFile(oldpath, 'base64', (err, data) => {
 	            if (err) throw err;
-	            // Write the file
+	            // Write the file - could probably remove this part later
 	            fs.writeFile(newpath, data, 'base64', (err) => {
 	                if (err) throw err;
 	                // Delete the old file
 		            fs.unlink(oldpath, (err) => { if (err) throw err; });
-	                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
-					mysql.pool.query(sql, inserts, (error, results, fields) => {
+	                var inserts = [fields.username, fields.password, data, fields.permission, fields.employee_id];
+					mysql.pool.query(sql, inserts, (error, results, sqlfields) => {
 						if(error){
 			            	req.flash("error", JSON.stringify(error));
 			            	res.redirect(redirect);
 				        }else if(results.affectedRows == 0){
-			       			req.flash("error", req.params.id + ": not found!");
+			       			req.flash("error", fields.username + ": not found!");
 			            	res.redirect(redirect);
 						}else{
-			            	req.flash("success", req.params.id + " successfully updated!");
-							res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
+			            	req.flash("success", fields.username + " successfully added!");
+							res.redirect(redirect);
 				        }
 					});
 	            });
