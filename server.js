@@ -16,7 +16,8 @@ var indexRoutes     = require("./routes/index"),
     adminLocRoutes  = require("./routes/admin/location"),
     adminUserRoutes = require("./routes/admin/user"), 
     userRoutes      = require("./routes/user/account"),
-    awardRoutes     = require("./routes/user/award");
+    awardRoutes     = require("./routes/user/award"),
+    testRoutes      = require("./routes/test");
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
@@ -55,6 +56,7 @@ app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user s
 app.use("/admin", adminRoutes); // admin dashboard
 app.use("/user/awards", awardRoutes); // shows all awards, create awards
 app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
+app.use("/test", testRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });
