@@ -33,45 +33,51 @@ var latex = {
          lname = result[0].recip_lname;
          grantorFname = result[0].grantor_fname;
          grantorLname = result[0].grantor_lname;
-         signature = result[0].signature;
-      
-         var bufferBase64 = Buffer.from(result[0].signature, 'binary').toString();
 
-        fs.writeFile(sigFilePath, bufferBase64, 'base64', function (err) {
-          if (err)
-            console.log(err);
-          console.log("signature file created");
+        //if there is no signature then create latex file without a signature image
+        if (!result[0].signature) {
+          sigFilePath = "none"; //set this none so there is no attempt to delete it pdfGen function
 
-          //create latex file with variable above
-          var contents = `\\documentclass[12pt, letterpaper]{article} 
-                     \\usepackage[utf8]{inputenc}
-                     \\usepackage{float}
-                     \\usepackage{graphicx}
-                     \\graphicspath{ {/nfs/stak/users/perryjon/capstone/Employee-Recognition-Portal/images/} }
-                     \\title{Employee Recognition Program}
-                     \\author{${fname} ${lname}} 
-                     \\date{${datestamp}}
-                     \\begin{document}
-                     \\maketitle
-                     \\begin{center}
-                     \\includegraphics[width=0.3\\linewidth]{trophy}
-                     \\section*{You Won The ${award} Award!}
-                     ${description}
-                     \\section*{This award was granted from}
-                     \\subsection*{${grantorFname} ${grantorLname}}
-                     \\includegraphics[width=0.3\\linewidth]{${sigFile}}
-                     \\end{center}
-                     \\end{document}`
+          //set contents of latex file from template .txt file
+          var latexString = fs.readFileSync('latexTempNoSig.txt');
+          var contents = latexString.toString();
+          contents = eval(contents);
 
           //Write latex file
           fs.writeFile(filename, contents, function (err) {
             if (err)
               throw err;
             //generate pdf file
-            latex.pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
+            pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
           });
-        });
-         
+
+        }
+       
+        //a signature exists so create latex file with a signature image
+        else {
+          var bufferBase64 = Buffer.from(result[0].signature, 'binary').toString();
+          fs.writeFile(sigFilePath, bufferBase64, 'base64', function (err) {
+            if (err)
+              console.log(err);
+            console.log("signature file created");
+
+            //set contents of latex file from template .txt file
+            var latexString = fs.readFileSync('latexTempWithSig.txt');
+            var contents = latexString.toString();
+            contents = eval(contents);
+
+            //Write latex file
+            fs.writeFile(filename, contents, function (err) {
+              if (err)
+                throw err;
+              //generate pdf file
+              pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
+            });
+
+          });
+
+        }
+
       });
 
    },
@@ -91,8 +97,11 @@ var latex = {
       pdf.on('finish', function () {
         console.log('PDF Generated!');
         func(outputFile, email);
+        //delete tex file created along with signature file if necessary
         latex.deleteFile(inputFile);
-        latex.deleteFile(sigFilePath);
+        if (sigFilePath != "none") 
+          latex.deleteFile(sigFilePath);
+        
       });
 
    },
