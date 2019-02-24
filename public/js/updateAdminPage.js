@@ -25,17 +25,47 @@ document.addEventListener('DOMContentLoaded', function() {
         	});
         }
     }); 
-    $("#dept_select").change(selectHandler);
+    $.ajax({
+        url: "/admin/locations/all",
+        type: 'GET',
+        success: (data) => { 
+        	var locData = JSON.parse(data);
+        	locData.forEach(function(loc){
+			    var el = document.createElement("option");
+			    el.textContent = loc.city;
+			    el.value = loc.id;
+			    loc_select.appendChild(el);
+        	});
+        }
+    }); 
+    $("#dept_select").change({ele: "deptpiechart"}, selectHandler);
+    $("#loc_select").change({ele: "locpiechart"}, selectHandler);
 }, false);
-function selectHandler(){
-	$.ajax({
-		url: "/admin/departments/" + $(this).val(),
-		type: 'GET',
-		success: (data) => {
-			console.log("data received");
-		}
-	})
+function selectHandler(event){
+	console.log(event.data.ele);
 	console.log($(this).val());
+	if(event.data.ele === "deptpiechart" && $(this).val() === "all"){
+		console.log("getting all dept data");
+		$.ajax({
+	        url: "/admin/departments",
+	        type: 'GET',
+	        success: (data) => { handleData(data, "departments", "Departments", "deptpiechart"); }
+	    }); 
+	}else if(event.data.ele === "locpiechart" && $(this).val() === "all"){
+		$.ajax({
+	        url: "/admin/locations",
+	        type: 'GET',
+	        success: (data) => { handleData(data, "locations", "Locations", "locpiechart"); }
+    	}); 
+	}else{
+		$.ajax({
+			url: "/admin/departments/" + $(this).val(),
+			type: 'GET',
+			success: function(data) {
+				handleData(data, "", "", event.data.ele);
+			}
+		})
+	}
 }
 function handleData(data, category, title, ele){
 	var myData = JSON.parse(data);

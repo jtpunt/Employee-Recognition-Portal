@@ -18,11 +18,9 @@ router.get("/all", middleware.isAdmin, (req, res) => {
 });
 // Show Award Information by a specified Department
 router.get("/:id", middleware.isAdmin, (req, res) => { 
+    console.log("IN INDV DEPT ROUTE")
     var redirect = "/admin";
-    var render = "admin/department/show";
-    var stylesheets = [];
-    var scripts = ["/static/js/drawPieChart.js"];
-    sql.findAndRet(req, res, sql.getDeptAwardsById, redirect);
+    sql.findByIdAndRet(req, res, sql.getDeptAwardsById, redirect);
 	// validate the :id parameter sent in, can only be 'Human Resource Management', 'IT', 'Marketing', 'Purchasing', 'Research and Development', 'Finance', 'Production', 'Accounting'
 });
 module.exports = router;

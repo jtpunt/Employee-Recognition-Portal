@@ -12,7 +12,7 @@ var sql = {
 	INNER JOIN User u on g.user_id = u.id \
 	WHERE g.employee_id = ?;",
 	getDeptIds: "SELECT id, name FROM Department ORDER BY id ASC;",
-	getLocIds: "SELECT id, name FROM Location;",
+	getLocIds: "SELECT id, city FROM Location ORDER BY id ASC;",
     // This sql statement counts how many awards there are in each department
 	getDeptAwards: "SELECT COUNT(d.id) AS Award_Count, d.name AS Category FROM Department d \
 	INNER JOIN Employee e on d.id = e.department_id \
@@ -194,7 +194,7 @@ var sql = {
 	            res.redirect(redirect);
 	        }else{
 	            // req.flash("success", "Flash works!");
-	            console.log(results);
+	            console.log("in findAndRet with: ", results);
 				res.write(JSON.stringify(results));
 				res.end();
 	        }
