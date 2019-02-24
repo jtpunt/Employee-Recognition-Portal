@@ -17,7 +17,7 @@ router.get("/:id", middleware.isAdmin, (req, res) => {
     var render = "admin/employee/show";
     var stylesheets = ["/static/css/admin-employee.css"];
     var scripts = null;
-    sql.find(req, res, sql.getAllAwardsById, redirect, render, stylesheets, scripts);
+    sql.find(req, res, sql.getAwardsById, redirect, render, stylesheets, scripts);
 });
 
 module.exports = router;

@@ -10,8 +10,14 @@
     	</ul>
 	</div>
 	<div class="box box-2">
-		<div class="flex-container" id="deptpiechart" hidden></div>
-        <div class="flex-container" id="locpiechart" hidden></div>
+		<select id="dept_select" hidden>
+			<option value="test">dept test</option>
+		</select>
+		<select id="loc_select" hidden>
+			<option value="test">loc test</option>
+		</select>
+		<div class="flex-container charts" id="deptpiechart" hidden></div>
+        <div class="flex-container charts" id="locpiechart" hidden></div>
 		<form id="search"  hidden>First Name: 
 			<input type="text" onkeyup="obj.showHint(this.value)"/>
 	    	<input type="submit" value="Search" />

@@ -5,7 +5,12 @@ var sql = {
 	INNER JOIN Award a ON g.award_id = a.id \
 	INNER JOIN Employee e ON g.employee_id = e.id;",
 
-	getAllAwardsById: "SELECT * FROM Awards WHERE id = ?;",
+	getAwardsById: "SELECT * u.username AS  FROM Granted ",
+
+	getAwardsByEmpId: "SELECT u.username AS granted_by, a.title, g.grant_date FROM Granted g \
+	INNER JOIN Award a ON g.award_id = a.id \
+	INNER JOIN User u on g.user_id = u.id \
+	WHERE g.employee_id = ?;",
 
     // This sql statement counts how many awards there are in each department
 	getDeptAwards: "SELECT COUNT(d.id) AS Award_Count, d.name AS Category FROM Department d \
@@ -189,6 +194,23 @@ var sql = {
 	        }else{
 	            // req.flash("success", "Flash works!");
 	            console.log(results);
+				res.write(JSON.stringify(results));
+				res.end();
+	        }
+		});
+	},
+	findByIdAndRet: (req, res, sql, redirect) => {
+		var mysql = req.app.get('mysql');
+		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+			if(error){
+	            req.flash("error", JSON.stringify(error));
+	            console.log(JSON.stringify(error));
+	            res.redirect(redirect);
+	        }else if(results[0] == undefined){
+        		req.flash("error", req.params.id + ": not found!");
+            	res.redirect(redirect);
+        	}else{
+	        	console.log(results);
 				res.write(JSON.stringify(results));
 				res.end();
 	        }
