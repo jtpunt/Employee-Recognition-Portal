@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
 	var dept_select  = document.getElementById("dept_select");
 	var loc_select  = document.getElementById("loc_select");
-    $.ajax({
-        url: "/admin/departments",
-        type: 'GET',
-        success: (data) => { handleData(data, "departments", "Departments", "deptpiechart"); }
-    }); 
-    $.ajax({
-        url: "/admin/locations",
-        type: 'GET',
-        success: (data) => { handleData(data, "locations", "Locations", "locpiechart"); }
-    }); 
+	// fetch("/admin/departments").then(function(res){ 
+	// 	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
+	// 	// console.log(response.json()); // this would just return a promise object
+	// 	return res.json();  // promise return from this .then
+	// }).then(function(data) {
+
+	// 	    drawPieChart(data, "departments", "Departments", "deptpiechart");
+	// 		$(window).resize(() => { drawPieChart(data, "departments", "Departments", "deptpiechart"); });
+	// });
+	setChart("/admin/departments", "departments", "Departments", "deptpiechart")
+	setChart("/admin/locations", "locations", "Locations", "locpiechart");
     $.ajax({
         url: "/admin/departments/all",
         type: 'GET',
@@ -18,10 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
         	var deptData = JSON.parse(data);
         	deptData.forEach(function(dept){
         		console.log(dept.id, dept.name);
-			    var el = document.createElement("option");
-			    el.textContent = dept.name;
-			    el.value = dept.id;
-			    dept_select.appendChild(el);
+			    var option = document.createElement("option");
+			    option.textContent = dept.name;
+			    option.value = dept.id;
+			    dept_select.appendChild(option);
         	});
         }
     }); 
@@ -31,45 +32,51 @@ document.addEventListener('DOMContentLoaded', function() {
         success: (data) => { 
         	var locData = JSON.parse(data);
         	locData.forEach(function(loc){
-			    var el = document.createElement("option");
-			    el.textContent = loc.city;
-			    el.value = loc.id;
-			    loc_select.appendChild(el);
+			    var option = document.createElement("option");
+			    option.textContent = loc.city;
+			    option.value = loc.id;
+			    loc_select.appendChild(option);
         	});
         }
     }); 
     $("#dept_select").change({ele: "deptpiechart"}, selectHandler);
     $("#loc_select").change({ele: "locpiechart"}, selectHandler);
 }, false);
+function setChart(url, category, title, ele){
+	fetch(url)
+	.then(handleErrors)
+	.then(parseJSON)
+	.then(data => handleData(data, category, title, ele))
+	.catch(displayErrors);
+}
+function parseJSON(res){
+	// we need to parse our obj to json
+	return res.json(); 
+}
+function handleErrors(response){
+	if(!response.ok){
+		throw Error(response.status); // this will trigger the catch clause
+	}
+	return response; // return the non-errored response
+}
+function displayErrors(err){
+	console.log(err);
+}
 function selectHandler(event){
 	console.log(event.data.ele);
 	console.log($(this).val());
 	if(event.data.ele === "deptpiechart" && $(this).val() === "all"){
 		console.log("getting all dept data");
-		$.ajax({
-	        url: "/admin/departments",
-	        type: 'GET',
-	        success: (data) => { handleData(data, "departments", "Departments", "deptpiechart"); }
-	    }); 
+		setChart("/admin/departments", "departments", "Departments", "deptpiechart")
 	}else if(event.data.ele === "locpiechart" && $(this).val() === "all"){
-		$.ajax({
-	        url: "/admin/locations",
-	        type: 'GET',
-	        success: (data) => { handleData(data, "locations", "Locations", "locpiechart"); }
-    	}); 
+		setChart("/admin/locations", "locations", "Locations", "locpiechart");
 	}else{
-		$.ajax({
-			url: "/admin/departments/" + $(this).val(),
-			type: 'GET',
-			success: function(data) {
-				handleData(data, "", "", event.data.ele);
-			}
-		})
+		setChart("/admin/departments/" + $(this).val(), "", "", event.data.ele);
 	}
 }
 function handleData(data, category, title, ele){
-	var myData = JSON.parse(data);
-    drawPieChart(myData, category, title, ele);
+	// var myData = JSON.parse(data);
+    drawPieChart(data, category, title, ele);
 	$(window).resize(() => { drawPieChart(myData, category, title, ele); });
 }
 function updatePage(event){
