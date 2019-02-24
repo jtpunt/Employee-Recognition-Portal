@@ -11,7 +11,32 @@ document.addEventListener('DOMContentLoaded', function() {
         type: 'GET',
         success: (data) => { handleData(data, "locations", "Locations", "locpiechart"); }
     }); 
+    $.ajax({
+        url: "/admin/departments/all",
+        type: 'GET',
+        success: (data) => { 
+        	var deptData = JSON.parse(data);
+        	deptData.forEach(function(dept){
+        		console.log(dept.id, dept.name);
+			    var el = document.createElement("option");
+			    el.textContent = dept.name;
+			    el.value = dept.id;
+			    dept_select.appendChild(el);
+        	});
+        }
+    }); 
+    $("#dept_select").change(selectHandler);
 }, false);
+function selectHandler(){
+	$.ajax({
+		url: "/admin/departments/" + $(this).val(),
+		type: 'GET',
+		success: (data) => {
+			console.log("data received");
+		}
+	})
+	console.log($(this).val());
+}
 function handleData(data, category, title, ele){
 	var myData = JSON.parse(data);
     drawPieChart(myData, category, title, ele);

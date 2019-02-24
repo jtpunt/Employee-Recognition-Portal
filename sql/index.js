@@ -11,7 +11,8 @@ var sql = {
 	INNER JOIN Award a ON g.award_id = a.id \
 	INNER JOIN User u on g.user_id = u.id \
 	WHERE g.employee_id = ?;",
-
+	getDeptIds: "SELECT id, name FROM Department ORDER BY id ASC;",
+	getLocIds: "SELECT id, name FROM Location;",
     // This sql statement counts how many awards there are in each department
 	getDeptAwards: "SELECT COUNT(d.id) AS Award_Count, d.name AS Category FROM Department d \
 	INNER JOIN Employee e on d.id = e.department_id \
