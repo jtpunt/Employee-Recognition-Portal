@@ -1,57 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
 	var dept_select  = document.getElementById("dept_select");
 	var loc_select  = document.getElementById("loc_select");
-	// fetch("/admin/departments").then(function(res){ 
-	// 	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
-	// 	// console.log(response.json()); // this would just return a promise object
-	// 	return res.json();  // promise return from this .then
-	// }).then(function(data) {
-
-	// 	    drawPieChart(data, "departments", "Departments", "deptpiechart");
-	// 		$(window).resize(() => { drawPieChart(data, "departments", "Departments", "deptpiechart"); });
-	// });
-	setChart("/admin/departments", "departments", "Departments", "deptpiechart")
+	setChart("/admin/departments", "departments", "Departments", "deptpiechart");
 	setChart("/admin/locations", "locations", "Locations", "locpiechart");
-    $.ajax({
-        url: "/admin/departments/all",
-        type: 'GET',
-        success: (data) => { 
-        	var deptData = JSON.parse(data);
-        	deptData.forEach(function(dept){
-        		console.log(dept.id, dept.name);
-			    var option = document.createElement("option");
-			    option.textContent = dept.name;
-			    option.value = dept.id;
-			    dept_select.appendChild(option);
-        	});
-        }
-    }); 
-    $.ajax({
-        url: "/admin/locations/all",
-        type: 'GET',
-        success: (data) => { 
-        	var locData = JSON.parse(data);
-        	locData.forEach(function(loc){
-			    var option = document.createElement("option");
-			    option.textContent = loc.city;
-			    option.value = loc.id;
-			    loc_select.appendChild(option);
-        	});
-        }
-    }); 
-    $("#dept_select").change({ele: "deptpiechart"}, selectHandler);
-    $("#loc_select").change({ele: "locpiechart"}, selectHandler);
+	setDropdown("/admin/departments/all", "dept_select");
+	setDropdown("/admin/locations/all", "loc_select");
+	dept_select.addEventListener("change", function(){
+		if(this.value === "all")
+			setChart("/admin/departments", "departments", "Departments", "deptpiechart");
+		else
+			setChart("/admin/departments/" + this.value, "", "", "deptpiechart");
+	});
+	loc_select.addEventListener("change", function(){
+		if(this.value === "all")
+			setChart("/admin/locations", "locations", "Locations", "locpiechart");
+		else
+			setChart("/admin/locations/" + this.value, "", "", "locpiechart");
+	})
 }, false);
 function setChart(url, category, title, ele){
 	fetch(url)
 	.then(handleErrors)
 	.then(parseJSON)
-	.then(data => handleData(data, category, title, ele))
+	.then(data => handleChartData(data, category, title, ele))
 	.catch(displayErrors);
 }
-function parseJSON(res){
-	// we need to parse our obj to json
-	return res.json(); 
+function setDropdown(url, ele){
+	fetch(url)
+	.then(handleErrors)
+	.then(parseJSON)
+	.then(data => handleDropDownData(data, ele))
+	.catch(displayErrors);
+}
+// Parses our obj to function
+function parseJSON(res){ 
+	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
+	return res.json(); // promise return from this .then
 }
 function handleErrors(response){
 	if(!response.ok){
@@ -62,22 +46,18 @@ function handleErrors(response){
 function displayErrors(err){
 	console.log(err);
 }
-function selectHandler(event){
-	console.log(event.data.ele);
-	console.log($(this).val());
-	if(event.data.ele === "deptpiechart" && $(this).val() === "all"){
-		console.log("getting all dept data");
-		setChart("/admin/departments", "departments", "Departments", "deptpiechart")
-	}else if(event.data.ele === "locpiechart" && $(this).val() === "all"){
-		setChart("/admin/locations", "locations", "Locations", "locpiechart");
-	}else{
-		setChart("/admin/departments/" + $(this).val(), "", "", event.data.ele);
-	}
-}
-function handleData(data, category, title, ele){
-	// var myData = JSON.parse(data);
+function handleChartData(data, category, title, ele){
     drawPieChart(data, category, title, ele);
-	$(window).resize(() => { drawPieChart(myData, category, title, ele); });
+    window.addEventListener("resize", () => drawPieChart(data, category, title, ele));
+}
+function handleDropDownData(data, ele){
+	var dropDownList = document.getElementById(ele);
+	data.forEach(function(myData){
+		var option = document.createElement("option");
+		option.textContent = myData.category;
+		option.value = myData.id;
+		dropDownList.appendChild(option);
+	});
 }
 function updatePage(event){
 	var ele_id = event.target.id;
