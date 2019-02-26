@@ -17,6 +17,9 @@ var indexRoutes     = require("./routes/index"),
     adminUserRoutes = require("./routes/admin/user"), 
     userRoutes      = require("./routes/user/account"),
     awardRoutes     = require("./routes/user/award"),
+    userRoutes1     = require("./routes/user/user"),    
+    userAwardRoutes = require("./routes/user/awards"),
+    userProfileRoutes=require("./routes/user/profile"),
     testRoutes      = require("./routes/test");
 
 app.set('view engine', 'ejs');
@@ -54,8 +57,11 @@ app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. d
 app.use("/admin/locations", adminLocRoutes); // returns all loc and indiv. loc data
 app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user search feature
 app.use("/admin", adminRoutes); // admin dashboard
-app.use("/user/awards", awardRoutes); // shows all awards, create awards
-app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
+//app.use("/user/awards", awardRoutes); // shows all awards, create awards
+//app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
+app.use("/user", userRoutes1);  //  user landing page
+app.use("/user/awards", userAwardRoutes); // user version, showing all awards
+app.user("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/test", testRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
