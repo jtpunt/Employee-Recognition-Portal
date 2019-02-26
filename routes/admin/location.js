@@ -12,12 +12,18 @@ router.get("/", middleware.isAdmin, (req, res) => {
     // sql.find(req, res, sql.getLocAwards, redirect, render, stylesheets, scripts);
 	// This sql statement counts how many awards there are at each location
 });
+router.get("/all", middleware.isAdmin, (req, res) => {
+    console.log("in loc all route..");
+    var redirect = "/admin";
+    sql.findAndRet(req, res, sql.getLocIds, redirect);
+});
 // Pie Chart that shows how awards differ by department at a specific location
 router.get("/:id", middleware.isAdmin, (req, res) => {
 	var redirect = "/admin";
     var render = "admin/location/show";
     var stylesheets = null;
     var scripts = ["/static/js/drawPieChart.js"];
-	sql.findById(req, res, sql.getLocAwardsById, redirect, render, stylesheets, scripts);
+	sql.findByIdAndRet(req, res, sql.getLocAwardsById, redirect);
 });
+
 module.exports = router;

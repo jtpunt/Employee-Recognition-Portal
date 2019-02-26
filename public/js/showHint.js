@@ -7,7 +7,6 @@ var obj = {
 		console.log("in show hint", str);
 		var search_res = document.getElementById("search_res");
 		if (str.length == 0) {
-	        console.log("RETURNING");
 	        while(search_res.firstChild){
 	        	search_res.removeChild(search_res.firstChild);
 	        }
@@ -29,7 +28,7 @@ var obj = {
 	    }
 	},
 	setData: function(data){
-		console.log("in set Data");
+		console.log("in set Data", data);
 		arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
 		console.log(arr);
 	}
@@ -39,13 +38,20 @@ function createBox(name){
 	console.log("in createBox");
 	var box = document.createElement("div");
 	var span = document.createElement("span");
+	var showBtn = document.createElement("a");
 	var editBtn = document.createElement("a");
 	var delForm = document.createElement("FORM");
 	var delBtn = document.createElement("button");
+	                     
 	// Set box and span attributes
 	box.className ="mybox";
 	span.innerHTML = name[1];
 	box.appendChild(span);
+	// Set Show Awards button attributes
+	showBtn.className = "btn btn-primary";
+	showBtn.innerText = "Show Awards";
+	showBtn.href = "/admin/users/" + name[0];
+	delForm.appendChild(showBtn);
 	// Set edit button attributes
 	editBtn.className = "btn btn-warning";
 	editBtn.innerText = "Edit";

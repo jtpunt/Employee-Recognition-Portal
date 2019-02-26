@@ -65,7 +65,7 @@ CREATE TABLE `User` (
 `signature` longblob,
 `permission` int(1) NOT NULL,
 `employee_id` int NOT NULL,
-PRIMARY KEY (`id`),
+PRIMARY KEY (`id`, 'permission', 'employee_id'),
 FOREIGN KEY (`employee_id`) REFERENCES `Employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB;

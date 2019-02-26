@@ -9,17 +9,22 @@ router.get("/new", middleware.isAdmin, (req, res) => {
 });
 /* ADD/EDIT/DELETE users routes*/
 // Will allow the admin to navigate to ADD/EDIT/DELETE users routes
-router.get("/", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin";
-    var render = "admin/user/show";
-    var stylesheets = ["/static/css/userSearch.css"];
-    var scripts = ["/static/js/showHint.js"];
-    sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
-});
+// router.get("/", middleware.isAdmin, (req, res) => {
+//     var redirect = "/admin";
+//     var render = "admin/user/show";
+//     var stylesheets = ["/static/css/userSearch.css"];
+//     var scripts = ["/static/js/showHint.js"];
+//     sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
+// });
 // Add normal/admin user
 router.post("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     sql.setUser(req, res, sql.setNewUser, redirect);
+});
+router.get("/:id", middleware.isAdmin, (req, res) => {
+    var redirect = "/admin";
+    var render = "admin/user/show";
+    sql.findByIdAndRet(req, res, sql.getAwardsByEmpId, redirect);
 });
 // EDIT User - Takes you to the form to edit a user
 router.get("/:id/edit", middleware.isAdmin, (req, res) => {
