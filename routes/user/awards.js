@@ -5,6 +5,7 @@ var express    = require("express"),
     
     
 router.get("/", function(req, res){
+     console.log("in awards route..");
     res.render("user/awards/show");
 });  
     
