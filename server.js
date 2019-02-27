@@ -61,7 +61,7 @@ app.use("/admin", adminRoutes); // admin dashboard
 //app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
 app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
-app.user("/user/profile", userProfileRoutes);  // edit user profile
+app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/test", testRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
