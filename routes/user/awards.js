@@ -12,12 +12,12 @@ router.get("/", function(req, res){
     //var stylesheets = ["/static/css/admin-employee.css"];
     //var scripts = [];
     
-    console.log("in dept route..");
-    var redirect = "/user";
+    
+    //var redirect = "/user";
    
     //sql.findAndRet(req, res, sql.getDeptAwards, redirect);
     
-    sql.find(req, res, sql.getAllAwards, render, redirect);
+    sql.find(req, res, sql.getAllAwards, render);
     
     
 });  
