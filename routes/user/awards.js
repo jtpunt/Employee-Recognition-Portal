@@ -15,7 +15,7 @@ router.get("/", function(req, res){
     
     var redirect = "/user";
    
-    sql.findAndRet(req, res, sql.getAllAwards, redirect);
+    sql.findAndRet(req, res, sql.getAllAwards, redirect, render);
     
     //sql.find(req, res, sql.getAllAwards, render);
     
