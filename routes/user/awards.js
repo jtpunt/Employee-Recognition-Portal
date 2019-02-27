@@ -5,8 +5,15 @@ var express    = require("express"),
     
     
 router.get("/", function(req, res){
-     console.log("in awards route..");
-    res.render("user/awards/show");
+    //console.log("in awards route..");
+    var render="user/awards/show";
+   
+    //var render = "admin/employee/show";
+    //var stylesheets = ["/static/css/admin-employee.css"];
+    //var scripts = [];
+    sql.find(req, res, sql.getAllAwards, render);
+    
+    
 });  
     
     
