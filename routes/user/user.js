@@ -3,7 +3,7 @@ var express    = require("express"),
     sql        = require("../../sql"),
     router     = express.Router();
     
-router.get("/", middleware.isLoggedIn, (req, res) => {
+router.get("/", (req, res) => {
    res.render("user/landing");
 });    
     
