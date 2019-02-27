@@ -13,11 +13,11 @@ router.get("/", function(req, res){
     //var scripts = [];
     
     
-    //var redirect = "/user";
+    var redirect = "/user";
    
-    //sql.findAndRet(req, res, sql.getDeptAwards, redirect);
+    sql.findAndRet(req, res, sql.getAllAwards, redirect);
     
-    sql.find(req, res, sql.getAllAwards, render);
+    //sql.find(req, res, sql.getAllAwards, render);
     
     
 });  
