@@ -20,6 +20,7 @@ var indexRoutes     = require("./routes/index"),
     userRoutes1     = require("./routes/user/user"),    
     userAwardRoutes = require("./routes/user/awards"),
     userProfileRoutes=require("./routes/user/profile"),
+    userNewRoutes   = require("./routes/user/new"),
     testRoutes      = require("./routes/test"),
     forgetRoutes    = require("./routes/forget");
 
@@ -63,6 +64,7 @@ app.use("/admin", adminRoutes); // admin dashboard
 app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
 app.use("/user/profile", userProfileRoutes);  // edit user profile
+app.use("/user/new", userNewRoutes);   // add a new award
 app.use("/test", testRoutes);
 app.use("/forget", forgetRoutes);
 app.listen(PORT, process.env.IP, function(){
