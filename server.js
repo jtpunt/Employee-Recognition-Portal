@@ -20,7 +20,8 @@ var indexRoutes     = require("./routes/index"),
     userRoutes1     = require("./routes/user/user"),    
     userAwardRoutes = require("./routes/user/awards"),
     userProfileRoutes=require("./routes/user/profile"),
-    testRoutes      = require("./routes/test");
+    testRoutes      = require("./routes/test"),
+    forgetRoutes    = require("./routes/forget");
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
@@ -63,6 +64,7 @@ app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
 app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/test", testRoutes);
+app.use("/forget", forgetRoutes);
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });
