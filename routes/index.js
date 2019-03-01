@@ -39,8 +39,8 @@ router.post('/login', function(req, res){
                 }else{ // normal user
                     req.session.normal_user = true;
                     req.session.admin = false;
-                    redirect = "/";  // original code
-                    //redirect="/user";    // changed pard, normal user version
+                    //redirect = "/";  // original code
+                    redirect="/user";    // changed pard, normal user version
                  }
                 req.session.username = results[0].username;
                 req.flash("success", "Successfully logged in as " + results[0].username + ".");
