@@ -53,6 +53,7 @@ app.use(function(req, res, next){
     res.locals.success = req.flash("success");
     next();
 });
+
 // Shortens the route declarations
 app.use("/", indexRoutes); // landing, login, register, search, accounts pages
 app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. dept data
@@ -67,6 +68,16 @@ app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/user/new", userNewRoutes);   // add a new award
 app.use("/test", testRoutes);
 app.use("/forget", forgetRoutes);
+app.use(function(req,res){
+    res.status(404);
+    res.render('404');
+});
+app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.type('plain/text');
+    res.status(500);
+    res.render('500');
+});
 app.listen(PORT, process.env.IP, function(){
     console.log("server started on port ", PORT);
 });

@@ -65,126 +65,147 @@ var sql = {
 		});
 	},
 	findById: (req, res, sql, redirect, render, stylesheets, scripts) => {
-		var mysql = req.app.get('mysql');
-		console.log(req.params.id);
-		console.log(sql);
-		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
-			if(error){
-	            req.flash("error", JSON.stringify(error));
-	            console.log(JSON.stringify(error));
-	            res.redirect(redirect);
-	        }else if(results[0] == undefined){
-        		req.flash("error", req.params.id + ": not found!");
-            	res.redirect(redirect);
-        	}else{
-	        	console.log(results);
-				res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
-	        }
-		});
+		if(!validateIDs(Number(req.params.id))){
+			res.redirect(redirect);
+		}else{
+			var mysql = req.app.get('mysql');
+			console.log(req.params.id);
+			console.log(sql);
+			mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+				if(error){
+		            req.flash("error", JSON.stringify(error));
+		            console.log(JSON.stringify(error));
+		            res.redirect(redirect);
+		        }else if(results[0] == undefined){
+	        		req.flash("error", req.params.id + ": not found!");
+	            	res.redirect(redirect);
+	        	}else{
+		        	console.log(results);
+					res.render(render, {results: results, stylesheets: stylesheets, scripts: scripts});
+		        }
+			});
+		}
 	},
 	setUser: (req, res, sql, redirect) => {
-		var formidable = require('formidable');
-		var fs = require('fs');
-		var mysql = req.app.get('mysql');
+		if(!validateIDs(Number(req.params.id), Number(req.params.permission))){
+			res.redirect(redirect);
+		}else{
+			var formidable = require('formidable');
+			var fs = require('fs');
+			var mysql = req.app.get('mysql');
 
-		var form = new formidable.IncomingForm();
-		form.parse(req, (err, fields, files) => {
-			var oldpath = files.signature.path;
-			// '/nfs/stak/users/perryjon/testCapstone
-			var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
-			// Read the file
-	        fs.readFile(oldpath, 'base64', (err, data) => {
-	            if (err) throw err;
-	            // Write the file - could probably remove this part later
-	            fs.writeFile(newpath, data, 'base64', (err) => {
-	                if (err) throw err;
-	                // Delete the old file
-		            fs.unlink(oldpath, (err) => { if (err) throw err; });
-	                var inserts = [fields.username, fields.password, data, fields.permission, fields.employee_id];
-					mysql.pool.query(sql, inserts, (error, results, sqlfields) => {
-						if(error){
-			            	req.flash("error", JSON.stringify(error));
-			            	res.redirect(redirect);
-				        }else if(results.affectedRows == 0){
-			       			req.flash("error", fields.username + ": not found!");
-			            	res.redirect(redirect);
-						}else{
-			            	req.flash("success", fields.username + " successfully added!");
-							res.redirect(redirect);
-				        }
-					});
-	            });
-	        }); 
-		});
+			var form = new formidable.IncomingForm();
+			form.parse(req, (err, fields, files) => {
+				var oldpath = files.signature.path;
+				// '/nfs/stak/users/perryjon/testCapstone
+				var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
+				// Read the file
+		        fs.readFile(oldpath, 'base64', (err, data) => {
+		            if (err) throw err;
+		            // Write the file - could probably remove this part later
+		            fs.writeFile(newpath, data, 'base64', (err) => {
+		                if (err) throw err;
+		                // Delete the old file
+			            fs.unlink(oldpath, (err) => { if (err) throw err; });
+		                var inserts = [fields.username, fields.password, data, fields.permission, fields.employee_id];
+						mysql.pool.query(sql, inserts, (error, results, sqlfields) => {
+							if(error){
+				            	req.flash("error", JSON.stringify(error));
+				            	res.redirect(redirect);
+					        }else if(results.affectedRows == 0){
+				       			req.flash("error", fields.username + ": not found!");
+				            	res.redirect(redirect);
+							}else{
+				            	req.flash("success", fields.username + " successfully added!");
+								res.redirect(redirect);
+					        }
+						});
+		            });
+		        }); 
+			});
+		}
 	},
 	updateUser: (req, res, sql, redirect) => { 
-		var formidable = require('formidable');
-		var fs = require('fs');
-		var mysql = req.app.get('mysql');
-		var form = new formidable.IncomingForm();
-		form.parse(req, (err, fields, files) => {
-			var oldpath = files.signature.path;
-			// '/nfs/stak/users/perryjon/testCapstone
-			var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
-			// Read the file
-	        fs.readFile(oldpath, 'base64', (err, data) => {
-	            if (err) throw err;
-	            // Write the file
-	            fs.writeFile(newpath, data, 'base64', (err) => {
-	                if (err) throw err;
-	                // Delete the old file
-		            fs.unlink(oldpath, (err) => { if (err) throw err; });
-	                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
-					mysql.pool.query(sql, inserts, (error, results, fields) => {
-						if(error){
-			            	req.flash("error", JSON.stringify(error));
-			            	res.redirect(redirect);
-				        }else if(results.affectedRows == 0){
-			       			req.flash("error", req.params.id + ": not found!");
-			            	res.redirect(redirect);
-						}else{
-			            	req.flash("success", req.params.id + " successfully updated!");
-			            	res.redirect(redirect);
-				        }
-					});
-	            });
-	        }); 
-		});
+		if(!validateIDs(Number(req.params.id), Number(req.params.permission))){
+			res.redirect(redirect);
+		}else{
+			var formidable = require('formidable');
+			var fs = require('fs');
+			var mysql = req.app.get('mysql');
+			var form = new formidable.IncomingForm();
+			form.parse(req, (err, fields, files) => {
+
+				var oldpath = files.signature.path;
+				// '/nfs/stak/users/perryjon/testCapstone
+				var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
+				// Read the file
+		        fs.readFile(oldpath, 'base64', (err, data) => {
+		            if (err) throw err;
+		            // Write the file
+		            fs.writeFile(newpath, data, 'base64', (err) => {
+		                if (err) throw err;
+		                // Delete the old file
+			            fs.unlink(oldpath, (err) => { if (err) throw err; });
+		                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
+						mysql.pool.query(sql, inserts, (error, results, fields) => {
+							if(error){
+				            	req.flash("error", JSON.stringify(error));
+				            	res.redirect(redirect);
+					        }else if(results.affectedRows == 0){
+				       			req.flash("error", req.params.id + ": not found!");
+				            	res.redirect(redirect);
+							}else{
+				            	req.flash("success", req.params.id + " successfully updated!");
+				            	res.redirect(redirect);
+					        }
+						});
+		            });
+		        }); 
+			});
+		}
 	},
 	removeUser: (req, res, sql, redirect) => {
-		var mysql = req.app.get('mysql');
-		var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id]; 
-		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
-			if(error){
-            	req.flash("error", JSON.stringify(error));
-            	res.redirect(redirect);
-	        }else if(results.affectedRows == 0){
-       			req.flash("error", req.params.id + ": not found!");
-            	res.redirect(redirect);
-			}else{
-            	req.flash("success", req.params.id + " successfully deleted!");
-            	res.redirect(redirect);
-	        }
-		});
+		if(!validateIDs(Number(req.body.permission), Number(req.body.employee_id), Number(req.params.id))){
+			res.redirect(redirect);
+		}else{
+			var mysql = req.app.get('mysql');
+			var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id]; 
+			mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+				if(error){
+	            	req.flash("error", JSON.stringify(error));
+	            	res.redirect(redirect);
+		        }else if(results.affectedRows == 0){
+	       			req.flash("error", req.params.id + ": not found!");
+	            	res.redirect(redirect);
+				}else{
+	            	req.flash("success", req.params.id + " successfully deleted!");
+	            	res.redirect(redirect);
+		        }
+			});
+		}
 	},
 	createAward: (req, res, sql, redirect) => {
-		var mysql = req.app.get('mysql');
-		var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, require('moment')().format('YYYY-MM-DD hh:mm:ss')];
-		mysql.pool.query(sql, inserts,function(error, results, fields){
-	        if(error){
-	            req.flash("error", JSON.stringify(error));
-	            res.redirect(redirect);
-	        }else if(results.affectedRows == 0){
-	            req.flash("error", "Award not added!");
-	            res.redirect(redirect);
-	        }else{
-	            req.flash("success", "Award successfully added!");
-	            console.log(inserts[3]);
-	            latex.genLatex(inserts[0], inserts[1], inserts[2], inserts[3]);
-               console.log(inserts[3]);
-	            res.redirect(redirect);
-	        }
-	    });
+		if(!validateIDs(Number(req.body.user_id), Number(req.body.award_id), Number(req.body.employee_id), Number(req.params.id))){
+			res.redirect(redirect);
+		}else{
+			var mysql = req.app.get('mysql');
+			var inserts = [req.body.user_id, req.body.award_id, req.body.employee_id, require('moment')().format('YYYY-MM-DD hh:mm:ss')];
+			mysql.pool.query(sql, inserts,function(error, results, fields){
+		        if(error){
+		            req.flash("error", JSON.stringify(error));
+		            res.redirect(redirect);
+		        }else if(results.affectedRows == 0){
+		            req.flash("error", "Award not added!");
+		            res.redirect(redirect);
+		        }else{
+		            req.flash("success", "Award successfully added!");
+		            console.log(inserts[3]);
+		            latex.genLatex(inserts[0], inserts[1], inserts[2], inserts[3]);
+	               console.log(inserts[3]);
+		            res.redirect(redirect);
+		        }
+		    });
+		}
 	},
 	findAndRet: (req, res, sql, redirect) => {
 		var mysql = req.app.get('mysql');
@@ -201,21 +222,37 @@ var sql = {
 		});
 	},
 	findByIdAndRet: (req, res, sql, redirect) => {
-		var mysql = req.app.get('mysql');
-		mysql.pool.query(sql, req.params.id, (error, results, fields) => {
-			if(error){
-	            req.flash("error", JSON.stringify(error));
-	            console.log(JSON.stringify(error));
-	            res.redirect(redirect);
-	        }else if(results[0] == undefined){
-        		req.flash("error", req.params.id + ": not found!");
-            	res.redirect(redirect);
-        	}else{
-	        	console.log(results);
-				res.write(JSON.stringify(results));
-				res.end();
-	        }
-		});
+		if(!validateIDs(Number(req.params.id))){
+			res.redirect(redirect);
+		}else{
+			var mysql = req.app.get('mysql');
+			mysql.pool.query(sql, req.params.id, (error, results, fields) => {
+				if(error){
+		            req.flash("error", JSON.stringify(error));
+		            console.log(JSON.stringify(error));
+		            res.redirect(redirect);
+		        }else if(results[0] == undefined){
+	        		req.flash("error", req.params.id + ": not found!");
+	            	res.redirect(redirect);
+	        	}else{
+		        	console.log(results);
+					res.write(JSON.stringify(results));
+					res.end();
+		        }
+			});
+		}
 	}
+}
+function validateIDs(...numbers){
+	console.log("in validateIDs with: ", numbers);
+	var result = true;
+	numbers.forEach((num) => {
+		console.log(typeof num)
+		if(isNaN(num)){
+			console.log("id is invalid!");
+			result = false;
+		}
+	});
+	return result;
 }
 module.exports = sql
