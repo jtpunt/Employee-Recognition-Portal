@@ -21,8 +21,9 @@ var indexRoutes     = require("./routes/index"),
     userAwardRoutes = require("./routes/user/awards"),
     userProfileRoutes=require("./routes/user/profile"),
     userNewRoutes   = require("./routes/user/new"),
-    testRoutes      = require("./routes/test"),
+    userDeleteRoutes= require("./routes/user/delete"),
     forgetRoutes    = require("./routes/forget");
+    
 
 app.set('view engine', 'ejs');
 app.set('mysql', mysql);
@@ -66,7 +67,7 @@ app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
 app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/user/new", userNewRoutes);   // add a new award
-app.use("/test", testRoutes);
+app.use("/user/delete", userDeleteRoutes);  // delete an award
 app.use("/forget", forgetRoutes);
 app.use(function(req,res){
     res.status(404);
