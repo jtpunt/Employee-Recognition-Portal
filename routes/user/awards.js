@@ -5,25 +5,19 @@ var express    = require("express"),
     
     
 router.get("/", middleware.isLoggedIn, function(req, res){
-    //console.log("in awards route..");
-    var render="user/awards/show";
-   
-    //var render = "admin/employee/show";
-    //var stylesheets = ["/static/css/admin-employee.css"];
-    //var scripts = [];
     
+   
     
     var redirect = "/user";
+    var render = "user/awards/show";
+    var stylesheets = ["/static/css/admin-employee.css"];
+    var scripts = [];
+    sql.find(req, res, sql.getAllAwards, redirect, render, stylesheets, scripts);
+});
    
-   //sql.findAndRet(req, res, sql.getAllAwards, redirect, render);
-    
-    sql.find(req, res, sql.getAllAwards, render, redirect);
-    
-   
     
     
-});  
-    
+
     
     
     
