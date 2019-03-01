@@ -47,7 +47,7 @@ var sql = {
 	
 	// Wenda add get all userview for user version 
 	getAllUsers2: "SELECT id As user_id, username, password, date_created, signature, permission, employee_id \
-	FROM user;", 
+	FROM User;", 
 
 	getUserById: "SELECT * FROM User WHERE id = ?;",
 
