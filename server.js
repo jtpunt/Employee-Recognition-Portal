@@ -22,6 +22,7 @@ var indexRoutes     = require("./routes/index"),
     userProfileRoutes=require("./routes/user/profile"),
     userNewRoutes   = require("./routes/user/new"),
     userDeleteRoutes= require("./routes/user/delete"),
+    userUVRoutes  = require("./routes/user/userview"),
     forgetRoutes    = require("./routes/forget");
     
 
@@ -67,6 +68,7 @@ app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
 app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/user/new", userNewRoutes);   // add a new award
+app.user("/user/userview",userUVRoutes);   // view all user 
 app.use("/user/delete", userDeleteRoutes);  // delete an award
 app.use("/forget", forgetRoutes);
 app.use(function(req,res){
