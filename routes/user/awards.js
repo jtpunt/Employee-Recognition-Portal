@@ -15,9 +15,11 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     
     var redirect = "/user";
    
-    sql.findAndRet(req, res, sql.getAllAwards, redirect, render);
+   //sql.findAndRet(req, res, sql.getAllAwards, redirect, render);
     
-    //sql.find(req, res, sql.getAllAwards, render);
+    sql.find(req, res, sql.getAllAwards, render, redirect);
+    
+   
     
     
 });  
