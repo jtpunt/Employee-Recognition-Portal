@@ -68,7 +68,7 @@ app.use("/user", userRoutes1);  //  user landing page
 app.use("/user/awards", userAwardRoutes); // user version, showing all awards
 app.use("/user/profile", userProfileRoutes);  // edit user profile
 app.use("/user/new", userNewRoutes);   // add a new award
-app.user("/user/userview",userUVRoutes);   // view all user 
+app.use("/user/userview",userUVRoutes);   // view all user 
 app.use("/user/delete", userDeleteRoutes);  // delete an award
 app.use("/forget", forgetRoutes);
 app.use(function(req,res){
