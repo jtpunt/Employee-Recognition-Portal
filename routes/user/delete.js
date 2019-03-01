@@ -6,7 +6,7 @@ var express    = require("express"),
     
 router.get("/", middleware.isLoggedIn, function(req, res){
     
-    var render="user/delete/show";
+   res.render("user/delete/show");
    
     
     
