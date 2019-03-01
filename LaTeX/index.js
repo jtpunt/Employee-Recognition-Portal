@@ -39,7 +39,7 @@ var latex = {
           sigFilePath = "none"; //set this none so there is no attempt to delete it pdfGen function
 
           //set contents of latex file from template .txt file
-          var latexString = fs.readFileSync('latexTempNoSig.txt');
+          var latexString = fs.readFileSync('LaTeX/latexTempNoSig.txt');
           var contents = latexString.toString();
           contents = eval(contents);
 
@@ -48,7 +48,7 @@ var latex = {
             if (err)
               throw err;
             //generate pdf file
-            pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
+            latex.pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
           });
 
         }
@@ -62,7 +62,7 @@ var latex = {
             console.log("signature file created");
 
             //set contents of latex file from template .txt file
-            var latexString = fs.readFileSync('latexTempWithSig.txt');
+            var latexString = fs.readFileSync('LaTeX/latexTempWithSig.txt');
             var contents = latexString.toString();
             contents = eval(contents);
 
@@ -71,7 +71,7 @@ var latex = {
               if (err)
                 throw err;
               //generate pdf file
-              pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
+              latex.pdfGen(filename, outputFile, email, sigFilePath, latex.pdfEmail);
             });
 
           });
@@ -98,10 +98,17 @@ var latex = {
         console.log('PDF Generated!');
         func(outputFile, email);
         //delete tex file created along with signature file if necessary
-        latex.deleteFile(inputFile);
-        if (sigFilePath != "none") 
-          latex.deleteFile(sigFilePath);
-        
+        fs.unlink(inputFile, function (err) {
+            if (err) throw err;
+            console.log(inputFile + " was deleted successfully");
+          });
+
+        if (sigFilePath != "none"){ 
+          fs.unlink(sigFilePath, function (err) {
+            if (err) throw err;
+            console.log(sigFilePath + " was deleted successfully");
+          });
+        }
       });
 
    },
@@ -150,18 +157,14 @@ var latex = {
          }
          else {
            console.log('Email sent: ' + info.response);
-           latex.deleteFile(outputFile);
+           fs.unlink(outputFile, function (err) {
+            if (err) throw err;
+            console.log(outputFile + " was deleted successfully");
+           });
+
          }
       });
-  },
-
-  deleteFile: function (filePathName) {
-    var fs = require('fs');
-    fs.unlink(filePathName, function (err) {
-      if (err) throw err;
-      console.log(filePathName + " was deleted successfully");
-    });
-
   }
+
 }
 module.exports = latex;
