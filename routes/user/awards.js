@@ -4,7 +4,7 @@ var express    = require("express"),
     router     = express.Router();
     
     
-router.get("/", function(req, res){
+router.get("/", middleware.isLoggedIn, function(req, res){
     //console.log("in awards route..");
     var render="user/awards/show";
    
