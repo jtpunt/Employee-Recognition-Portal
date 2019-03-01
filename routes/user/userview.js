@@ -5,7 +5,16 @@ var express    = require("express"),
     
     
 router.get("/", middleware.isLoggedIn,  function(req, res){
-    res.render("user/userview/show");
+    
+    
+    var redirect = "/user";
+    var render = "user/userview/show";
+    var stylesheets = ["/static/css/admin-employee.css"];
+    var scripts = [];
+    sql.find(req, res, sql.getAllUsers2, redirect, render, stylesheets, scripts);
+    
+    
+    
 });  
         
     
