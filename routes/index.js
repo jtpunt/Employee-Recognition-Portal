@@ -6,7 +6,8 @@ var express    = require("express"),
 // root route
 router.get("/", function(req, res){
     // The render command by default will look for files in a folder called views
-    res.render("login");
+    var stylesheets = ["/static/css/home.css"];
+    res.render("home", {stylesheets: stylesheets});
 });
 
 // accounts route
