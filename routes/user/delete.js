@@ -4,10 +4,8 @@ var express    = require("express"),
     router     = express.Router();
     
     
-router.get("/", middleware.isLoggedIn, function(req, results, res){
+router.get("/", middleware.isLoggedIn, function(req, res){
     
-    console.log(results);
-   
     
     var redirect = "/user";
     var render = "user/delete/show";
