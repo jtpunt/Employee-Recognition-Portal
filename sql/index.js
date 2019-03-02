@@ -4,6 +4,13 @@ var sql = {
 	FROM Granted g INNER JOIN User u ON g.user_id = u.id \
 	INNER JOIN Award a ON g.award_id = a.id \
 	INNER JOIN Employee e ON g.employee_id = e.id;",
+	
+	// For normal user version, delete page use, wenda updated
+	getAllAwardsById: "SELECT u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, g.grant_date \
+	FROM Granted g INNER JOIN User u ON g.user_id = u.id \
+	INNER JOIN Award a ON g.award_id = a.id \
+	INNER JOIN Employee e ON g.employee_id = e.id \
+	WHERE u.username= results[0].username;", 
 
 	getAwardsById: "SELECT * u.username AS  FROM Granted ",
 
