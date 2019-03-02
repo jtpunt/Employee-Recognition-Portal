@@ -11,7 +11,7 @@ router.get("/", middleware.isLoggedIn, function(req, res){
     var render = "user/delete/show";
     var stylesheets = ["/static/css/admin-employee.css"];
     var scripts = [];
-    sql.find(req, res, sql.getAllAwards, redirect, render, stylesheets, scripts);    
+    sql.findById(req, res, sql.getAllAwards, redirect, render, stylesheets, scripts);    
     
     
     
