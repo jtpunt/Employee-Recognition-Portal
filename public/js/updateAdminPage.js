@@ -32,6 +32,20 @@ function setDropdown(url, ele){
 	.then(data => handleDropDownData(data, ele))
 	.catch(displayErrors);
 }
+function setEditForm(url){
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function(data){
+			console.log(data);
+		}
+	})
+	// fetch(url)
+	// .then(handleErrors)
+	// .then(parseJSON)
+	// .then(data => handleEditForm(data[0]))
+	// .catch(displayErrors);
+}
 // Parses our obj to function
 function parseJSON(res){ 
 	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
@@ -58,6 +72,15 @@ function handleDropDownData(data, ele){
 		option.value = myData.id;
 		dropDownList.appendChild(option);
 	});
+}
+function handleEditForm(data){
+	console.log(data);
+	document.getElementById("usernameInput").value=data.username;
+	document.getElementById("passwordInput").value=data.password;
+	var srcImg = "data:image/jpg;base64, " + data.signature.blob();
+	document.getElementById("imgTag").setAttribute('src', srcImg);
+	console.log(document.getElementById("imgTag"));
+	document.getElementById("permissionInput").value=data.permission;
 }
 function updatePage(event){
 	var ele_id = event.target.id;

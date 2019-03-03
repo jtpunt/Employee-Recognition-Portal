@@ -1,0 +1,27 @@
+<% include ../../partials/header %>
+<div class="container">
+    <div class="row">
+		<table>
+			<caption>All awards</caption>
+			<thead>
+				<tr>
+					<th>Granted By</th>
+					<th>Award Title</th>
+					<th>Grant Date</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<% results.forEach(function(result){ %>
+				<tr>
+					<th><%=result.granted_by%></th>
+					<td><%=result.title%></td>
+					<td><%=result.grant_date %></td>
+				</tr>
+				<% }); %>
+			</tbody>
+		</table>
+		<a href="/admin">Back to admin page</a>
+    </div>
+</div>
+<% include ../../partials/footer %>

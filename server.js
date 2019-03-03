@@ -4,6 +4,7 @@ var express        = require("express"),
     passport       = require("passport"),
     LocalStrategy  = require("passport-local"),
     methodOverride = require("method-override"),
+    // Buffer = require('buffer'),
     mysql          = require('./dbcon.js'),
     app            = express();
 
@@ -51,6 +52,8 @@ app.locals.moment = require('moment');
 app.use(function(req, res, next){
     // w/e we put in res.locals is what's available inside of our template
     res.locals.currentUser = req.session.username;
+    res.locals.admin_user  = req.session.admin;
+    res.locals.normal_user = req.session.normal_user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
     next();

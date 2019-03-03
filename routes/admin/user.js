@@ -48,3 +48,4 @@ router.delete("/:id", middleware.isAdmin, (req, res) => {
     sql.removeUser(req, res, sql.deleteUser, redirect);
 });
 module.exports = router;
+

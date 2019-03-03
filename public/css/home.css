@@ -10,7 +10,7 @@
 }
 .jumbotron{
   height: 25%; 
-  background-color: #DA4820;
+  background-color: #DA4820 !important;
   border: 2px solid black;
 }
 .jumbotron img {

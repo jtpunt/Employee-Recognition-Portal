@@ -14,6 +14,7 @@
                 </div>
                 <div class="form-group">
                     <img src="data:image/jpg;base64,<%=results[0].signature %>" height="150" width="300">
+                    <% console.log("hello ", typeof results[0].signature) %>
                     <br>
                     <label for="signature">Signature</label>
                     <input class="form-control" type="file" name="signature" id="signature" accept=".jpg">

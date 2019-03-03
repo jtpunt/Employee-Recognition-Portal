@@ -36,6 +36,15 @@ var obj = {
 }
 function createBox(name){
 	console.log("in createBox");
+	var dept_select  = document.getElementById("dept_select");
+	var loc_select  = document.getElementById("loc_select");
+	var deptpiechart = document.getElementById("deptpiechart");
+	var locpiechart = document.getElementById("locpiechart");
+	var addUser = document.getElementById("addUser");
+	var search = document.getElementById("search");
+	var search_res = document.getElementById("search_res");
+	var editUserBtn = document.getElementById("editUser");
+
 	var box = document.createElement("div");
 	var span = document.createElement("span");
 	var showBtn = document.createElement("a");
@@ -55,6 +64,18 @@ function createBox(name){
 	// Set edit button attributes
 	editBtn.className = "btn btn-warning";
 	editBtn.innerText = "Edit";
+	// editBtn.addEventListener("click", function(){
+	// 	editUserBtn.hidden = false;
+	// 	loc_select.hidden = true;
+	// 	deptpiechart.hidden = true;
+	// 	locpiechart.hidden = true;
+	// 	search.hidden = true;
+	// 	search_res.hidden = true;
+	// 	addUser.hidden = true;
+	// 	setEditForm("/admin/users/" + name[0] + "/edit");
+	// 	// updateEditForm(name[0]);
+	// });
+
 	editBtn.href = "/admin/users/" + name[0] + "/edit";
 	delForm.appendChild(editBtn);
 	// Set delete form attributes
@@ -69,31 +90,5 @@ function createBox(name){
 	box.appendChild(delForm);
 	return box;
 }
-function checkNames(name){
-
-}
 
 
-function parseJSON(res){
-	// we need to parse our obj to json
-	return res.json().then(function(parsedData){
-		return parsedData.results[0]; // rather than having to ref data[0] everytime, we return the person's data
-	}); 
-}
-function updateProfile(data){
-	var fullname = data.name.first + ' ' + data.name.last;
-	fullnameDisp.innerText = fullname;
-	avatar.src = data.picture.medium;
-	username.innerText = data.login.username;
-	city.innerText = data.location.city;
-	email.innerText = data.email;
-}
-function handleErrors(response){
-	if(!response.ok){
-			throw Error(response.status); // this will trigger the catch clause
-		}
-		return response; // return the non-errored response
-}
-function displayErrors(err){
-	console.log(err);
-}

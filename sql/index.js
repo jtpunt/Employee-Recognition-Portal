@@ -57,7 +57,7 @@ var sql = {
 	FROM User;", 
 
 	getUserById: "SELECT * FROM User WHERE id = ?;",
-
+	getUserSigById: "SELECT signature FROM User WHERE id = ?;",
 	getUserIdBySearch: "SELECT id, fname, lname FROM Employee WHERE CONCAT(fname, ' ', lname) LIKE CONCAT('%', ?, '%');",
 
 	deleteUser: "DELETE FROM Employee WHERE id = ?;",
