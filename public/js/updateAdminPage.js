@@ -25,13 +25,7 @@ function setChart(url, category, title, ele){
 	.then(data => handleChartData(data, category, title, ele))
 	.catch(displayErrors);
 }
-function setDropdown(url, ele){
-	fetch(url)
-	.then(handleErrors)
-	.then(parseJSON)
-	.then(data => handleDropDownData(data, ele))
-	.catch(displayErrors);
-}
+
 function setAddUserForm(employees){
 	var dropDownList = document.getElementById("emp_select");
 	employees.forEach((employee) => {
@@ -41,23 +35,24 @@ function setAddUserForm(employees){
 		dropDownList.appendChild(option);
 	});
 }
-// Parses our obj to function
-function parseJSON(res){ 
-	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
-	return res.json(); // promise return from this .then
+function setDropdown(url, ele){
+	fetch(url)
+	.then(handleErrors)
+	.then(parseJSON)
+	.then(data => handleDropDownData(data, ele))
+	.catch(displayErrors);
 }
+
 function handleErrors(response){
 	if(!response.ok){
 		throw Error(response.status); // this will trigger the catch clause
 	}
 	return response; // return the non-errored response
 }
-function displayErrors(err){
-	console.log(err);
-}
-function handleChartData(data, category, title, ele){
-    drawPieChart(data, category, title, ele);
-    window.addEventListener("resize", () => drawPieChart(data, category, title, ele));
+// Parses our obj to function
+function parseJSON(res){ 
+	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
+	return res.json(); // promise return from this .then
 }
 function handleDropDownData(data, ele){
 	var dropDownList = document.getElementById(ele);
@@ -75,6 +70,13 @@ function handleDropDownData(data, ele){
 		}
 		dropDownList.appendChild(option);
 	});
+}
+function handleChartData(data, category, title, ele){
+    drawPieChart(data, category, title, ele);
+    window.addEventListener("resize", () => drawPieChart(data, category, title, ele));
+}
+function displayErrors(err){
+	console.log(err);
 }
 function updatePage(event){
 	var ele_id = event.target.id;

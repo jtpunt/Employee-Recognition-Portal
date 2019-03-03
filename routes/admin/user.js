@@ -21,6 +21,11 @@ router.post("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     sql.setUser(req, res, sql.setNewUser, redirect);
 });
+router.get("/all", middleware.isAdmin, (req, res) => {
+    console.log("in user all route..");
+    var redirect = "/admin";
+    sql.findAndRet(req, res, sql.getAllUsers, redirect);
+});
 router.get("/:id", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/user/show";

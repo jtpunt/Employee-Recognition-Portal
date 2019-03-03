@@ -107,57 +107,13 @@ var sql = {
 
 			var form = new formidable.IncomingForm();
 			form.parse(req, (err, fields, files) => {
-				var oldpath = files.signature.path;
-				// '/nfs/stak/users/perryjon/testCapstone
-				var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
-				// Read the file
-		        fs.readFile(oldpath, 'base64', (err, data) => {
-		            if (err) throw err;
-		            // Write the file - could probably remove this part later
-		            fs.writeFile(newpath, data, 'base64', (err) => {
-		                if (err) throw err;
-		                // Delete the old file
-			            fs.unlink(oldpath, (err) => { if (err) throw err; });
-		                var inserts = [fields.username, fields.password, data, fields.permission, fields.employee_id];
-						mysql.pool.query(sql, inserts, (error, results, sqlfields) => {
-							if(error){
-				            	req.flash("error", JSON.stringify(error));
-				            	res.redirect(redirect);
-					        }else if(results.affectedRows == 0){
-				       			req.flash("error", fields.username + ": not found!");
-				            	res.redirect(redirect);
-							}else{
-				            	req.flash("success", fields.username + " successfully added!");
-								res.redirect(redirect);
-					        }
-						});
-		            });
-		        }); 
-			});
-		}
-	},
-	updateUser: (req, res, sql, redirect) => { 
-		if(!validateIDs(Number(req.params.id), Number(req.params.permission))){
-			res.redirect(redirect);
-		}else{
-			var formidable = require('formidable');
-			var fs = require('fs');
-			var mysql = req.app.get('mysql');
-			var form = new formidable.IncomingForm();
-			form.parse(req, (err, fields, files) => {
-
-				var oldpath = files.signature.path;
-				// '/nfs/stak/users/perryjon/testCapstone
-				var newpath = '/home/jonathan/Documents/Employee-Recognition-Portal/public/images/' + files.signature.name;
-				// Read the file
-		        fs.readFile(oldpath, 'base64', (err, data) => {
-		            if (err) throw err;
-		            // Write the file
-		            fs.writeFile(newpath, data, 'base64', (err) => {
-		                if (err) throw err;
-		                // Delete the old file
-			            fs.unlink(oldpath, (err) => { if (err) throw err; });
-		                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
+				if(!validateIDs(Number(fields.permission))){
+					res.redirect(redirect);
+				}else{
+					if(files.signature.name === ""){ // no file has been sent
+						console.log("no file sent");
+		                var inserts = [fields.username, fields.password, fields.permission, req.params.id];
+		                sql="UPDATE User SET username=?, password=?, permission=? WHERE id=?;" // Removed signature db field so it is not overwritten with null
 						mysql.pool.query(sql, inserts, (error, results, fields) => {
 							if(error){
 				            	req.flash("error", JSON.stringify(error));
@@ -170,8 +126,86 @@ var sql = {
 				            	res.redirect(redirect);
 					        }
 						});
-		            });
-		        }); 
+					}else{
+						// '/nfs/stak/users/perryjon/testCapstone
+						var oldpath = files.signature.path;
+						// Read the file
+				        fs.readFile(oldpath, 'base64', (err, data) => {
+				            if (err) throw err;
+			                // Delete the old file
+				            fs.unlink(oldpath, (err) => { if (err) throw err; });
+			                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
+							mysql.pool.query(sql, inserts, (error, results, fields) => {
+								if(error){
+					            	req.flash("error", JSON.stringify(error));
+					            	res.redirect(redirect);
+						        }else if(results.affectedRows == 0){
+					       			req.flash("error", req.params.id + ": not found!");
+					            	res.redirect(redirect);
+								}else{
+					            	req.flash("success", req.params.id + " successfully updated!");
+					            	res.redirect(redirect);
+						        }
+							});
+			            });
+					}
+				}
+			});
+		}
+	},
+	updateUser: (req, res, sql, redirect) => { 
+		console.log("params: ", req.params);
+		if(!validateIDs(Number(req.params.id))){
+			res.redirect(redirect);
+		}else{
+			var formidable = require('formidable');
+			var fs = require('fs');
+			var mysql = req.app.get('mysql');
+			var form = new formidable.IncomingForm();
+			form.parse(req, (err, fields, files) => {
+				if(!validateIDs(Number(fields.permission))){
+					res.redirect(redirect);
+				}else{
+					if(files.signature.name === ""){ // no file has been sent
+						console.log("no file sent");
+		                var inserts = [fields.username, fields.password, fields.permission, req.params.id];
+		                sql="UPDATE User SET username=?, password=?, permission=? WHERE id=?;" // Removed signature db field so it is not overwritten with null
+						mysql.pool.query(sql, inserts, (error, results, fields) => {
+							if(error){
+				            	req.flash("error", JSON.stringify(error));
+				            	res.redirect(redirect);
+					        }else if(results.affectedRows == 0){
+				       			req.flash("error", req.params.id + ": not found!");
+				            	res.redirect(redirect);
+							}else{
+				            	req.flash("success", req.params.id + " successfully updated!");
+				            	res.redirect(redirect);
+					        }
+						});
+					}else{
+						// '/nfs/stak/users/perryjon/testCapstone
+						var oldpath = files.signature.path;
+						// Read the file
+				        fs.readFile(oldpath, 'base64', (err, data) => {
+				            if (err) throw err;
+			                // Delete the old file
+				            fs.unlink(oldpath, (err) => { if (err) throw err; });
+			                var inserts = [fields.username, fields.password, data, fields.permission, req.params.id];
+							mysql.pool.query(sql, inserts, (error, results, fields) => {
+								if(error){
+					            	req.flash("error", JSON.stringify(error));
+					            	res.redirect(redirect);
+						        }else if(results.affectedRows == 0){
+					       			req.flash("error", req.params.id + ": not found!");
+					            	res.redirect(redirect);
+								}else{
+					            	req.flash("success", req.params.id + " successfully updated!");
+					            	res.redirect(redirect);
+						        }
+							});
+			            });
+				}
+				}
 			});
 		}
 	},
