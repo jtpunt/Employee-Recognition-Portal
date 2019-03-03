@@ -31,6 +31,9 @@ var obj = {
 		console.log("in set Data", data);
 		arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
 		console.log(arr);
+		document.addEventListener('DOMContentLoaded', function() {
+			handleDropDownData(arr, "emp_select");
+		});
 	}
 
 }
@@ -56,28 +59,19 @@ function createBox(name){
 	box.className ="mybox";
 	span.innerHTML = name[1];
 	box.appendChild(span);
+
 	// Set Show Awards button attributes
 	showBtn.className = "btn btn-primary";
 	showBtn.innerText = "Show Awards";
 	showBtn.href = "/admin/users/" + name[0];
 	delForm.appendChild(showBtn);
+
 	// Set edit button attributes
 	editBtn.className = "btn btn-warning";
 	editBtn.innerText = "Edit";
-	// editBtn.addEventListener("click", function(){
-	// 	editUserBtn.hidden = false;
-	// 	loc_select.hidden = true;
-	// 	deptpiechart.hidden = true;
-	// 	locpiechart.hidden = true;
-	// 	search.hidden = true;
-	// 	search_res.hidden = true;
-	// 	addUser.hidden = true;
-	// 	setEditForm("/admin/users/" + name[0] + "/edit");
-	// 	// updateEditForm(name[0]);
-	// });
-
 	editBtn.href = "/admin/users/" + name[0] + "/edit";
 	delForm.appendChild(editBtn);
+
 	// Set delete form attributes
 	delForm.action = "/admin/users/" + name[0] + "?_method=DELETE";
 	delForm.method = "POST";

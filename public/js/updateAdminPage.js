@@ -32,19 +32,14 @@ function setDropdown(url, ele){
 	.then(data => handleDropDownData(data, ele))
 	.catch(displayErrors);
 }
-function setEditForm(url){
-	$.ajax({
-		url: url,
-		type: 'GET',
-		success: function(data){
-			console.log(data);
-		}
-	})
-	// fetch(url)
-	// .then(handleErrors)
-	// .then(parseJSON)
-	// .then(data => handleEditForm(data[0]))
-	// .catch(displayErrors);
+function setAddUserForm(employees){
+	var dropDownList = document.getElementById("emp_select");
+	employees.forEach((employee) => {
+		var option = document.createElement("option");
+		option.textContent = employee[1];
+		option.value = employee[0];
+		dropDownList.appendChild(option);
+	});
 }
 // Parses our obj to function
 function parseJSON(res){ 
@@ -68,19 +63,18 @@ function handleDropDownData(data, ele){
 	var dropDownList = document.getElementById(ele);
 	data.forEach(function(myData){
 		var option = document.createElement("option");
-		option.textContent = myData.category;
-		option.value = myData.id;
+		console.log(Array.isArray(myData), ele);
+		if(typeof myData === 'object' && !Array.isArray(myData)){ // Dept/Loc Data
+			option.textContent = myData.category;
+			option.value = myData.id;
+		}else{ // handle Employee - array data 
+			console.log("in else statement", ele);
+			console.log(myData[1], myData[0]);
+			option.textContent = myData[1]; // Employee Name
+			option.value = myData[0]; // Employee Id
+		}
 		dropDownList.appendChild(option);
 	});
-}
-function handleEditForm(data){
-	console.log(data);
-	document.getElementById("usernameInput").value=data.username;
-	document.getElementById("passwordInput").value=data.password;
-	var srcImg = "data:image/jpg;base64, " + data.signature.blob();
-	document.getElementById("imgTag").setAttribute('src', srcImg);
-	console.log(document.getElementById("imgTag"));
-	document.getElementById("permissionInput").value=data.permission;
 }
 function updatePage(event){
 	var ele_id = event.target.id;
