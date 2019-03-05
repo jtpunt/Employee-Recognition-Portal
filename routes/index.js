@@ -41,6 +41,7 @@ router.post('/login', function(req, res){
                 }else{ // normal user
                     req.session.normal_user = true;
                     req.session.admin = false;
+                    req.session.user_id = results[0].id;
                     //redirect = "/";  // original code
                     redirect="/user";    // changed pard, normal user version
                  }

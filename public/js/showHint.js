@@ -4,7 +4,7 @@ var arr = [];
 var boxArr = [];
 var obj = {
 	showHint: function(str){
-		console.log("in show hint", str);
+		console.log("in show hint: ", str, arr);
 		var search_res = document.getElementById("search_res");
 		if (str.length == 0) {
 	        while(search_res.firstChild){
@@ -18,10 +18,10 @@ var obj = {
 		        	search_res.removeChild(search_res.firstChild);
 		        }
 			    var len=str.length;
-			    arr.forEach((name) => {
+			    arr.forEach((employee) => {
 			    	// console.log(name.substr(0, len).toUpperCase(), ' : ', str.toUpperCase());
-			    	if(name[1].substr(0, len).toUpperCase() == str.toUpperCase()){
-			    		search_res.appendChild(createBox(name));
+			    	if(employee['fullname'].substr(0, len).toUpperCase() == str.toUpperCase()){
+			    		search_res.appendChild(createBox(employee));
 			    	}
 			    });
 			}
@@ -29,15 +29,17 @@ var obj = {
 	},
 	setData: function(data){
 		console.log("in set Data", data);
-		arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
+		arr=Array.from(data);
+		// arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
 		console.log(arr);
 		document.addEventListener('DOMContentLoaded', function() {
+			// reuse this data for the dropdown menu on the add user form
 			handleDropDownData(arr, "emp_select");
 		});
 	}
 
 }
-function createBox(name){
+function createBox(employee){
 	console.log("in createBox");
 	var dept_select  = document.getElementById("dept_select");
 	var loc_select  = document.getElementById("loc_select");
@@ -57,23 +59,23 @@ function createBox(name){
 	                     
 	// Set box and span attributes
 	box.className ="mybox";
-	span.innerHTML = name[1];
+	span.innerHTML = employee['fullname'];
 	box.appendChild(span);
 
 	// Set Show Awards button attributes
 	showBtn.className = "btn btn-primary";
 	showBtn.innerText = "Show Awards";
-	showBtn.href = "/admin/users/" + name[0];
+	showBtn.href = "/admin/users/" + employee['id'];
 	delForm.appendChild(showBtn);
 
 	// Set edit button attributes
 	editBtn.className = "btn btn-warning";
 	editBtn.innerText = "Edit";
-	editBtn.href = "/admin/users/" + name[0] + "/edit";
+	editBtn.href = "/admin/users/" + employee['id'] + "/edit";
 	delForm.appendChild(editBtn);
 
 	// Set delete form attributes
-	delForm.action = "/admin/users/" + name[0] + "?_method=DELETE";
+	delForm.action = "/admin/users/" + employee['id'] + "?_method=DELETE";
 	delForm.method = "POST";
 	delForm.className = "delete-form";
 

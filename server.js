@@ -65,14 +65,14 @@ app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. d
 app.use("/admin/locations", adminLocRoutes); // returns all loc and indiv. loc data
 app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user search feature
 app.use("/admin", adminRoutes); // admin dashboard
-//app.use("/user/awards", awardRoutes); // shows all awards, create awards
-//app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
-app.use("/user", userRoutes1);  //  user landing page
-app.use("/user/awards", userAwardRoutes); // user version, showing all awards
-app.use("/user/profile", userProfileRoutes);  // edit user profile
-app.use("/user/new", userNewRoutes);   // add a new award
-app.use("/user/userview",userUVRoutes);   // view all user 
-app.use("/user/delete", userDeleteRoutes);  // delete an award
+app.use("/user/awards", awardRoutes); // shows all awards, create awards
+app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
+// app.use("/user", userRoutes1);  //  user landing page
+// app.use("/user/awards", userAwardRoutes); // user version, showing all awards
+// app.use("/user/profile", userProfileRoutes);  // edit user profile
+// app.use("/user/new", userNewRoutes);   // add a new award
+// app.use("/user/userview",userUVRoutes);   // view all user 
+// app.use("/user/delete", userDeleteRoutes);  // delete an award
 app.use("/forget", forgetRoutes);
 app.use(function(req,res){
     res.status(404);

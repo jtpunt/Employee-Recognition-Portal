@@ -2,17 +2,38 @@
 <div class="container1">
 	<div class="box box-1">
 		<ul>
-			<li><i class="fas fa-chart-pie"></i><a id="a_dept_chart" onclick="updateUserPage(event)"> Show Dept Pie Chart</a><li>
-            <li><i class="fas fa-chart-pie"></i><a id="a_loc_chart" onclick="updateUserPage(event)"> Show Location Pie Chart</a><li>
-	      	<li><i class="fas fa-user"></i><a id="a_users"onclick="updateUserPage(event)"> Add User</a></li>
-	      	<li><i class="fas fa-search"></i><a id="a_search" onclick="updateUserPage(event)"> Search Users</a></li>W
+			<li><i class="fas fa-chart-pie"></i><a id="a_grant_award" onclick="updatePage(event)">Grant Award</a><li>
+            <li><i class="fas fa-chart-pie"></i><a id="a_show_award" onclick="updatePage(event)"> Show Granted Awards</a><li>
+	      	<li><i class="fas fa-user"></i><a id="a_edit_username" onclick="updatePage(event)"> Edit User Name</a></li>
     	</ul>
 	</div>
 	<div class="box box-2">
-
-	<div class="flex-container" id="search_res" hidden>
-
-	</div>
+		<div class="flex-container" id="add_award" hidden>
+			<h1 style="text-align: center;">Add New Award</h1>
+       		<div style="width: 30%; margin:25px auto;">
+	            <form action="/user/awards" method="post">
+	                <div class="form-group">
+	                    <label for="award_id">Award</label>
+	                    <select name="award_id">
+	                        <option value="1">Employee of the Week</option>
+	                        <option value="2">Employee of the Month</option>
+	                    </select>
+	                </div>
+	                <br>
+	                <div class="form-group">
+	                    <label for="emp_select">Employee ID</label>
+	                    	<select id="emp_select" name="emp_select" required>
+								<option disabled>Select an Employee</option>
+							</select>
+	                </div>
+	                <div class="form-group">
+	                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+	                </div>
+	            </form>
+        	</div>
+		</div>
+		<div class="flex-container" id="show_award" hidden></div>
+		<div class="flex-container" id="edit_username" hidden></div>
 	</div>
 </div>
 <% include ../partials/footer %>
