@@ -33,7 +33,21 @@
         	</div>
 		</div>
 		<div class="flex-container" id="show_award" hidden></div>
-		<div class="flex-container" id="edit_username" hidden></div>
+		<div class="flex-container" id="edit_username" hidden>
+			<h1 style="text-align: center;" id="usernameH1"></h1>
+	        <div style="width: 30%; margin:25px auto;">
+	            <form id="usernameForm" action="/user/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
+	                <div class="form-group">
+	                    <label for="username">Username</label>
+	                    <input class="form-control" type="text" id="username" name="username" required>
+                        <div class="form-group">
+	                    	<button class="btn btn-lg btn-primary btn-block">Submit!</button>
+	               		</div>
+	                </div>
+	            </form>
+	            <a href="/admin">Go Back</a>
+	        </div>
+		</div>
 	</div>
 </div>
 <% include ../partials/footer %>

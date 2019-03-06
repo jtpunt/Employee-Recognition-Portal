@@ -12,7 +12,11 @@ var sql = {
 	INNER JOIN Employee e ON g.employee_id = e.id \
 	WHERE u.username= results[0].username;", 
 
-	getAwardsByUserId: "SELECT * FROM Granted WHERE user_id = ?;",
+	getAwardsByUserId: "SELECT g.id, u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, g.grant_date FROM Granted g \
+	INNER JOIN Award a ON g.award_id = a.id \
+	INNER JOIN User u on g.user_id = u.id \
+	INNER JOIN Employee e ON g.employee_id = e.id \
+	WHERE g.user_id = ?;",
 
 	getAwardsByEmpId: "SELECT u.username AS granted_by, a.title, g.grant_date FROM Granted g \
 	INNER JOIN Award a ON g.award_id = a.id \
@@ -52,6 +56,8 @@ var sql = {
 
 	editUser: "UPDATE User SET username=?, password=?, signature=?, permission=? WHERE id=?;",
 
+	editUserName: "UPDATE User SET username=? WHERE id = ?;",
+
 	getAllUsers: "SELECT id, CONCAT(fname, ' ', lname) AS fullname FROM Employee ORDER BY fname, lname ASC;",
 	
 	// Wenda add get all userview for user version 
@@ -66,7 +72,7 @@ var sql = {
 
 	deleteUser: "DELETE FROM Employee WHERE id = ?;",
 	
-	deleteAward: "DELETE FROM Granted WHERE user_id = ?, award_id = ?, employee_id = ?, grant_date = ?;",
+	deleteAward: "DELETE FROM Granted WHERE id = ?",
 
 	setNewAward: "INSERT INTO Granted(user_id, award_id, employee_id, grant_date) VALUES (?, ?, ?, ?);",
 	find: (req, res, sql, redirect, render, stylesheets, scripts) => {
@@ -116,7 +122,7 @@ var sql = {
 			}else{
 				if(files.signature.name === ""){ // no file has been sent
 					console.log("no file sent");
-	                var inserts = [fields.username, fields.password, null, fields.permission, fields.emp_select];l
+	                var inserts = [fields.username, fields.password, null, fields.permission, fields.emp_select];
 					mysql.pool.query(sql, inserts, (error, results, fields) => {
 						if(error){
 			            	req.flash("error", JSON.stringify(error));
@@ -125,7 +131,7 @@ var sql = {
 			       			req.flash("error", fields.username + ": not added!");
 			            	res.redirect(redirect);
 						}else{
-			            	req.flash("success", req.params.id + " successfully added!");
+			            	req.flash("success", fields.username + " successfully added!");
 			            	res.redirect(redirect);
 				        }
 					});
@@ -144,10 +150,10 @@ var sql = {
 				            	req.flash("error", JSON.stringify(error));
 				            	res.redirect(redirect);
 					        }else if(results.affectedRows == 0){
-				       			req.flash("error", req.params.id + ": not found!");
+				       			req.flash("error", fields.username + ": not found!");
 				            	res.redirect(redirect);
 							}else{
-				            	req.flash("success", req.params.id + " successfully updated!");
+				            	req.flash("success", fields.username + " successfully updated!");
 				            	res.redirect(redirect);
 					        }
 						});
@@ -161,6 +167,27 @@ var sql = {
 		var id = req.params.id || req.session.user_id; 
 		if(!validateIDs(Number(id))){
 			res.redirect(redirect);
+		}else if(req.session.user_id){
+			var username = ""; // used to fix the scope problem below
+			var formidable = require('formidable');
+			var mysql = req.app.get('mysql');
+			var form = new formidable.IncomingForm();
+			form.parse(req, function(err, fields, files){
+				username=fields.username; // fixes the scope problem of reassigning the session's username
+				mysql.pool.query(sql, [fields.username, id], function(error, results, fields) {
+					if(error){
+		            	req.flash("error", JSON.stringify(error));
+		            	res.redirect(redirect);
+			        }else if(results.affectedRows == 0){
+		       			req.flash("error", id + ": not found!");
+		            	res.redirect(redirect);
+					}else{
+						req.session.username=username;
+		            	req.flash("success", id + " Username successfully updated!");
+		            	res.redirect(redirect);
+			        }
+				});
+			});
 		}else{
 			var formidable = require('formidable');
 			var fs = require('fs');
@@ -174,6 +201,7 @@ var sql = {
 						console.log("no file sent");
 		                var inserts = [fields.username, fields.password, fields.permission, id];
 		                sql="UPDATE User SET username=?, password=?, permission=? WHERE id=?;" // Removed signature db field so it is not overwritten with null
+
 						mysql.pool.query(sql, inserts, (error, results, fields) => {
 							if(error){
 				            	req.flash("error", JSON.stringify(error));
@@ -219,7 +247,6 @@ var sql = {
 			res.redirect(redirect);
 		}else{
 			var mysql = req.app.get('mysql');
-			var inserts = [req.body.username, req.body.password, req.body.date_created, req.body.signature, req.body.permission, req.body.employee_id, req.params.id]; 
 			mysql.pool.query(sql, id, (error, results, fields) => {
 				if(error){
 	            	req.flash("error", JSON.stringify(error));
@@ -258,8 +285,25 @@ var sql = {
 		}
 	},
 	removeAward: (req, res, sql, redirect) => {
-
-	}
+		var id = req.params.id;
+		if(!validateIDs(Number(id))){
+			res.redirect(redirect);
+		}else{
+			var mysql = req.app.get('mysql');
+			mysql.pool.query(sql, id, (error, results, fields) => {
+				if(error){
+	            	req.flash("error", JSON.stringify(error));
+	            	res.redirect(redirect);
+		        }else if(results.affectedRows == 0){
+	       			req.flash("error", id + ": not found!");
+	            	res.redirect(redirect);
+				}else{
+	            	req.flash("success", id + " successfully deleted!");
+	            	res.redirect(redirect);
+		        }
+			});
+		}
+	},
 	findAndRet: (req, res, sql, redirect) => {
 		var mysql = req.app.get('mysql');
 		mysql.pool.query(sql, (error, results, fields) => {

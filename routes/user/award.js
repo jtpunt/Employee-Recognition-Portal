@@ -8,8 +8,7 @@ var express    = require("express"),
 router.get("/", middleware.isLoggedIn, (req, res) => {
     var redirect = "/user";
     console.log("in main award route, returning data");
-    var sqlStatement = "SELECT * FROM Granted WHERE user_id = ?;"
-    sql.findByIdAndRet(req, res, sqlStatement, redirect);
+    sql.findByIdAndRet(req, res, sql.getAwardsByUserId, redirect);
 });
 // AWARDS NEW - shows form to create award
 router.get("/new", middleware.isLoggedIn, (req, res) => {
@@ -25,5 +24,11 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
     // ERROR CHECK 2 - assure that the user_id, award_id, and employee_id passed in corresponds to an entry in the database
     // ERROR CHECK 3 - user must be logged in to get to this page
 	// ERROR CHECK 4 - user who is logged  in MUST NOT be an admin
+});
+// Handles deletion of awards that the logged in user has granted
+router.delete("/:id", middleware.isLoggedIn, (req, res) => {
+    console.log("Delete request received: ", req.params.id);
+    var redirect = "/user";
+    sql.removeAward(req, res, sql.deleteAward, redirect);
 });
 module.exports = router;

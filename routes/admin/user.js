@@ -29,7 +29,10 @@ router.get("/all", middleware.isAdmin, (req, res) => {
 router.get("/:id", middleware.isAdmin, (req, res) => {
     console.log("in user/:id route");
     var redirect = "/admin";
-    sql.findByIdAndRet(req, res, sql.getAwardsByEmpId, redirect);
+    var render = "admin/user/show";
+    var stylesheets = [];
+    var scripts = [];
+    sql.findById(req, res, sql.getAwardsByEmpId, redirect, render, stylesheets, scripts);
 });
 // EDIT User - Takes you to the form to edit a user
 router.get("/:id/edit", middleware.isAdmin, (req, res) => {

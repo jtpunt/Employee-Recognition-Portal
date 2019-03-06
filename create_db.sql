@@ -28,7 +28,7 @@ UNIQUE KEY `state` (`state`)
 CREATE TABLE `Department` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `name` varchar(30) NOT NULL,
-`Description` varchar(255),
+`description` varchar(255),
 `location_id` int NOT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`location_id`) REFERENCES `Location` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -65,18 +65,19 @@ CREATE TABLE `User` (
 `signature` longblob,
 `permission` int(1) NOT NULL,
 `employee_id` int NOT NULL,
-PRIMARY KEY (`id`, 'permission', 'employee_id'),
+PRIMARY KEY (`id`, `permission`, `employee_id`),
 FOREIGN KEY (`employee_id`) REFERENCES `Employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB;
 
 -- Create relationship tables for many to many relationships
 CREATE TABLE `Granted` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
 `user_id` int(11) NOT NULL,
 `award_id` int(11) NOT NULL,
 `employee_id` int(11) NOT NULL,
 `grant_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-PRIMARY KEY (`user_id`,`award_id`, `employee_id`, `grant_date`),
+PRIMARY KEY (`id`, `user_id`,`award_id`, `employee_id`, `grant_date`),
 FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (`award_id`) REFERENCES `Award` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 FOREIGN KEY (`employee_id`) REFERENCES `Employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

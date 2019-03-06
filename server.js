@@ -4,7 +4,6 @@ var express        = require("express"),
     passport       = require("passport"),
     LocalStrategy  = require("passport-local"),
     methodOverride = require("method-override"),
-    // Buffer = require('buffer'),
     mysql          = require('./dbcon.js'),
     app            = express();
 
