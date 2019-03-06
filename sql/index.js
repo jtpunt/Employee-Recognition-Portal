@@ -52,9 +52,9 @@ var sql = {
 	WHERE d.location_id = ? \
 	GROUP BY e.id; ",
 
-	setNewUser: "INSERT INTO User(username, password, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?)", 
+	setNewUser: "INSERT INTO User(username, password, secret, signature, permission, employee_id) VALUES (?, ?, ?, ?, ?, ?)", 
 
-	editUser: "UPDATE User SET username=?, password=?, signature=?, permission=? WHERE id=?;",
+	editUser: "UPDATE User SET username=?, password=?, secret=?, signature=?, permission=? WHERE id=?;",
 
 	editUserName: "UPDATE User SET username=? WHERE id = ?;",
 
@@ -122,7 +122,7 @@ var sql = {
 			}else{
 				if(files.signature.name === ""){ // no file has been sent
 					console.log("no file sent");
-	                var inserts = [fields.username, fields.password, null, fields.permission, fields.emp_select];
+	                var inserts = [fields.username, fields.password, fields.secret, null, fields.permission, fields.emp_select];
 					mysql.pool.query(sql, inserts, (error, results, fields) => {
 						if(error){
 			            	req.flash("error", JSON.stringify(error));
@@ -144,7 +144,7 @@ var sql = {
 			            if (err) throw err;
 		                // Delete the old file
 			            fs.unlink(oldpath, (err) => { if (err) throw err; });
-		                var inserts = [fields.username, fields.password, data, fields.permission, fields.emp_select];
+		                var inserts = [fields.username, fields.password, fields.secret, data, fields.permission, fields.emp_select];
 						mysql.pool.query(sql, inserts, (error, results, fields) => {
 							if(error){
 				            	req.flash("error", JSON.stringify(error));
@@ -199,9 +199,8 @@ var sql = {
 				}else{
 					if(files.signature.name === ""){ // no file has been sent
 						console.log("no file sent");
-		                var inserts = [fields.username, fields.password, fields.permission, id];
-		                sql="UPDATE User SET username=?, password=?, permission=? WHERE id=?;" // Removed signature db field so it is not overwritten with null
-
+		                var inserts = [fields.username, fields.password, fields.secret, fields.permission, id];
+		                sql="UPDATE User SET username=?, password=?, secret=?, permission=? WHERE id=?;" // Removed signature db field so it is not overwritten with null
 						mysql.pool.query(sql, inserts, (error, results, fields) => {
 							if(error){
 				            	req.flash("error", JSON.stringify(error));
@@ -222,7 +221,7 @@ var sql = {
 				            if (err) throw err;
 			                // Delete the old file
 				            fs.unlink(oldpath, (err) => { if (err) throw err; });
-			                var inserts = [fields.username, fields.password, data, fields.permission, id];
+			                var inserts = [fields.username, fields.password, fields.secret, data, fields.permission, id];
 							mysql.pool.query(sql, inserts, (error, results, fields) => {
 								if(error){
 					            	req.flash("error", JSON.stringify(error));
@@ -278,7 +277,7 @@ var sql = {
 		            req.flash("success", "Award successfully added!");
 		            console.log(inserts[3]);
 		            latex.genLatex(inserts[0], inserts[1], inserts[2], inserts[3]);
-	               console.log(inserts[3]);
+	               	console.log(inserts[3]);
 		            res.redirect(redirect);
 		        }
 		    });

@@ -59,7 +59,7 @@ app.use(function(req, res, next){
 });
 
 // Shortens the route declarations
-app.use("/", indexRoutes); // landing, login, register, search, accounts pages
+app.use("/", indexRoutes); // landing, login
 app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. dept data
 app.use("/admin/locations", adminLocRoutes); // returns all loc and indiv. loc data
 app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user search feature

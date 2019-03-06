@@ -61,6 +61,7 @@ CREATE TABLE `User` (
 `id` int(11) NOT NULL AUTO_INCREMENT,
 `username` varchar(30) NOT NULL,
 `password` varchar(30) NOT NULL,
+`secret` varchar(30) NOT NULL DEFAULT 'secret',
 `date_created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 `signature` longblob,
 `permission` int(1) NOT NULL,
@@ -83,16 +84,3 @@ FOREIGN KEY (`award_id`) REFERENCES `Award` (`id`) ON DELETE CASCADE ON UPDATE C
 FOREIGN KEY (`employee_id`) REFERENCES `Employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-
--- Populate tables with data
-INSERT INTO `Location` (city, state, zip) values ("Denver", "CO","80202-2805");
-
-INSERT INTO `Department` (name, description, location_id) values ("Sales", "Conducts sales activity for company",(SELECT id FROM Location WHERE zip = "80202-2805")); 
-
-INSERT INTO `Employee` (email, fname, lname, department_id) values ("nelsorya@oregonstate.edu", "Ryan", "Nelson", (SELECT id FROM Department WHERE name = "Sales")); 
-
-INSERT INTO `Award` (title, description) values ("Employee Of The Month", "Recognizes outstanding employees who's contributions to the company were significant.");
-
-INSERT INTO `User` (username, password, date_created, signature, permission, employee_id) values ((SELECT email FROM Employee WHERE email = "nelsorya@oregonstate.edu"), "pwd", now(), NULL, 1, (SELECT id FROM Employee WHERE email = "nelsorya@oregonstate.edu"));
-
-INSERT INTO `Granted` (user_id, award_id, employee_id, grant_date) values ((SELECT id FROM User WHERE username = "nelsorya@oregonstate.edu"),(SELECT id FROM Award WHERE title = "Employee Of The Month"), (SELECT id FROM Employee WHERE email = "nelsorya@oregonstate.edu"), now());

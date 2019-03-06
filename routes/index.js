@@ -55,25 +55,50 @@ router.post('/login', function(req, res){
 router.get("/logout", middleware.logout, function(req, res){
 
 })
-// show register form
-router.get("/register", function(req, res){
-   res.render("register"); 
+// show forgot form
+router.get("/forgot", function(req, res){
+    console.log("Show forgot form");
+    res.render("forgot");
 });
-
-// handle sign up logic
-router.post("/register", function(req, res) {
-    console.log(req.body)
+router.post("/forgot", function(req, res){
     var mysql = req.app.get('mysql');
-    var sql = "INSERT INTO `Accounts` (user_name, user_email, user_address, phone_number, user_pw, acc_type) VALUES (?, ?, ?, ?, ?, ?)";
-    var inserts = [req.body.user_name, req.body.user_email, req.body.user_address, req.body.phone_number, req.body.user_pw, req.body.acc_type];
-    sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+    var stylesheets = null;
+    var scripts = null;
+    var redirect = "/";
+    var sql = "SELECT id FROM User WHERE username = ? AND secret = ?;";
+    console.log("in post /forgot");
+    var inserts = [req.body.username, req.body.secret]; 
+    var inserts1 = [req.body.password1, req.body.password2];
+    mysql.pool.query(sql, inserts, (error, results, fields) => {
         if(error){
-            console.log(JSON.stringify(error))
-            res.write(JSON.stringify(error));
-            res.end();
-        }else{
-            res.redirect('/search');
+            req.flash("error", JSON.stringify(error));
+            console.log(JSON.stringify(error));
+            res.redirect(redirect);
+        }else if(results[0] == undefined){
+            req.flash("error", "username not found!");
+            res.redirect(redirect);
+        }else{ // user was successfully found, proceed to reset password   
+            console.log(results);
+            if(inserts1[0] !== inserts1[1]){ // make sure the passwords are the same
+                req.flash("error", "Passwords entered do not match!");
+                res.redirect(redirect);
+            }
+            var sql = "UPDATE User SET password=? WHERE id=?;"
+            var inserts = [req.body.password1, results[0].id];
+            mysql.pool.query(sql, inserts, (error, results, fields) => {
+                if(error){
+                    req.flash("error", JSON.stringify(error));
+                    res.redirect(redirect);
+                }else if(results.affectedRows == 0){
+                    req.flash("error",  "password not updated");
+                    res.redirect(redirect);
+                }else{
+                    console.log(results);
+                    req.flash("success", "Password successfully updated!");
+                    res.redirect(redirect);
+                }
+            });
         }
-	});
+    });
 });
 module.exports = router;
