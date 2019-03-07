@@ -243,7 +243,7 @@ var sql = {
 	},
 	removeUser: (req, res, sql, redirect) => {
 		var id = req.params.id;
-		if(!validateIDs(Number(req.body.permission), Number(req.body.employee_id), Number(id))){
+		if(!validateIDs(Number(id))){
 			res.redirect(redirect);
 		}else{
 			var mysql = req.app.get('mysql');

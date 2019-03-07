@@ -52,6 +52,7 @@ router.put("/:id", middleware.isAdmin, (req, res) => {
 });
 // DELETE normal/admin user
 router.delete("/:id", middleware.isAdmin, (req, res) => {
+    console.log("delete request received");
     var redirect = "/admin";
     sql.removeUser(req, res, sql.deleteUser, redirect);
 });
