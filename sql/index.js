@@ -114,9 +114,10 @@ var sql = {
 		var formidable = require('formidable');
 		var fs = require('fs');
 		var mysql = req.app.get('mysql');
-
+		var username = ""; // used to fix the scope problem below
 		var form = new formidable.IncomingForm();
 		form.parse(req, (err, fields, files) => {
+			username=fields.username;
 			if(!validateIDs(Number(fields.permission), Number(fields.emp_select))){
 				res.redirect(redirect);
 			}else{
@@ -128,10 +129,10 @@ var sql = {
 			            	req.flash("error", JSON.stringify(error));
 			            	res.redirect(redirect);
 				        }else if(results.affectedRows == 0){
-			       			req.flash("error", fields.username + ": not added!");
+			       			req.flash("error", username + ": not added!");
 			            	res.redirect(redirect);
 						}else{
-			            	req.flash("success", fields.username + " successfully added!");
+			            	req.flash("success", username + " successfully added!");
 			            	res.redirect(redirect);
 				        }
 					});
@@ -150,10 +151,10 @@ var sql = {
 				            	req.flash("error", JSON.stringify(error));
 				            	res.redirect(redirect);
 					        }else if(results.affectedRows == 0){
-				       			req.flash("error", fields.username + ": not found!");
+				       			req.flash("error", username + ": not found!");
 				            	res.redirect(redirect);
 							}else{
-				            	req.flash("success", fields.username + " successfully updated!");
+				            	req.flash("success", username + " successfully updated!");
 				            	res.redirect(redirect);
 					        }
 						});

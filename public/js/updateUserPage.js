@@ -59,7 +59,7 @@ function updatePage(event){
 	}
 }
 function createBox(award){
-	console.log("in createBox");
+	console.log("in createBox w:", award);
 
 	var box = document.createElement("div");
 	var span = document.createElement("span");
