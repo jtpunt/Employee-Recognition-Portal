@@ -241,7 +241,7 @@ var sql = {
 			});
 		}
 	},
-	removeUser: (req, res, sql, redirect) => {
+	removeEmployee: (req, res, sql, redirect) => {
 		var id = req.params.id;
 		if(!validateIDs(Number(id))){
 			res.redirect(redirect);
