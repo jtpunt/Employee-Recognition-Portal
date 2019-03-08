@@ -12,7 +12,7 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
     var render = "user/dashboard";
     var stylesheets = ["/static/css/dashboard.css", "/static/css/userSearch.css"];
     var scripts = ["/static/js/common.js", "/static/js/updateUserPage.js"];
-    sql.find(req, res, sql.getAllUsers, redirect, render, stylesheets, scripts);
+    sql.find(req, res, sql.getAllEmployees, redirect, render, stylesheets, scripts);
 });
 router.get("/all", middleware.isLoggedIn, (req, res) => {
     console.log("in user all route..");
