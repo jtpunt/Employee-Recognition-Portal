@@ -58,13 +58,13 @@ var sql = {
 
 	editUserName: "UPDATE User SET username=? WHERE id = ?;",
 
-	getAllUsers: "SELECT id, CONCAT(fname, ' ', lname) AS fullname FROM Employee ORDER BY fname, lname ASC;",
+	getAllEmployees: "SELECT id, CONCAT(fname, ' ', lname) AS fullname FROM Employee ORDER BY fname, lname ASC;",
 	
 	// Wenda add get all userview for user version 
 	getAllUsers2: "SELECT id As user_id, username, password, date_created, signature, permission, employee_id \
 	FROM User;", 
 
-	getUserById: "SELECT * FROM User WHERE id = ?;",
+	getUsersByEmpId: "SELECT * FROM User WHERE employee_id = ?;",
 
 	getUserSigById: "SELECT signature FROM User WHERE id = ?;",
 

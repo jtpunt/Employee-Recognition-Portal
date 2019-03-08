@@ -24,7 +24,7 @@ router.post("/", middleware.isAdmin, (req, res) => {
 router.get("/all", middleware.isAdmin, (req, res) => {
     console.log("in user all route..");
     var redirect = "/admin";
-    sql.findAndRet(req, res, sql.getAllUsers, redirect);
+    sql.findAndRet(req, res, sql.getAllEmployees, redirect);
 });
 router.get("/:id", middleware.isAdmin, (req, res) => {
     console.log("in user/:id route");
@@ -42,7 +42,7 @@ router.get("/:id/edit", middleware.isAdmin, (req, res) => {
     var stylesheets = [];
     var scripts = [];
     // Takes you to the form to add a user
-    sql.findById(req, res, sql.getUserById, redirect, render, stylesheets, scripts);
+    sql.findById(req, res, sql.getUsersByEmpId, redirect, render, stylesheets, scripts);
 });
 // UPDATE normal/admin user
 router.put("/:id", middleware.isAdmin, (req, res) => {
