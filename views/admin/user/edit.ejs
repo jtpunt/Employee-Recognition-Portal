@@ -1,31 +1,93 @@
 <% include ../../partials/header %>
-<% if (results[1]) { console.log(results);%>
+<% if (results[1]) { %>
 
     <h1>admin/user combo found!</h1>
-<% } %>
-<div class="container">
-    <div class="row">
-    <select>
-        <option></option>
+    <select id="selectUser" onchange="updateForm(this);">
+        <option disabled>Select User</option>
+        <% if(results[0].permission == 1){ %>
+            <option value="0">User - <%=results[1].username%></option>
+            <option value="1" selected>Admin - <%=results[0].username%></option>
+        <% } else{ %>
+            <option value="0">Admin - <%=results[1].username%></option>
+            <option value="1" selected>User - <%=results[0].username%></option>
+        <% }%>
     </select>
+    <div class="container1" id="user1" hidden>
+        <div class="row">
+            <h1 style="text-align: center;">Edit <%=results[1].username%></h1>
+            <div style="width: 30%; margin:25px auto;">
+                <form action="/admin/users/<%=results[1].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" value="<%=results[1].username%>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input class="form-control" type="text" id="password" name="password" value="<%=results[1].password%>" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="secret">Secret</label>
+                        <input class="form-control" type="text" id="secret" name="secret" value="<%=results[1].secret%>" required>
+                    </div>
+                    <div class="form-group">
+                        <img src="data:image/jpg;base64,<%=results[1].signature %>" id="sigImg" height="150" width="300">
+                        <br>
+                        <label for="signature">Signature</label>
+                        <input class="form-control" type="file" name="signature" id="signature" accept=".jpeg">
+                    </div>
+                    <div class="form-group">
+                        <label for="permission">Permission</label>
+                            <select name="permission" id="permission">
+                                <option>Select User Type</option>
+                                <% if(results[1].permission == 1){ %>
+                                    <option value="0">Normal User</option>
+                                    <option value="1" selected>Admin User</option>
+                                <% } else{ %>
+                                    <option value="0" selected>Normal User</option>
+                                    <option value="1">Admin User</option>
+                               <% } %>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+                    </div>
+                </form>
+                <a href="/admin">Go Back</a>
+            </div>
+        </div>
+    </div>
+<% } %>
+<script>
+    function updateForm(event){
+        if(event.value == 0){
+            document.getElementById("user1").hidden = false;
+            document.getElementById("user2").hidden = true;
+        }else{
+            console.log("show user 2");
+            document.getElementById("user2").hidden = false;
+            document.getElementById("user1").hidden = true;
+        }
+    }
+</script>
+<div class="container" id="user2">
+    <div class="row">
         <h1 style="text-align: center;">Edit <%=results[0].username%></h1>
         <div style="width: 30%; margin:25px auto;">
             <form action="/admin/users/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input class="form-control" type="text" name="username" value="<%=results[0].username%>" required>
+                    <input class="form-control" type="text" id="username" name="username" value="<%=results[0].username%>" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input class="form-control" type="text" name="password" value="<%=results[0].password%>" required>
+                    <input class="form-control" type="text" id="password" name="password" value="<%=results[0].password%>" required>
                 </div>
                 <div class="form-group">
                     <label for="secret">Secret</label>
-                    <input class="form-control" type="text" name="secret" value="<%=results[0].secret%>" required>
+                    <input class="form-control" type="text" id="secret" name="secret" value="<%=results[0].secret%>" required>
                 </div>
                 <div class="form-group">
-                    <img src="data:image/jpg;base64,<%=results[0].signature %>" height="150" width="300">
-                    <% console.log("hello ", typeof results[0].signature) %>
+                    <img src="data:image/jpg;base64,<%=results[0].signature %>" id="sigImg" height="150" width="300">
                     <br>
                     <label for="signature">Signature</label>
                     <input class="form-control" type="file" name="signature" id="signature" accept=".jpeg">

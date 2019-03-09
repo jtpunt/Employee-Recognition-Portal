@@ -64,7 +64,7 @@ var sql = {
 	getAllUsers2: "SELECT id As user_id, username, password, date_created, signature, permission, employee_id \
 	FROM User;", 
 
-	getUsersByEmpId: "SELECT * FROM User WHERE employee_id = ?;",
+	getUsersByEmpId: "SELECT * FROM User WHERE employee_id = ? ORDER BY permission ASC;",
 
 	getUserSigById: "SELECT signature FROM User WHERE id = ?;",
 
