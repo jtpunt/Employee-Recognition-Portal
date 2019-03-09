@@ -17,7 +17,7 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
 router.get("/all", middleware.isLoggedIn, (req, res) => {
     console.log("in user all route..");
     var redirect = "/user";
-    sql.findAndRet(req, res, sql.getAllUsers, redirect);
+    sql.findAndRet(req, res, sql.getAllEmployees, redirect);
 });
 router.get("/currentUser", middleware.isLoggedIn, (req, res) => {
     console.log("in /user/currentUser route");
