@@ -77,7 +77,13 @@ function createBox(award){
 	delForm.action = "/user/awards/" + award['id'] + "?_method=DELETE";
 	delForm.method = "POST";
 	delForm.className = "delete-form";
-
+	delForm.addEventListener("submit", function(event){
+		event.preventDefault();
+		fetch("/user/awards/" + award['id'], { method: 'delete'})
+		.then(handleErrors)
+		.then(response => box.parentNode.removeChild(box))
+		.catch(displayErrors)
+		});
 	// Set delete button attributes
 	delBtn.className="btn btn-danger";
 	delBtn.innerText="Delete";
