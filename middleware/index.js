@@ -1,6 +1,13 @@
 var middleware = {
+	isUser(req, res, next){
+		if(req.session.normal_user){
+	        return next();
+	    }
+	    req.flash("error", "You need to be logged in to do that");
+	    res.redirect("/login");
+	},
 	isLoggedIn(req, res, next){
-	    if(req.session.normal_user){
+	    if(req.session.normal_user || req.session.admin){
 	        return next();
 	    }
 	    req.flash("error", "You need to be logged in to do that");

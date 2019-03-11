@@ -2,7 +2,7 @@
 \\usepackage[utf8]{inputenc}
 \\usepackage{float}
 \\usepackage{graphicx}
-\\graphicspath{ {/nfs/stak/users/perryjon/capstone/Employee-Recognition-Portal/images/} }
+\\graphicspath{ {/nfs/stak/users/perryjon/Employee-Recognition-Portal/LaTeX/images/} }
 \\title{Employee Recognition Program}
 \\author{${fname} ${lname}} 
 \\date{${datestamp}}

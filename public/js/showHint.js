@@ -1,10 +1,14 @@
+document.addEventListener('DOMContentLoaded', function() {
+	fetch("/employees")
+	.then(handleErrors)
+	.then(parseJSON)
+	.then(data => obj.setData(data))
+	.catch(displayErrors);
+}, false);
 // SRC: https://www.w3schools.com/php/php_ajax_php.asp
-var url = 'http://localhost:5004/users/';
-var arr = [];
-var boxArr = [];
 var obj = {
+	employees : [],
 	showHint: function(str){
-		console.log("in show hint: ", str, arr);
 		var search_res = document.getElementById("search_res");
 		if (str.length == 0) {
 	        while(search_res.firstChild){
@@ -18,8 +22,7 @@ var obj = {
 		        	search_res.removeChild(search_res.firstChild);
 		        }
 			    var len=str.length;
-			    arr.forEach((employee) => {
-			    	// console.log(name.substr(0, len).toUpperCase(), ' : ', str.toUpperCase());
+			    employees.forEach((employee) => {
 			    	if(employee['fullname'].substr(0, len).toUpperCase() == str.toUpperCase()){
 			    		search_res.appendChild(createBox(employee));
 			    	}
@@ -27,18 +30,9 @@ var obj = {
 			}
 	    }
 	},
-	setData: function(data){
-		console.log("in set Data", data);
-		arr=Array.from(data);
-		// arr = data.map(val => ([val.id, val.fname + ' ' + val.lname]));
-		console.log(arr);
-		document.addEventListener('DOMContentLoaded', function() {
-			// reuse this data for the dropdown menu on the add user form
-			handleDropDownData(arr, "emp_select");
-		});
-	}
-
+	setData: (data) => { handleDropDownData(employees = Array.from(data), "emp_select"); }
 }
+
 function createBox(employee){
 	console.log("in createBox");
 	var dept_select  = document.getElementById("dept_select");

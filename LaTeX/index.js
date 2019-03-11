@@ -5,10 +5,10 @@ var latex = {
       console.log("Grant date..", + grantDate);
       var fs = require('fs');
       var timeStamp = Date.now(); //get number of milliseconds since midnight, 1/1/1970
-      var filename = './texFiles/' + timeStamp.toString() + '.tex';
-      var outputFile = './pdfFiles/' + timeStamp.toString() + '.pdf' ;
+      var filename = './LaTeX/texFiles/' + timeStamp.toString() + '.tex';
+      var outputFile = './LaTeX/pdfFiles/' + timeStamp.toString() + '.pdf' ;
       var sigFile = timeStamp.toString() + '.jpg'; //signature image file name
-      var sigFilePath = './images/' + timeStamp.toString() + '.jpg'; //signature image file path
+      var sigFilePath = './LaTeX/images/' + timeStamp.toString() + '.jpg'; //signature image file path
       var award, description, email, fname, lname, grantorFname, grantorLname, dte, signature;
     
       var d = new Date();

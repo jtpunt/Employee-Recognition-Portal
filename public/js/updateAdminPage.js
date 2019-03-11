@@ -32,6 +32,7 @@ function handleChartData(data, category, title, ele){
 }
 function updatePage(event){
 	var ele_id = event.target.id;
+	var emp_awards = document.getElementById("emp_awards");
 	var dept_select  = document.getElementById("dept_select");
 	var loc_select  = document.getElementById("loc_select");
 	var deptpiechart = document.getElementById("deptpiechart");
@@ -40,8 +41,19 @@ function updatePage(event){
 	var search = document.getElementById("search");
 	var search_res = document.getElementById("search_res");
 	console.log(event);
-	if(ele_id === "a_dept_chart"){
+	if(ele_id === "a_emp_awards"){
+		emp_awards.hidden = false;
+		dept_select.hidden = true;
+		loc_select.hidden = true;
+		deptpiechart.hidden = true;
+		locpiechart.hidden = true;
+		search.hidden = true;
+		search_res.hidden = true;
+		addUser.hidden = true;
+	}
+	else if(ele_id === "a_dept_chart"){
 		dept_select.hidden = false;
+		emp_awards.hidden = true;
 		loc_select.hidden = true;
 		deptpiechart.hidden = false;
 		locpiechart.hidden = true;
@@ -50,6 +62,7 @@ function updatePage(event){
 		addUser.hidden = true;
 	}else if(ele_id === "a_loc_chart"){
 		loc_select.hidden = false;
+		emp_awards.hidden = true;
 		dept_select.hidden = true;
 		locpiechart.hidden = false;
 		deptpiechart.hidden = true;
@@ -59,6 +72,7 @@ function updatePage(event){
 	}
 	else if(ele_id === "a_users"){
 		addUser.hidden = false;
+		emp_awards.hidden = true;
 		dept_select.hidden = true;
 		loc_select.hidden = true;
 		locpiechart.hidden = true;
@@ -67,6 +81,7 @@ function updatePage(event){
 		search_res.hidden = true;
 	}else if(ele_id === "a_search"){
 		dept_select.hidden = true;
+		emp_awards.hidden = true;
 		loc_select.hidden = true;
 		search.hidden = false;
 		search_res.hidden = false;

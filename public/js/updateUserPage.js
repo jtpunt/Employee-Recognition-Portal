@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-	setDropDown("/user/all", "emp_select");
+	setDropDown("/employees", "emp_select");
 }, false);
+
 function getGrantedAwards(url, ele){
 	fetch(url)
 	.then(handleErrors)

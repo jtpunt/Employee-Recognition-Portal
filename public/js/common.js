@@ -1,3 +1,15 @@
+document.addEventListener('DOMContentLoaded', function() {
+	var btns = document.getElementsByClassName("mybtn");
+	Array.prototype.forEach.call(btns, function(btn){
+		btn.addEventListener("click", function() {
+		    var current = document.getElementsByClassName("active");
+		    if(current[0] !== undefined){
+		    	current[0].className = current[0].className.replace(" active", "");
+		    }
+		    this.className += " active";
+		});
+	});
+}, false);
 function setDropDown(url, ele){
 	fetch(url)
 	.then(handleErrors)

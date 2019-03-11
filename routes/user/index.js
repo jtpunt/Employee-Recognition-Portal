@@ -6,7 +6,7 @@ var express    = require("express"),
 // Takes you to the user dashboard, where you can:
 // 	- change user name for the logged in user
 // 	- delete granted awards given by the logged in user
-router.get("/", middleware.isLoggedIn, (req, res) => {
+router.get("/", middleware.isUser, (req, res) => {
 	console.log("in main user route..");
 	var redirect = "/user";
     var render = "user/dashboard";
@@ -14,12 +14,12 @@ router.get("/", middleware.isLoggedIn, (req, res) => {
     var scripts = ["/static/js/common.js", "/static/js/updateUserPage.js"];
     sql.find(req, res, sql.getAllEmployees, redirect, render, stylesheets, scripts);
 });
-router.get("/all", middleware.isLoggedIn, (req, res) => {
+router.get("/all", middleware.isUser, (req, res) => {
     console.log("in user all route..");
     var redirect = "/user";
     sql.findAndRet(req, res, sql.getAllEmployees, redirect);
 });
-router.get("/currentUser", middleware.isLoggedIn, (req, res) => {
+router.get("/currentUser", middleware.isUser, (req, res) => {
     console.log("in /user/currentUser route");
     var respObj = {
         "username": req.session.username,
@@ -29,7 +29,7 @@ router.get("/currentUser", middleware.isLoggedIn, (req, res) => {
     res.end();
 });
 // Updates the username for the current logged in user
-router.put("/:id", middleware.isLoggedIn, (req, res) => {
+router.put("/:id", middleware.isUser, (req, res) => {
     console.log("update request received");
     // same as admin/user route
     var redirect = "/user";

@@ -11,19 +11,13 @@ var PORT = 6598;
 
 // requiring routes
 var indexRoutes     = require("./routes/index"),
-    adminRoutes     = require("./routes/admin/admin"),
+    adminRoutes     = require("./routes/admin/index"),
     adminDeptRoutes = require("./routes/admin/department"),
     adminLocRoutes  = require("./routes/admin/location"),
     adminUserRoutes = require("./routes/admin/user"), 
-    userRoutes      = require("./routes/user/account"),
+    userRoutes      = require("./routes/user/index"),
     awardRoutes     = require("./routes/user/award"),
-    userRoutes1     = require("./routes/user/user"),    
-    userAwardRoutes = require("./routes/user/awards"),
-    userProfileRoutes=require("./routes/user/profile"),
-    userNewRoutes   = require("./routes/user/new"),
-    userDeleteRoutes= require("./routes/user/delete"),
-    userUVRoutes  = require("./routes/user/userview"),
-    forgetRoutes    = require("./routes/forget");
+    commonRoutes    = require("./routes/common/index");
     
 
 app.set('view engine', 'ejs');
@@ -64,6 +58,7 @@ app.use("/admin/departments", adminDeptRoutes); // returns all dept and indiv. d
 app.use("/admin/locations", adminLocRoutes); // returns all loc and indiv. loc data
 app.use("/admin/users", adminUserRoutes); // add/edit/delete user pages + user search feature
 app.use("/admin", adminRoutes); // admin dashboard
+app.use("/employees", commonRoutes); 
 app.use("/user/awards", awardRoutes); // shows all awards, create awards
 app.use("/user", userRoutes); // changing user name, deleting granted awards associated w/ logged in user
 // app.use("/user", userRoutes1);  //  user landing page

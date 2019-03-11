@@ -1,53 +1,16 @@
 <% include ../partials/header %>
 <div class="container1">
 	<div class="box box-1">
-		<ul>
-			<li><i class="fas fa-chart-pie"></i><a id="a_grant_award" onclick="updatePage(event)">Grant Award</a><li>
-            <li><i class="fas fa-chart-pie"></i><a id="a_show_award" onclick="updatePage(event)"> Show Granted Awards</a><li>
-	      	<li><i class="fas fa-user"></i><a id="a_edit_username" onclick="updatePage(event)"> Edit User Name</a></li>
+		<ul id="myUl">
+			<li class="mybtn"><i class="fas fa-plus"></i><a id="a_grant_award" onclick="updatePage(event)"> Grant Award</a><li>
+            <li class="mybtn"><i class="fas fa-award"></i><a id="a_show_award" onclick="updatePage(event)"> Show Granted Awards</a><li>
+	      	<li class="mybtn"><i class="fas fa-user"></i><a id="a_edit_username" onclick="updatePage(event)"> Edit User Name</a></li>
     	</ul>
 	</div>
 	<div class="box box-2">
-		<div class="flex-container" id="add_award" hidden>
-			<h1 style="text-align: center;">Add New Award</h1>
-       		<div style="width: 30%; margin:25px auto;">
-	            <form action="/user/awards" method="post">
-	                <div class="form-group">
-	                    <label for="award_id">Award</label>
-	                    <select name="award_id">
-	                        <option value="1">Employee of the Week</option>
-	                        <option value="2">Employee of the Month</option>
-	                    </select>
-	                </div>
-	                <br>
-	                <div class="form-group">
-	                    <label for="emp_select">Employee ID</label>
-	                    	<select id="emp_select" name="emp_select" required>
-								<option disabled>Select an Employee</option>
-							</select>
-	                </div>
-	                <div class="form-group">
-	                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
-	                </div>
-	            </form>
-        	</div>
-		</div>
+		<% include ./awards/new %>
 		<div class="flex-container" id="show_award" hidden></div>
-		<div class="flex-container" id="edit_username" hidden>
-			<h1 style="text-align: center;" id="usernameH1"></h1>
-	        <div style="width: 30%; margin:25px auto;">
-	            <form id="usernameForm" action="/user/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
-	                <div class="form-group">
-	                    <label for="username">Username</label>
-	                    <input class="form-control" type="text" id="username" name="username" required>
-                        <div class="form-group">
-	                    	<button class="btn btn-lg btn-primary btn-block">Submit!</button>
-	               		</div>
-	                </div>
-	            </form>
-	            <a href="/user">Go Back</a>
-	        </div>
-		</div>
+		<% include ./edit %>
 	</div>
 </div>
 <% include ../partials/footer %>
