@@ -1,38 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
 	setDropDown("/employees", "emp_select");
 }, false);
-
-function getGrantedAwards(url, ele){
+// Gets awards granted by the currently logged in user
+function getGrantedAwards(url){
 	fetch(url)
 	.then(handleErrors)
 	.then(parseJSON)
-	.then(data => handleData(data))
+	.then(data => handleAwards(data))
 	.catch(displayErrors);
 }
+// Gets the username and id of the currently logged in user
 function getCurrentUser(url){
 	fetch(url)
 	.then(handleErrors)
 	.then(parseJSON)
-	.then(data => setUserForm(data))
+	.then(data => setUserForm(data)) 
 	.catch(displayErrors);
 }
-function handleData(awardData){
+// Displays on-screen the awards granted by the currently logged in user
+function handleAwards(awardData){
 	var show_award  = document.getElementById("show_award");
 	console.log("in handleData: ", awardData);
 	awardData.forEach(function(award){
 		show_award.appendChild(createBox(award));
 	});
 }
-function setUserForm(data){
+// Fills the user edit form with their current username
+// Sets the form to perform a put request on their unique id so that their username may be updated
+function setUserForm(userData){
 	console.log(data);
 	var editUserName  = document.getElementById("edit_username"); // div
 	var h1 = document.getElementById("usernameH1"); // h1
 	var usernameForm = document.getElementById("usernameForm"); // form
 	var username     = document.getElementById("username"); // input
-	usernameForm.action = "/user/" + data['id'] + "?_method=PUT";
-	h1.innerHTML = "Edit " + data['username'];
-	username.value = data['username'];
+	usernameForm.action = "/user/" + userData['id'] + "?_method=PUT";
+	h1.innerHTML = "Edit " + userData['username'];
+	username.value = userData['username'];
 }
+// Handles the on-click events from the a tags on the left-side of the user dashboard by showing
+// specific content associated with those a tags on the right-side of he user dashboard.
 function updatePage(event){
 	var ele_id = event.target.id;
 	var addAwardForm  = document.getElementById("add_award");
@@ -41,27 +47,28 @@ function updatePage(event){
    	while(showAwards.firstChild){
     	showAwards.removeChild(showAwards.firstChild);
     }
-	console.log(event);
-	if(ele_id === "a_grant_award"){
-		addAwardForm.hidden = false;
+	if(ele_id === "a_grant_award"){ // Does the user want to grant an award?
+		addAwardForm.hidden = false; // Show the add award form, hide the other content
 		showAwards.hidden = true;
 		editUserName.hidden = true;
-	}else if(ele_id === "a_show_award"){
-		getGrantedAwards("/user/awards", null);
-		showAwards.hidden = false;
+	}else if(ele_id === "a_show_award"){ // Does the user want to show awards they've granted?
+		getGrantedAwards("/user/awards"); // Gets awards granted by the user, prepare them to be displayed on-screen
+		showAwards.hidden = false; // Show the awards that the user has granted, hide the other content
 		addAwardForm.hidden = true;
 		editUserName.hidden = true;
 	}
-	else if(ele_id === "a_edit_username"){
-		getCurrentUser("/user/currentUser");
-		editUserName.hidden = false;
+	else if(ele_id === "a_edit_username"){ // Does the user want to edit their username?
+		getCurrentUser("/user/currentUser"); // Get the current username and id, then preset the user edit form with this data
+		editUserName.hidden = false; // Show the user edit form, hide the other content
 		addAwardForm.hidden = true;
 		showAwards.hidden = true;
 	}
 }
+// Creates a div that has a nested span and a delete form
+// Where the span contains the name of the award recipient, and the name of the award they receieved
+// Sets the form to perform a delete request on the unique id of the granted award
+// Asks the user in a popup dialog box if they're sure about deleting the granted award, before deleting it
 function createBox(award){
-	console.log("in createBox w:", award);
-
 	var box = document.createElement("div");
 	var span = document.createElement("span");
 	var editBtn = document.createElement("a");
