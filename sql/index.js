@@ -313,8 +313,8 @@ var sql = {
 	       			req.flash("error", id + ": not found!");
 	            	res.redirect(redirect);
 				}else{
-	            	req.flash("success", id + " successfully deleted!");
-	            	res.redirect(redirect);
+	            	// req.flash("success", id + " successfully deleted!");
+	            	res.status(200).end();
 		        }
 			});
 		}

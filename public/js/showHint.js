@@ -72,7 +72,16 @@ function createBox(employee){
 	delForm.action = "/admin/users/" + employee['id'] + "?_method=DELETE";
 	delForm.method = "POST";
 	delForm.className = "delete-form";
-
+	delForm.addEventListener("submit", function(event){
+		event.preventDefault();
+		if (confirm("Are you sure you want to delete this award?")) {
+    		fetch("/admin/users/" + employee['id'], { method: 'delete'})
+			.then(handleErrors)
+			.then(response => handleDelete(box, "User Successfully Deleted!"))
+			.catch(displayErrors)
+  		} else {
+  		}
+	});
 	// Set delete button attributes
 	delBtn.className="btn btn-danger";
 	delBtn.innerText="Delete";

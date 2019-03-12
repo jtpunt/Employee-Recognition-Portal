@@ -82,7 +82,7 @@ function createBox(award){
 		if (confirm("Are you sure you want to delete this award?")) {
     		fetch("/user/awards/" + award['id'], { method: 'delete'})
 			.then(handleErrors)
-			.then(response => handleResponse(box))
+			.then(response => handleDelete(box, "Award Successfully Deleted!"))
 			.catch(displayErrors)
   		} else {
   		}
@@ -93,12 +93,4 @@ function createBox(award){
 	delForm.appendChild(delBtn);
 	box.appendChild(delForm);
 	return box;
-}
-function handleResponse(ele){
-	var dangerAlert = document.getElementById("danger");
-	ele.parentNode.removeChild(ele); // delete the award entry
-	dangerAlert.innerHTML ="Award Successfully Deleted!";
-	setTimeout(function(){ 
-		dangerAlert.innerHTML = "";
-	}, 3000);
 }

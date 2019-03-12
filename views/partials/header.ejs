@@ -35,11 +35,23 @@
                     	<% } %>
                     <% } %>
                     <% if(error && error.length > 0){ %>
-	        			<li><span class="alert alert-danger" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=error%></span></li>
+	        			<li id="alert-danger"><span class="alert alert-danger" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=error%></span></li>
+	        			<script>
+	        				setTimeout(function(){
+	        					$("#alert-danger").fadeOut('slow');
+	        				}, 4000);
+	        			</script>
 	    			<% } %>
 				    <% if(success && success.length > 0){ %>
-				        <li><span class="alert alert-success" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=success%></span></li>
+				        <li id="alert-success"><span class="alert alert-success" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=success%></span></li>
+				        <script>
+				        	setTimeout(function(){
+	        					$("#alert-success").fadeOut('slow');
+	        				}, 4000);
+				    	</script>
 				    <% } %>
+				      	<li id="alert-danger"><span class="alert alert-danger" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em; display: none;"></span></li>
+	        			<li id="alert-success"><span class="alert alert-success" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em; display: none;"></span></li>
 	              </ul>
 	              <ul class="nav navbar-nav navbar-right">
 	              	<% if(!currentUser){ %>

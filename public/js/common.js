@@ -17,6 +17,15 @@ function setDropDown(url, ele){
 	.then(data => handleDropDownData(data, ele))
 	.catch(displayErrors);
 }
+function handleDelete(ele, msg){
+	var successAlert = document.getElementById("alert-success");
+	ele.parentNode.removeChild(ele); // delete the award entry
+	successAlert.firstChild.innerHTML = msg;
+	successAlert.firstChild.style.display = "block";
+	setTimeout(function(){ 
+		$("#alert-success").fadeOut('slow');
+	}, 3000);
+}
 function handleErrors(response){
 	if(!response.ok){
 		throw Error(response.status); // this will trigger the catch clause
