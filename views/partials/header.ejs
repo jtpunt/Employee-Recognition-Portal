@@ -27,28 +27,28 @@
 	            </div>
 	            <div id="navbar" class="collapse navbar-collapse">
 	              <ul class="nav navbar-nav">
-	                <% if(!currentUser){ %>
-                        <li><a href="/login">Login</a></li>
-                    <% } else { %>
-                        <li><a href="#">Signed In As <%= currentUser %></a></li>
+	                <% if(currentUser){ %>
                         <% if(admin_user){ %>
                         	<li><a href="/admin">Admin</a></li>
                     	<% } else { %>
                     		<li><a href="/user">User Page</a></li>
                     	<% } %>
-                        <li><a href="/logout">Logout</a></li>
                     <% } %>
+                    <% if(error && error.length > 0){ %>
+	        			<li><span class="alert alert-danger" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=error%></span></li>
+	    			<% } %>
+				    <% if(success && success.length > 0){ %>
+				        <li><span class="alert alert-success" role="alert" style="display: inline-block;position: relative;z-index: 1;padding: 1em;margin: 0em;"><%=success%></span></li>
+				    <% } %>
 	              </ul>
 	              <ul class="nav navbar-nav navbar-right">
+	              	<% if(!currentUser){ %>
+                        <li><a href="/login">Login</a></li>
+                    <% } else { %>
+	              	    <li><a disabled>Signed In As <%= currentUser %></a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    <% } %>
 	              </ul>
 	            </div>
 	        </div>
 		</nav>
-		<div class="container">
-		    <% if(error && error.length > 0){ %>
-		        <div class="alert alert-danger" role="alert"><%=error%></div>
-		    <% } %>
-		    <% if(success && success.length > 0){ %>
-		        <div class="alert alert-success" role="alert"><%=success%></div>
-		    <% } %>
-		</div>

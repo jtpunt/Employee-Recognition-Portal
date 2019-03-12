@@ -79,15 +79,26 @@ function createBox(award){
 	delForm.className = "delete-form";
 	delForm.addEventListener("submit", function(event){
 		event.preventDefault();
-		fetch("/user/awards/" + award['id'], { method: 'delete'})
-		.then(handleErrors)
-		.then(response => box.parentNode.removeChild(box))
-		.catch(displayErrors)
-		});
+		if (confirm("Are you sure you want to delete this award?")) {
+    		fetch("/user/awards/" + award['id'], { method: 'delete'})
+			.then(handleErrors)
+			.then(response => handleResponse(box))
+			.catch(displayErrors)
+  		} else {
+  		}
+	});
 	// Set delete button attributes
 	delBtn.className="btn btn-danger";
 	delBtn.innerText="Delete";
 	delForm.appendChild(delBtn);
 	box.appendChild(delForm);
 	return box;
+}
+function handleResponse(ele){
+	var dangerAlert = document.getElementById("danger");
+	ele.parentNode.removeChild(ele); // delete the award entry
+	dangerAlert.innerHTML ="Award Successfully Deleted!";
+	setTimeout(function(){ 
+		dangerAlert.innerHTML = "";
+	}, 3000);
 }
