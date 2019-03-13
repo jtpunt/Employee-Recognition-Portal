@@ -64,7 +64,7 @@ function updatePage(event){
 		showAwards.hidden = true;
 	}
 }
-// Creates a div that has a nested span and a delete form
+// Creates a div that has a nested span and a delete form and then returns this div
 // Where the span contains the name of the award recipient, and the name of the award they receieved
 // Sets the form to perform a delete request on the unique id of the granted award
 // Asks the user in a popup dialog box if they're sure about deleting the granted award, before deleting it

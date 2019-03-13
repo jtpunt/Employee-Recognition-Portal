@@ -7,32 +7,43 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 // SRC: https://www.w3schools.com/php/php_ajax_php.asp
 var obj = {
-	employees : [],
+	employees : [], // is filled with data from setData
 	showHint: function(str){
 		var search_res = document.getElementById("search_res");
-		if (str.length == 0) {
-	        while(search_res.firstChild){
-	        	search_res.removeChild(search_res.firstChild);
+		if (str.length == 0) { // is the search string empty?
+	        while(search_res.firstChild){  // clear the search results
 	        }
 	        return;
 	    } else {
 	    	var hint = "";
-	    	if (str !== "") {
-		        while(search_res.firstChild){
+	    	if (str !== "") { 
+		        while(search_res.firstChild){ // clear the search results
 		        	search_res.removeChild(search_res.firstChild);
 		        }
 			    var len=str.length;
-			    employees.forEach((employee) => {
+			    employees.forEach((employee) => { // loop through each employee
+			    	// compare the employees full name from index 0 to the length of the search string 
+			    	// to the search string itself
 			    	if(employee['fullname'].substr(0, len).toUpperCase() == str.toUpperCase()){
+			    		// if there's a match, append a box to the search results containing
+			    		// the employees name, a link to show awards that they have been granted, a link
+			    		// to edit their accounts, and a button to delete that employee from the data base
 			    		search_res.appendChild(createBox(employee));
 			    	}
 			    });
 			}
 	    }
 	},
+	// assigns data to the employees variable within this object 
+	// and sets the employee drop down menu with data on the add user form
 	setData: (data) => { handleDropDownData(employees = Array.from(data), "emp_select"); }
 }
-
+// Creates a div that has a nested span, 2 a tags, and a delete form and then returns this div.
+// Where the span contains the name of the employee, the 1st a tag, takes you to a page showing 
+// awards that the employee was granted, the 2nd a tag takes you to an edit page where you can 
+// edit their regular user and/or admin user account.
+// Sets the form to perform a delete request on the unique id of the employee
+// Asks the admin in a popup dialog box if they're sure about deleting the employee, before deleting it
 function createBox(employee){
 	console.log("in createBox");
 	var dept_select  = document.getElementById("dept_select");
