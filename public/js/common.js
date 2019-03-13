@@ -1,12 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-	var btns = document.getElementsByClassName("mybtn");
+	var btns = document.getElementsByClassName("mybtn"); 
+	// Because you cannot iterate through a NodeList, we must invoke the 
+	// Array.prototype.forEach method, and use call to set btns on the nodelist
+	// as the context
 	Array.prototype.forEach.call(btns, function(btn){
 		btn.addEventListener("click", function() {
 		    var current = document.getElementsByClassName("active");
-		    if(current[0] !== undefined){
-		    	current[0].className = current[0].className.replace(" active", "");
+		    if(current[0] !== undefined){ // is there a btn that's already "active" or highlighted?
+		    	// remove the classname "active"
+		    	current[0].className = current[0].className.replace(" active", ""); 
 		    }
-		    this.className += " active";
+		    this.className += " active"; // add the "active" classname to the btn that was just clicked
 		});
 	});
 }, false);
