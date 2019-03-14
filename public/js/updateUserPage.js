@@ -28,7 +28,6 @@ function handleAwards(awardData){
 // Fills the user edit form with their current username
 // Sets the form to perform a put request on their unique id so that their username may be updated
 function setUserForm(userData){
-	console.log(data);
 	var editUserName  = document.getElementById("edit_username"); // div
 	var h1 = document.getElementById("usernameH1"); // h1
 	var usernameForm = document.getElementById("usernameForm"); // form

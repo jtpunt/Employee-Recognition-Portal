@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 	var btns = document.getElementsByClassName("mybtn"); 
 	// Because you cannot iterate through a NodeList, we must invoke the 
-	// Array.prototype.forEach method, and use call to set btns on the nodelist
-	// as the context
+	// Array.prototype.forEach method, and use call to set btns as the context
 	Array.prototype.forEach.call(btns, function(btn){
 		btn.addEventListener("click", function() {
 		    var current = document.getElementsByClassName("active");
