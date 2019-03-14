@@ -12,6 +12,7 @@ var obj = {
 		var search_res = document.getElementById("search_res");
 		if (str.length == 0) { // is the search string empty?
 	        while(search_res.firstChild){  // clear the search results
+	        	search_res.removeChild(search_res.firstChild);
 	        }
 	        return;
 	    } else {
