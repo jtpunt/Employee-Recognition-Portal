@@ -1,0 +1,32 @@
+
+table{
+  width: 100%;
+}
+table, th, td {
+  border: 1px solid black;
+}
+tbody tr:nth-of-type(even){
+  background-color: #CCC;
+}
+tbody tr:nth-of-type(odd){
+  background-color: #ecf0f1;
+}
+tbody tr th{
+  font-weight: bold
+  font-style: italic;
+}
+tbody tr td:nth-of-type(3){
+  color: red;
+}
+/*tbody tr td:nth-of-type(3){
+  color: blue;
+}*/
+tbody tr{
+  text-align:left;
+}
+tbody tr:hover:nth-child(odd),  tbody tr:hover:nth-child(even){
+  background-color: white;
+}
+thead tr{
+  background-color: #95a5a6;
+}

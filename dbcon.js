@@ -4,7 +4,8 @@ var pool = mysql.createPool({
   host            : "www.datacrunchonline.com",
   user            : "datacrun_ERA",
   password        : "TXZT11=kcDUA",
-  database        : "datacrun_ERA"
+  database        : "datacrun_ERA",
+  dateStrings     : true
 });
 
 module.exports.pool = pool;

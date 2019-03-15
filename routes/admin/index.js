@@ -7,17 +7,17 @@ var express    = require("express"),
 router.get("/", middleware.isAdmin, (req, res) => {
     var redirect = "/admin";
     var render = "admin/dashboard";
-    var stylesheets = ["/static/css/dashboard.css", "/static/css/userSearch.css"];
+    var stylesheets = ["/static/css/dashboard.css", "/static/css/userSearch.css", "/static/css/awards-table.css"];
     var scripts = ["/static/js/drawPieChart.js", "/static/js/showHint.js", "/static/js/updateAdminPage.js", "/static/js/common.js"];
     sql.find(req, res, sql.getAllAwards, redirect, render, stylesheets, scripts);
 });
-// Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'
-router.get("/:id", middleware.isAdmin, (req, res) => {
-    var redirect = "/admin";
-    var render = "admin/employee/show";
-    var stylesheets = ["/static/css/admin-employee.css"];
-    var scripts = null;
-    sql.find(req, res, sql.getAwardsById, redirect, render, stylesheets, scripts);
-});
+// // Shows all Employees who have received a specified award: 'Employee of the Week' or 'Employee of the Month'
+// router.get("/:id", middleware.isAdmin, (req, res) => {
+//     var redirect = "/admin";
+//     var render = "admin/employee/show";
+//     var stylesheets = ["/static/css/admin-employee.css"];
+//     var scripts = null;
+//     sql.find(req, res, sql.getAwardsById, redirect, render, stylesheets, scripts);
+// });
 
 module.exports = router;

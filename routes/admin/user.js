@@ -26,7 +26,7 @@ router.get("/:id", middleware.isAdmin, (req, res) => {
     console.log("in user/:id route");
     var redirect = "/admin";
     var render = "admin/user/show";
-    var stylesheets = [];
+    var stylesheets = ["/static/css/awards-table.css"];
     var scripts = [];
     sql.findById(req, res, sql.getAwardsByEmpId, redirect, render, stylesheets, scripts);
 });

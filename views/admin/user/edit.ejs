@@ -1,18 +1,20 @@
 <% include ../../partials/header %>
 <% if (results[1]) { %>
-
-    <h1>admin/user combo found!</h1>
-    <select id="selectUser" onchange="updateForm(this);">
-        <option disabled>Select User</option>
-        <% if(results[0].permission == 1){ %>
-            <option value="0">User - <%=results[1].username%></option>
-            <option value="1" selected>Admin - <%=results[0].username%></option>
-        <% } else{ %>
-            <option value="0">Admin - <%=results[1].username%></option>
-            <option value="1" selected>User - <%=results[0].username%></option>
-        <% }%>
-    </select>
-    <div class="container1" id="user1" hidden>
+    <div class="container">
+        <h1>admin/user account found!</h1>
+        <label for="selectUser">Select the user you wish to edit: </label>
+        <select id="selectUser" onchange="updateForm(this);">
+            <option disabled>Select Account</option>
+            <% if(results[0].permission == 1){ %>
+                <option value="0">User - <%=results[1].username%></option>
+                <option value="1" selected>Admin - <%=results[0].username%></option>
+            <% } else{ %>
+                <option value="0">Admin - <%=results[1].username%></option>
+                <option value="1" selected>User - <%=results[0].username%></option>
+            <% }%>
+        </select>
+    </div>
+    <div class="container" id="user1" hidden>
         <div class="row">
             <h1 style="text-align: center;">Edit <%=results[1].username%></h1>
             <div style="width: 30%; margin:25px auto;">

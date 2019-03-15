@@ -6,10 +6,12 @@ var sql = {
 	setNewAward: "INSERT INTO Granted(user_id, award_id, employee_id, grant_date) VALUES (?, ?, ?, ?);",
 
 	// RETRIEVE
-	getAllAwards: "SELECT u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, g.grant_date \
+	getAllAwards: "SELECT u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, \
+	DATE_FORMAT(g.grant_date,  '%b %e, %Y') AS grant_date \
 	FROM Granted g INNER JOIN User u ON g.user_id = u.id \
 	INNER JOIN Award a ON g.award_id = a.id \
-	INNER JOIN Employee e ON g.employee_id = e.id;",
+	INNER JOIN Employee e ON g.employee_id = e.id \
+	ORDER BY g.grant_date ASC;",
 
 	getAllEmployees: "SELECT id, CONCAT(fname, ' ', lname) AS fullname FROM Employee ORDER BY fname, lname ASC;",
 
@@ -19,9 +21,10 @@ var sql = {
 	INNER JOIN Employee e ON g.employee_id = e.id \
 	WHERE g.user_id = ?;",
 
-	getAwardsByEmpId: "SELECT u.username AS granted_by, a.title, g.grant_date FROM Granted g \
+	getAwardsByEmpId: "SELECT u.username AS granted_by, a.title, CONCAT(e.fname, ' ', e.lname) AS award_recipient, g.grant_date FROM Granted g \
 	INNER JOIN Award a ON g.award_id = a.id \
 	INNER JOIN User u on g.user_id = u.id \
+	INNER JOIN Employee e ON g.employee_id = e.id \
 	WHERE g.employee_id = ?;",
 
 	getDeptIds: "SELECT id, name AS category FROM Department ORDER BY id ASC;",
@@ -241,7 +244,7 @@ var sql = {
 		            	res.redirect(redirect);
 					}else{
 						req.session.username=username;
-		            	req.flash("success", id + " Username successfully updated!");
+		            	req.flash("success", "Username successfully updated!");
 		            	res.redirect(redirect);
 			        }
 				});
