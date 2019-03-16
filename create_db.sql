@@ -66,9 +66,10 @@ CREATE TABLE `User` (
 `signature` longblob,
 `permission` int(1) NOT NULL,
 `employee_id` int NOT NULL,
-PRIMARY KEY (`id`, `permission`, `employee_id`),
+PRIMARY KEY (`id`),
 FOREIGN KEY (`employee_id`) REFERENCES `Employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-UNIQUE KEY `username` (`username`)
+UNIQUE KEY `username` (`username`),
+UNIQUE(`permission`, `employee_id`)
 ) ENGINE=InnoDB;
 
 -- Create relationship tables for many to many relationships
