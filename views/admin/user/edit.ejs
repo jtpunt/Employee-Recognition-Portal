@@ -21,20 +21,20 @@
                 <form action="/admin/users/<%=results[1].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input class="form-control" type="text" id="username" name="username" value="<%=results[1].username%>" required>
+                        <input class="form-control" type="text" id="username" name="username" value="<%=results[1].username%>" maxlength="30" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input class="form-control" type="text" id="password" name="password" value="<%=results[1].password%>" required>
+                        <input class="form-control" type="text" id="password" name="password" value="<%=results[1].password%>" maxlength="30" required>
                     </div>
                     <div class="form-group">
                         <label for="secret">Secret</label>
-                        <input class="form-control" type="text" id="secret" name="secret" value="<%=results[1].secret%>" required>
+                        <input class="form-control" type="text" id="secret" name="secret" value="<%=results[1].secret%>" maxlength="30" required>
                     </div>
                     <div class="form-group">
                         <img src="data:image/jpg;base64,<%=results[1].signature %>" id="sigImg" height="150" width="300">
                         <br>
-                        <label for="signature">Signature</label>
+                        <label for="signature">Signature File - .jpg/.jpeg only </label>
                         <input class="form-control" type="file" name="signature" id="signature" accept=".jpeg">
                     </div>
                     <div class="form-group" hidden>
@@ -78,20 +78,20 @@
             <form action="/admin/users/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Username</label>
-                    <input class="form-control" type="text" id="username" name="username" value="<%=results[0].username%>" required>
+                    <input class="form-control" type="text" id="username" name="username" value="<%=results[0].username%>" maxlength="30" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input class="form-control" type="text" id="password" name="password" value="<%=results[0].password%>" required>
+                    <input class="form-control" type="text" id="password" name="password" value="<%=results[0].password%>" maxlength="30" required>
                 </div>
                 <div class="form-group">
                     <label for="secret">Secret</label>
-                    <input class="form-control" type="text" id="secret" name="secret" value="<%=results[0].secret%>" required>
+                    <input class="form-control" type="text" id="secret" name="secret" value="<%=results[0].secret%>" maxlength="30" required>
                 </div>
                 <div class="form-group">
                     <img src="data:image/jpg;base64,<%=results[0].signature %>" id="sigImg" height="150" width="300">
                     <br>
-                    <label for="signature">Signature</label>
+                    <label for="signature">Signature File - .jpg/.jpeg only </label>
                     <input class="form-control" type="file" name="signature" id="signature" accept=".jpeg">
                 </div>
                 <% if(results[1]){ %>

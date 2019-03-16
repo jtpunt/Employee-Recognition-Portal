@@ -117,7 +117,7 @@ var sql = {
 				       			req.flash("error", username + ": not found!");
 				            	res.redirect(redirect);
 							}else{
-				            	req.flash("success", username + " successfully updated!");
+				            	req.flash("success", username + " successfully added!");
 				            	res.redirect(redirect);
 					        }
 						});

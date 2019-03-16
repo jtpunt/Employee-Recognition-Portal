@@ -4,7 +4,7 @@
         <form id="usernameForm" action="/user/<%=results[0].id%>/?_method=PUT" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input class="form-control" type="text" id="username" name="username" required>
+                <input class="form-control" type="text" id="username" name="username" maxlength="30" required>
             </div>
             <br>
             <div class="form-group" style="float: left">

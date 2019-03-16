@@ -4,19 +4,19 @@
         <form action="/admin/users" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input class="form-control" type="text" name="username" required>
+                <input class="form-control" type="text" name="username" maxlength="30" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input class="form-control" type="text" name="password" required>
+                <input class="form-control" type="text" name="password" maxlength="30" required>
             </div>
            <div class="form-group">
                 <label for="secret">Secret</label>
-                <input class="form-control" type="text" name="secret" required>
+                <input class="form-control" type="text" name="secret" maxlength="30" required>
             </div>
             <div class="form-group">
-                <label for="signature">Signature</label>
-                <input class="form-control" type="file" name="signature" id="signature" accept=".jpg">
+                <label for="signature">Signature File - .jpg/.jpeg only </label>
+                <input class="form-control" type="file" name="signature" id="signature" accept=".jpg, .jpeg">
             </div>
             <div class="form-group">
                 <label for="permission">Permission</label>
