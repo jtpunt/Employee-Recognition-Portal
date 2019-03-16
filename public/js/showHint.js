@@ -40,9 +40,14 @@ var obj = {
 	setData: (data) => { handleDropDownData(employees = Array.from(data), "emp_select"); },
 	updateEmpArr: function(id){
 		console.log("In updateEmpArray with: ", id);
+		var emp_select = document.getElementById("emp_select");
 		employees = employees.filter(function(employee){
 			return employee['id'] != id;
 		});
+		while(emp_select.firstChild){ // loop through all employees in the drop down menu
+			emp_select.removeChild(emp_select.firstChild); // remove each employee
+		}
+		handleDropDownData(employees, "emp_select"); // repopulate the employee drop down menu
 	},
 	// Creates a div that has a nested span, 2 a tags, and a delete form and then returns this div.
 	// Where the span contains the name of the employee, the 1st a tag, takes you to a page showing 
