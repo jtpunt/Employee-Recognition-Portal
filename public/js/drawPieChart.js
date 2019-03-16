@@ -1,4 +1,4 @@
-
+// This function receives chart data which it uses to draw a pie chart on the screen
 function drawPieChart(chartData, category, title, ele) {
     google.charts.load('current', {'packages':['corechart'], callback: () => {
         var newData = [];

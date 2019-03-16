@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 }, false);
+// Function helper for populating a drop down menu with data
 function setDropDown(url, ele){
 	fetch(url)
 	.then(handleErrors)
@@ -20,8 +21,11 @@ function setDropDown(url, ele){
 	.then(data => handleDropDownData(data, ele))
 	.catch(displayErrors);
 }
+// Function helper to handle the deletion of awards or employees.
+// After deletion, the bootstrap alert-success box is targeted
+// and a message to the user is shown on screen for a brief couple of seconds
+// before the alert-success box fades away.
 function handleDelete(ele, msg){
-	console.log("in handleDelete");
 	var successAlert = document.getElementById("alert-success");
 	console.log(successAlert);
 	ele.parentNode.removeChild(ele); // delete the award entry
@@ -29,20 +33,22 @@ function handleDelete(ele, msg){
 	successAlert.firstChild.style.display = "block";
 	setTimeout(function(){ 
 		$("#alert-success").fadeOut('slow');
-	}, 3000);
+	}, 2000);
 	successAlert.removeAttribute("style"); // remove the styling so that the alert box will show up again
 }
+// Function helper to handle any errors from fetch calls
 function handleErrors(response){
 	if(!response.ok){
 		throw Error(response.status); // this will trigger the catch clause
 	}
 	return response; // return the non-errored response
 }
-// Parses our obj to function
+// Function helper for fetch calls to handle parsing our obj to JSON 
 function parseJSON(res){ 
 	// Calling .json() gets you a promise for the body of the http response that is yet to be loaded.
 	return res.json(); // promise return from this .then
 }
+// Function helper to handle setting the drop-down menus with Dept/Loc or Employee Name/id data
 function handleDropDownData(data, ele){
 	console.log("in handleDropDown w/: ", data);
 	var dropDownList = document.getElementById(ele);
@@ -58,6 +64,7 @@ function handleDropDownData(data, ele){
 		dropDownList.appendChild(option);
 	});
 }
+// Function help for fetch calls to handle displaying any errors
 function displayErrors(err){
 	console.log(err);
 }
