@@ -2,8 +2,7 @@ var express    = require("express"),
     middleware = require("../../middleware"),
     sql        = require("../../sql"),
     router     = express.Router();
-
-// Takes you to the user dashboard, where you can:
+// Main user route which shows the user dashboard, where you can: 
 // 	- change user name for the logged in user
 // 	- delete granted awards given by the logged in user
 router.get("/", middleware.isUser, (req, res) => {
@@ -14,11 +13,8 @@ router.get("/", middleware.isUser, (req, res) => {
     var scripts = ["/static/js/common.js", "/static/js/updateUserPage.js"];
     sql.find(req, res, sql.getAllEmployees, redirect, render, stylesheets, scripts);
 });
-router.get("/all", middleware.isUser, (req, res) => {
-    console.log("in user all route..");
-    var redirect = "/user";
-    sql.findAndRet(req, res, sql.getAllEmployees, redirect);
-});
+// This route is called by a fetch request and returns the logged in user
+// their username and unique id to assist with updating their username
 router.get("/currentUser", middleware.isUser, (req, res) => {
     console.log("in /user/currentUser route");
     var respObj = {
@@ -28,7 +24,7 @@ router.get("/currentUser", middleware.isUser, (req, res) => {
     res.write(JSON.stringify(respObj));
     res.end();
 });
-// Updates the username for the current logged in user
+// This route handles any username updates for the current logged in user
 router.put("/:id", middleware.isUser, (req, res) => {
     console.log("update request received");
     // same as admin/user route

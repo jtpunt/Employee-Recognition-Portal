@@ -21,13 +21,16 @@ function setDropDown(url, ele){
 	.catch(displayErrors);
 }
 function handleDelete(ele, msg){
+	console.log("in handleDelete");
 	var successAlert = document.getElementById("alert-success");
+	console.log(successAlert);
 	ele.parentNode.removeChild(ele); // delete the award entry
 	successAlert.firstChild.innerHTML = msg;
 	successAlert.firstChild.style.display = "block";
 	setTimeout(function(){ 
 		$("#alert-success").fadeOut('slow');
 	}, 3000);
+	successAlert.removeAttribute("style"); // remove the styling so that the alert box will show up again
 }
 function handleErrors(response){
 	if(!response.ok){
