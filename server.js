@@ -7,7 +7,7 @@ var express        = require("express"),
     mysql          = require('./dbcon.js'),
     app            = express();
 
-var PORT = 6598;
+var PORT = 6600;
 
 // requiring routes
 var indexRoutes     = require("./routes/index"),

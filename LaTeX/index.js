@@ -119,7 +119,6 @@ var latex = {
       var usr = ""; //enter your oregon state email username here
       var pwd = ""; //enter you oregon state email password here
       var sender_email = ""; //enter your oregon state email address here
-
     
       var nodemailer = require('nodemailer');
 
