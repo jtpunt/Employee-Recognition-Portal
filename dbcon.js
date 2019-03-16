@@ -5,7 +5,7 @@ var pool = mysql.createPool({
   user            : "datacrun_ERA",
   password        : "TXZT11=kcDUA",
   database        : "datacrun_ERA",
-  dateStrings     : true
+  dateStrings 	  : true
 });
 
 module.exports.pool = pool;
