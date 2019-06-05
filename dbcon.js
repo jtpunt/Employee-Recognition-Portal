@@ -1,10 +1,12 @@
 var mysql = require('mysql');
+const dotenv = require('dotenv');
+dotenv.config();
 var pool = mysql.createPool({
   connectionLimit : 10,
-  host            : "www.datacrunchonline.com",
-  user            : "datacrun_ERA",
-  password        : "TXZT11=kcDUA",
-  database        : "datacrun_ERA",
+  host            : process.env.DATABASEURL,
+  user            : process.env.DATABASEUSER,
+  password        : process.env.DATABASEPASS,
+  database        : process.env.DATABASENAME,
   dateStrings 	  : true
 });
 
